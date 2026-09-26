@@ -219,7 +219,7 @@ section{position:relative; padding:130px 0 0}
 .radio-vol::-webkit-slider-thumb{width:16px; height:16px; box-shadow:none}
 .radio.compact .radio-info,.radio.compact .radio-next,.radio.compact .radio-vol{display:none}
 .radio.compact{padding:4px}
-@media (max-width:560px){ .radio .radio-vol{display:none} .radio-info b{max-width:110px} }
+@media (max-width:560px){ .radio .radio-vol{display:none} .radio-info b{max-width:110px} .radio-info span{max-width:110px; overflow:hidden; text-overflow:ellipsis} }
 .webgl .hero::before{display:none}
 .island-hint{position:absolute; z-index:3; right:24px; bottom:22px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end}
 .island-hint .sticker{background:var(--paper); font-size:12.5px}
@@ -782,11 +782,11 @@ const CONFIG = {
       { title:'Iced Village', artist:'TAD · 8-bit lofi', src:'iced-village.mp3' }
     ],
     night: [
-      // Night: calmer 8-bit lofi by TAD, CC0 via OpenGameArt.org, played slowed down, softer and with a little room reverb
-      { title:'The Past', artist:'TAD · 8-bit lofi (night mix)', src:'the-past.mp3' },
-      { title:'Ooame', artist:'TAD · 8-bit lofi (night mix)', src:'ooame.mp3' }
-    ],
-    nightMix: { rate:0.9, lowpass:2200, reverb:0.3 }   // playback speed, low-pass cutoff (Hz), reverb amount
+      // Night: calmer 8-bit lofi by TAD, CC0 via OpenGameArt.org. The "night mix" (slowed, softer, a little room echo)
+      // is baked into the files, so the browser just plays them: no live audio effects, no stutter on phones.
+      { title:'The Past', artist:'TAD · night mix', src:'the-past-night.mp3' },
+      { title:'Ooame', artist:'TAD · night mix', src:'ooame-night.mp3' }
+    ]
   }
 };
 
@@ -1780,30 +1780,23 @@ function setupMusic(){
   let target=+(store.get('music-vol') ?? M.volume); if(!(target>=0)) target=M.volume;
   vol.value=target;
   const audio=new Audio(); audio.preload='auto'; audio.setAttribute('playsinline','');
-  let i=0, want=store.get('music')!=='off', cur=0, fadeRaf=0, wasPlaying=false, fails=0, ctx=null, gain=null, lp=null, wet=null;
-  // Day/night: night swaps to the calmer playlist and a "slowed + soft" mix (slower playback, low-pass, a bit of reverb).
-  const NM=Object.assign({rate:0.9, lowpass:2200, reverb:0.3}, M.nightMix||{});
+  let i=0, want=store.get('music')!=='off', cur=0, fadeRaf=0, wasPlaying=false, fails=0, ctx=null, gain=null;
+  // Day/night: night swaps to the calmer playlist (its night mix is baked into the files).
   let night=document.documentElement.dataset.theme==='dark' && !!(M.night&&M.night.length);
   const list=()=>night?M.night:M.tracks;
-  const mood=()=>{ const r=night?NM.rate:1; try{ audio.preservesPitch=false; audio.mozPreservesPitch=false; audio.webkitPreservesPitch=false; }catch(e){} audio.playbackRate=r; audio.defaultPlaybackRate=r;
-    if(ctx&&lp){ const n=ctx.currentTime; lp.frequency.setTargetAtTime(night?NM.lowpass:20000, n, 0.5); wet.gain.setTargetAtTime(night?NM.reverb:0, n, 0.5); } };
   // iPhones ignore audio.volume, so route the sound through Web Audio (a gain node) once the visitor has interacted.
-  const setVol=v=>{ cur=Math.max(0,Math.min(1,v)); if(gain) gain.gain.value=cur; else audio.volume=cur; };
+  const setVol=v=>{ cur=Math.max(0,Math.min(1,v)); if(gain){ gain.gain.cancelScheduledValues(ctx.currentTime); gain.gain.value=cur; } else audio.volume=cur; };
   const sameOrigin=u=>{ try{ return new URL(u,location.href).origin===location.origin; }catch(e){ return false; } };
   const wire=()=>{
     if(ctx){ if(ctx.state!=='running') ctx.resume().catch(()=>{}); return; }
     const AC=window.AudioContext||window.webkitAudioContext; if(!AC || !sameOrigin(audio.src)) return;
-    try{ ctx=new AC(); const src=ctx.createMediaElementSource(audio); gain=ctx.createGain();
-      lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=night?NM.lowpass:20000; lp.Q.value=0.5;
-      // small generated room reverb (decaying stereo noise), mixed in only at night
-      const len=Math.floor(ctx.sampleRate*2.4), ir=ctx.createBuffer(2,len,ctx.sampleRate);
-      for(let c=0;c<2;c++){ const d=ir.getChannelData(c); for(let k=0;k<len;k++) d[k]=(Math.random()*2-1)*Math.pow(1-k/len,2.6); }
-      const verb=ctx.createConvolver(); verb.buffer=ir; wet=ctx.createGain(); wet.gain.value=night?NM.reverb:0;
-      src.connect(lp); lp.connect(gain); lp.connect(verb); verb.connect(wet); wet.connect(gain); gain.connect(ctx.destination);
-      audio.volume=1; gain.gain.value=cur; ctx.resume().catch(()=>{}); }catch(e){ ctx=null; gain=null; lp=null; wet=null; }
+    try{ ctx=new AC(); const src=ctx.createMediaElementSource(audio); gain=ctx.createGain(); src.connect(gain); gain.connect(ctx.destination); audio.volume=1; gain.gain.value=cur; ctx.resume().catch(()=>{}); }catch(e){ ctx=null; gain=null; }
   };
-  const load=k=>{ const L=list(); i=(k+L.length)%L.length; const t=L[i]; audio.src=t.src; title.textContent=t.title; artist.textContent=t.artist; mood(); };
-  const fadeTo=(v,ms,done)=>{ cancelAnimationFrame(fadeRaf); const v0=cur, t0=performance.now(); const step=now=>{ const p=Math.min(1,(now-t0)/ms); setVol(v0+(v-v0)*p); if(p<1) fadeRaf=requestAnimationFrame(step); else if(done) done(); }; fadeRaf=requestAnimationFrame(step); };
+  const load=k=>{ const L=list(); i=(k+L.length)%L.length; const t=L[i]; audio.src=t.src; title.textContent=t.title; artist.textContent=t.artist; };
+  const fadeTo=(v,ms,done)=>{ cancelAnimationFrame(fadeRaf); clearTimeout(fadeTo.t);
+    // With Web Audio, the fade runs on the audio thread, so it stays smooth even while the page is busy animating.
+    if(gain&&ctx){ const n=ctx.currentTime, g=gain.gain; g.cancelScheduledValues(n); g.setValueAtTime(g.value,n); g.linearRampToValueAtTime(Math.max(0,Math.min(1,v)), n+ms/1000); cur=v; if(done) fadeTo.t=setTimeout(done,ms); return; }
+    const v0=cur, t0=performance.now(); const step=now=>{ const p=Math.min(1,(now-t0)/ms); setVol(v0+(v-v0)*p); if(p<1) fadeRaf=requestAnimationFrame(step); else if(done) done(); }; fadeRaf=requestAnimationFrame(step); };
   const paint=()=>{ const on=!audio.paused; box.classList.toggle('playing',on); btn.setAttribute('aria-pressed',String(on)); btn.setAttribute('aria-label', on?'Pause background music':'Play background music'); box.classList.toggle('compact', !on); if(on) box.classList.remove('nudge'); };
   const play=()=>{ const p=audio.play(); if(!p) return Promise.resolve(true);
     return p.then(()=>{ box.classList.remove('nudge'); fadeTo(target, 2500); paint(); return true; })
@@ -1951,7 +1944,7 @@ GL_OK && (function island(){
   const smooth = (a,b,x) => { const k = Math.min(1, Math.max(0, (x-a)/(b-a))); return k*k*(3-2*k); };
   const wr = (s => () => (s = (s*16807)%2147483647) / 2147483647)(11);
   const lights = [];                                    // { th, set(k), k } turned on in order of th as night falls
-  const addLight = (th, set, flick=0) => { lights.push({ th, set, k:-1, flick }); };
+  const addLight = (th, set, flick=0) => { if(set.markers){ set.markers.forEach(m => { m.userData.fx.th = th; m.userData.fx.flick = flick; }); if(!set.extra) return; } lights.push({ th, set:set.extra || set, k:-1, flick }); };
   const FX = { beams:[] };
   const GLOW_VS = `uniform float uSize; varying vec2 vUv; void main(){ vUv = uv; vec4 mv = modelViewMatrix * vec4(0.,0.,0.,1.); mv.xy += position.xy * uSize; mv.z += 0.25; gl_Position = projectionMatrix * mv; }`;
   const GLOW_FS = `uniform vec3 uColor; uniform float uOpacity; varying vec2 vUv; void main(){ float d = length(vUv - .5) * 2.; float a = pow(max(0., 1. - d), 2.4); gl_FragColor = vec4(uColor, a * uOpacity); }`;
@@ -1961,14 +1954,66 @@ GL_OK && (function island(){
   const POOL_VS = `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.); }`;
   const fxMat = (vs, fs, color, extra={}) => noOutline(new THREE.ShaderMaterial({ uniforms:{ uColor:{value:new THREE.Color(color)}, uOpacity:{value:0}, uSize:{value:extra.size||1} }, vertexShader:vs, fragmentShader:fs, transparent:true, depthWrite:false, blending:THREE.AdditiveBlending, side:extra.side||THREE.FrontSide }));
   const glowGeo = new THREE.PlaneGeometry(1,1);
-  function glow(color, size, op=1){ const m = new THREE.Mesh(glowGeo, fxMat(GLOW_VS, GLOW_FS, color, {size})); m.frustumCulled = false; m.renderOrder = 6; m.visible = false; m.userData.op = op; return m; }
+  // Plane nav lights blink on their own, so they stay separate meshes.
+  function navGlow(color, size, op=1){ const m = new THREE.Mesh(glowGeo, fxMat(GLOW_VS, GLOW_FS, color, {size})); m.frustumCulled = false; m.renderOrder = 6; m.visible = false; m.userData.op = op; return m; }
+  // Everything else is a marker: placed like a normal object, then baked into one batched mesh per group (see bakeFx),
+  // so the whole night-light rig costs ~15 draw calls instead of ~130.
+  const marker = fx => { const o = new THREE.Object3D(); o.userData.fx = fx; return o; };
+  function glow(color, size, op=1){ return marker({ kind:'glow', color, size, op }); }
   const beamGeoCache = {};
-  function beam(color, r, h, op=0.3){ const key = r+'_'+h; let g = beamGeoCache[key]; if(!g){ g = new THREE.ConeGeometry(r, h, LITE?14:24, 1, true); g.translate(0, -h/2, 0); beamGeoCache[key] = g; }
-    const m = new THREE.Mesh(g, fxMat(BEAM_VS, BEAM_FS, color, {side:THREE.DoubleSide})); m.renderOrder = 5; m.visible = false; m.userData.op = op; m.userData.isBeam = true; FX.beams.push(m); return m; }
+  function beam(color, r, h, op=0.3){ const key = r+'_'+h; let g = beamGeoCache[key]; if(!g){ g = new THREE.ConeGeometry(r, h, LITE?12:22, 1, true); g.translate(0, -h/2, 0); beamGeoCache[key] = g; }
+    return marker({ kind:'beam', color, op, geo:g }); }
   const poolGeo = new THREE.CircleGeometry(1, 28); poolGeo.rotateX(-Math.PI/2);
-  function pool(color, r, op=0.5){ const m = new THREE.Mesh(poolGeo, fxMat(POOL_VS, POOL_FS, color)); m.scale.set(r, 1, r); m.renderOrder = 4; m.visible = false; m.userData.op = op; return m; }
+  function pool(color, r, op=0.5){ const m = marker({ kind:'pool', color, op, geo:poolGeo }); m.scale.set(r, 1, r); return m; }
   // Drive a set of fx meshes (and optional extra callback) from one light level k in 0..1.
-  const fxSet = (meshes, extra) => k => { for(const m of meshes){ const o = k * m.userData.op; m.material.uniforms.uOpacity.value = o; m.visible = o > 0.004 && !(m.userData.isBeam && FX.beamsOff); } if(extra) extra(k); };
+  const fxSet = (markers, extra) => ({ markers, extra });
+  // One shared material for every batch: each vertex carries its light's colour, strength and turn-on threshold,
+  // and the shader fades it in as uNight passes that threshold (with a flicker for street lamps).
+  const FXU = { uNight:{ value:0 }, uTime:{ value:0 }, uBeams:{ value:1 } };
+  const FXB_VS = `uniform float uNight; uniform float uTime; uniform float uBeams;
+    attribute vec3 aColor; attribute vec2 aCorner; attribute float aKind; attribute float aTh; attribute float aOp; attribute float aSize; attribute float aFlick;
+    varying vec2 vUv; varying vec3 vCol; varying float vA; varying float vKind; varying float vF;
+    void main(){
+      float k = smoothstep(aTh, aTh + 0.07, uNight);
+      if(aFlick > 0.0 && k > 0.001 && k < 0.999) k *= sin(uTime*47.0 + aFlick*13.0) > -0.2 ? 1.0 : 0.25;
+      float a = k * aOp * (aKind < 0.5 ? uBeams : 1.0);
+      vA = a; vCol = aColor; vKind = aKind; vUv = uv;
+      vec4 mv = modelViewMatrix * vec4(position, 1.0);
+      if(aKind > 0.5 && aKind < 1.5){ mv.xy += aCorner * aSize; mv.z += 0.25; }
+      vF = abs(dot(normalize(normalMatrix * normal), normalize(-mv.xyz)));
+      gl_Position = a < 0.004 ? vec4(2.0, 2.0, 2.0, 1.0) : projectionMatrix * mv;
+    }`;
+  const FXB_FS = `varying vec2 vUv; varying vec3 vCol; varying float vA; varying float vKind; varying float vF;
+    void main(){
+      if(vA < 0.004) discard;
+      float a;
+      if(vKind < 0.5) a = pow(vUv.y, 1.15) * pow(vF, 1.3);
+      else { float d = length(vUv - 0.5) * 2.0; a = pow(max(0.0, 1.0 - d), vKind < 1.5 ? 2.4 : 1.7); }
+      gl_FragColor = vec4(vCol, a * vA);
+    }`;
+  const fxBatchMat = noOutline(new THREE.ShaderMaterial({ uniforms:FXU, vertexShader:FXB_VS, fragmentShader:FXB_FS, transparent:true, depthWrite:false, blending:THREE.AdditiveBlending, side:THREE.DoubleSide }));
+  const FX_KIND = { beam:0, glow:1, pool:2 };
+  function bakeFx(root){
+    const marks = []; root.traverse(o => { if(o.userData.fx) marks.push(o); }); if(!marks.length) return;
+    root.updateMatrixWorld(true);
+    const inv = new THREE.Matrix4().copy(root.matrixWorld).invert(), M = new THREE.Matrix4(), c = new THREE.Vector3(), col = new THREE.Color();
+    const P = [], NO = [], UV = [], CR = [], CO = [], KI = [], TH = [], OP = [], SZ = [], FL = [], IX = []; let base = 0;
+    for(const o of marks){ const f = o.userData.fx; M.multiplyMatrices(inv, o.matrixWorld); col.set(f.color); let n = 0;
+      if(f.kind === 'glow'){ c.setFromMatrixPosition(M);
+        for(const [x, y] of [[-.5,-.5],[.5,-.5],[.5,.5],[-.5,.5]]){ P.push(c.x, c.y, c.z); NO.push(0, 0, 1); UV.push(x + .5, y + .5); CR.push(x, y); }
+        IX.push(base, base+1, base+2, base, base+2, base+3); n = 4; }
+      else { const g = f.geo.clone().applyMatrix4(M), pos = g.attributes.position, nor = g.attributes.normal, uv = g.attributes.uv; n = pos.count;
+        for(let i=0; i<n; i++){ P.push(pos.getX(i), pos.getY(i), pos.getZ(i)); NO.push(nor.getX(i), nor.getY(i), nor.getZ(i)); UV.push(uv.getX(i), uv.getY(i)); CR.push(0, 0); }
+        if(g.index) for(let i=0; i<g.index.count; i++) IX.push(base + g.index.getX(i)); else for(let i=0; i<n; i++) IX.push(base + i);
+        g.dispose(); }
+      for(let i=0; i<n; i++){ CO.push(col.r, col.g, col.b); KI.push(FX_KIND[f.kind]); TH.push(f.th ?? 2); OP.push(f.op); SZ.push(f.size || 0); FL.push(f.flick || 0); }
+      base += n; o.parent.remove(o); }
+    const geo = new THREE.BufferGeometry(), F = (a, k) => new THREE.Float32BufferAttribute(a, k);
+    geo.setAttribute('position', F(P, 3)); geo.setAttribute('normal', F(NO, 3)); geo.setAttribute('uv', F(UV, 2)); geo.setAttribute('aCorner', F(CR, 2));
+    geo.setAttribute('aColor', F(CO, 3)); geo.setAttribute('aKind', F(KI, 1)); geo.setAttribute('aTh', F(TH, 1)); geo.setAttribute('aOp', F(OP, 1)); geo.setAttribute('aSize', F(SZ, 1)); geo.setAttribute('aFlick', F(FL, 1));
+    geo.setIndex(IX);
+    const m = new THREE.Mesh(geo, fxBatchMat); m.frustumCulled = false; m.renderOrder = 5; m.raycast = () => {}; root.add(m);
+  }
   const OFF = new THREE.Color(0x6f6b86), WARM = new THREE.Color(0xffd98a);
   // Windows: each building gets its own emissive window materials so they light up building by building.
   let WIN = null;
@@ -2252,7 +2297,7 @@ GL_OK && (function island(){
     // nav lights: red on the left wing, green on the right, white strobe on the tail
     planeNav = [[0.05,-0.03,-1.37,0xff3344],[0.05,-0.03,1.37,0x33ff99],[-0.86,0.56,0,0xffffff]].map(([x,y,z,c])=>{
       const b = mesh(new THREE.SphereGeometry(0.05, 8, 6), 0, { cast:false, mat:new THREE.MeshBasicMaterial({ color:c }) }); b.position.set(x,y,z); plane.add(b);
-      const g = glow(c, 1.0, 1); g.position.set(x,y,z); plane.add(g); return g; });
+      const g = navGlow(c, 1.0, 1); g.position.set(x,y,z); plane.add(g); return g; });
     const rope = mesh(new THREE.BoxGeometry(1.5, 0.015, 0.015), INK, { cast:false }); rope.position.set(-1.7, -0.05, 0); plane.add(rope);
     for(const ry of [0, Math.PI]){ const bn = new THREE.Mesh(bannerGeo, bannerMat); bn.position.set(-5.25, -0.12, ry?-0.01:0.01); bn.rotation.y = ry; plane.add(bn); }
     plane.scale.setScalar(0.8); plane.visible = false; scene.add(plane); }
@@ -2416,6 +2461,9 @@ GL_OK && (function island(){
         bubble.el.style.transform = `translate(${cx}px, ${y}px) translate(-50%,-100%)`; } }
   }
 
+  /* ---------- bake the night-light markers into batched meshes (nested groups first) ---------- */
+  buildings.forEach(b => bakeFx(b.inner)); bakeFx(car); bakeFx(car2); bakeFx(isle);
+
   /* ---------- camera + controls ---------- */
   const controls = new OrbitControls(camera, canvas);
   controls.enableZoom = !FINE; controls.zoomSpeed = 0.8; controls.minDistance = 5.5; controls.maxDistance = 60; controls.enablePan = false; controls.enableDamping = true; controls.dampingFactor = 0.07;
@@ -2489,8 +2537,8 @@ GL_OK && (function island(){
 
   /* ---------- adaptive quality ---------- */
   let frames=0, acc=0, level=0;
-  function adapt(dt){ if(level>=2) return; frames++; acc+=dt; if(frames>=50){ const fps=frames/acc; frames=0; acc=0; if(fps<28){ level++;
-    if(level===1){ if(LITE){ FX.beamsOff = true; lights.forEach(L=>L.k=-1); } renderer.setPixelRatio(1); renderer.shadowMap.enabled=false; scene.traverse(o=>{ if(o.material) o.material.needsUpdate=true; }); resize(); } } } }
+  function adapt(dt){ if(level>=2 || flip) return; frames++; acc+=dt; if(frames>=50){ const fps=frames/acc; frames=0; acc=0; if(fps<(LITE?40:28)){ level++; if(level===2 && LITE) FXU.uBeams.value = 0;
+    if(level===1){ renderer.setPixelRatio(1); renderer.shadowMap.enabled=false; scene.traverse(o=>{ if(o.material) o.material.needsUpdate=true; }); resize(); } } } }
 
   /* ---------- day <-> night: the island does a flip, then the lights come on one by one ---------- */
   const NIGHT_DUR = 2600, pivot = new THREE.Vector3(0, -1.6, 0), fq = new THREE.Quaternion(), fv = new THREE.Vector3();
@@ -2527,10 +2575,11 @@ GL_OK && (function island(){
       if(p >= 1){ if(!flip.switched) setNight(flip.dark); flip = null; world.quaternion.identity(); world.position.set(0,0,0); landAt = now; } }
     if(landAt > 0){ const q = (now - landAt)/420; if(q >= 1){ landAt = -1; world.scale.set(1,1,1); } else { const k = Math.sin(q*Math.PI)*0.07; world.scale.set(1+k*0.6, 1-k, 1+k*0.6); } }
     world.position.y += Math.sin(t*0.8)*0.12 + lift;
-    if(nightStart >= 0){ const p = Math.min(1, (now - nightStart)/NIGHT_DUR); nightT = nightFrom + (nightGoal - nightFrom)*p; if(p >= 1) nightStart = -1; }
+    if(nightStart >= 0){ const p = Math.max(0, Math.min(1, (now - nightStart)/NIGHT_DUR)); nightT = nightFrom + (nightGoal - nightFrom)*p; if(p >= 1) nightStart = -1; }
     const ne = nightT*nightT*(3 - 2*nightT);
     hemi.color.lerpColors(HEMI_SKY[0], HEMI_SKY[1], ne); hemi.groundColor.lerpColors(HEMI_GND[0], HEMI_GND[1], ne); hemi.intensity = 1.15 - 0.4*ne;
     sun.color.lerpColors(KEY[0], KEY[1], ne); sun.intensity = 1.9 - 1.15*ne;
+    FXU.uNight.value = nightT; FXU.uTime.value = t;
     for(const L of lights){ let k = smooth(L.th, L.th + 0.07, nightT); if(L.flick && k > 0.001 && k < 0.999) k *= Math.sin(t*47 + L.flick*13) > -0.2 ? 1 : 0.25; if(Math.abs(k - L.k) > 0.002){ L.k = k; L.set(k); } }
     anim.forEach(f=>f(t));
     const ca = t*0.18; car.position.set(Math.sin(ca)*7.3, 0.03, Math.cos(ca)*7.3); car.rotation.y = ca;
@@ -2576,6 +2625,10 @@ GL_OK && (function island(){
     if(level>=2) renderer.render(scene, camera); else effect.render(scene, camera);
     requestAnimationFrame(loop);
   }
+  // Warm-up: draw one hidden frame with every night-only object switched on, so their shaders are compiled now
+  // (behind the loading state) instead of stuttering the first time you switch to night.
+  { FXU.uNight.value = 1; const off = [moonG, plane, sunG, blimp, ...stars, ...planeNav, ...Object.values(PATHS).map(p => p.m)].filter(o => !o.visible);
+    off.forEach(o => { o.visible = true; }); try{ effect.render(scene, camera); }catch(e){} off.forEach(o => { o.visible = false; }); FXU.uNight.value = nightT; }
   requestAnimationFrame(loop);
 })();
 
