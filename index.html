@@ -1,0 +1,1974 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adrian Rafael Hakeem · Ad Island</title>
+<meta name="description" content="Programmatic specialist in Jakarta. Walk around a cartoon 3D island where every building is one of my campaigns, with the real creatives and results.">
+<meta property="og:title" content="Adrian's Ad Island · Programmatic & Performance Marketing">
+<meta property="og:description" content="11 campaigns, 72M+ impressions, 45 of 47 KPIs met. Click a building to open the case study.">
+<meta name="theme-color" content="#bfe6ff">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='28' rx='9' fill='%23ffd23f' stroke='%231d1b2f' stroke-width='3'/%3E%3Cpath d='M9 22V15M14 22V10M19 22V17M24 22V12' stroke='%231d1b2f' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<style>
+:root{
+  color-scheme: light;
+  --bg:#fff6e5; --paper:#fffdf7; --surface:#fffdf7; --surface-2:#fff1d6; --surface-3:#ffe8bd;
+  --ink:#1d1b2f; --ink-2:#4a4760; --muted:#6f6b86;
+  --grid:#efe6d2; --axis:#cfc4ab; --border:#1d1b2f; --line:rgba(29,27,47,.14);
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a;
+  --s1-soft:#cde2fb; --s1-wash:rgba(42,120,214,.1);
+  --sun:#ffd23f; --coral:#ff6b5b; --sky:#4dabf7; --mint:#3ddc97; --grape:#9b5de5; --pink:#ff9ecd; --grass:#7ed957;
+  --good:#0ca30c; --good-text:#0a7a0a; --crit:#d03b3b; --crit-text:#b42f2f; --warn:#fab219; --warn-text:#8a5a00;
+  --radius:20px; --bw:2.5px; --pop:5px 5px 0 var(--ink); --pop-sm:3px 3px 0 var(--ink);
+  --sans:"Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display:"Lilita One", "Nunito", system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; -webkit-text-size-adjust:100%; background:var(--bg)}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16.5px; line-height:1.6; font-weight:600; -webkit-font-smoothing:antialiased; overflow-x:clip;
+  background-image:radial-gradient(rgba(29,27,47,.07) 1.2px, transparent 1.3px); background-size:22px 22px}
+::selection{background:var(--sun)}
+a{color:inherit}
+button,input,select{font:inherit; color:inherit}
+:focus-visible{outline:3px solid var(--sky); outline-offset:3px; border-radius:10px}
+.wrap{max-width:1200px; margin:0 auto; padding:0 28px; position:relative}
+@media (max-width:640px){ .wrap{padding:0 16px} body{font-size:16px} }
+
+/* ---------- cartoon primitives ---------- */
+.toon{background:var(--paper); border:var(--bw) solid var(--ink); border-radius:var(--radius); box-shadow:var(--pop)}
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 20px; border-radius:14px; font-weight:800; font-size:15px; text-decoration:none; border:var(--bw) solid var(--ink); background:var(--paper); box-shadow:var(--pop-sm); cursor:pointer; white-space:nowrap; transition:transform .12s, box-shadow .12s}
+.btn:hover{transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px); box-shadow:0 0 0 var(--ink)}
+.btn.sun{background:var(--sun)} .btn.coral{background:var(--coral); color:#fff} .btn.sky{background:var(--sky); color:#fff} .btn.mint{background:var(--mint)}
+.btn.sm{padding:8px 13px; font-size:13.5px; border-radius:11px}
+.sticker{display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border:var(--bw) solid var(--ink); border-radius:999px; font-weight:800; font-size:13px; background:var(--sun); box-shadow:var(--pop-sm); white-space:nowrap}
+.eyebrow{font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-2)}
+h1,h2,h3{margin:0; line-height:1.05; font-weight:400}
+h2{font-family:var(--display); font-size:clamp(34px,5.4vw,64px); letter-spacing:.005em}
+h3{font-family:var(--sans); font-weight:900; font-size:19px}
+.hl{position:relative; white-space:nowrap}
+.hl::after{content:""; position:absolute; left:-4px; right:-4px; bottom:.02em; height:.34em; background:var(--sun); z-index:-1; border-radius:6px; transform:rotate(-1.2deg)}
+.squig{display:block; width:140px; height:14px; margin-top:10px}
+.lede{color:var(--ink-2); max-width:700px; margin:14px 0 0; font-size:18px; font-weight:600}
+.muted{color:var(--muted)} .small{font-size:13.5px} .num{font-variant-numeric:tabular-nums}
+.wobble{animation:wobble 3.2s ease-in-out infinite}
+@keyframes wobble{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+.pop-in{opacity:0; transform:translateY(26px) scale(.97); transition:opacity .6s, transform .6s cubic-bezier(.34,1.56,.64,1)}
+.pop-in.in{opacity:1; transform:none}
+.progress{position:fixed; top:0; left:0; height:6px; width:100%; transform-origin:0 50%; transform:scaleX(0); background:repeating-linear-gradient(90deg, var(--coral) 0 24px, var(--sun) 24px 48px, var(--sky) 48px 72px, var(--mint) 72px 96px); border-bottom:2px solid var(--ink); z-index:100}
+
+/* ---------- header ---------- */
+header.top{position:fixed; top:14px; left:0; right:0; z-index:50; pointer-events:none}
+.top .bar{pointer-events:auto; display:flex; align-items:center; gap:14px; height:60px; padding:0 10px 0 12px; border-radius:18px; background:var(--paper); border:var(--bw) solid var(--ink); box-shadow:var(--pop-sm)}
+.brand{display:flex; align-items:center; gap:10px; text-decoration:none; white-space:nowrap; min-width:0}
+.brand .mark{width:36px; height:36px; border-radius:11px; background:var(--sun); border:var(--bw) solid var(--ink); display:grid; place-items:center; flex:none; transform:rotate(-6deg)}
+.brand b{font-family:var(--display); font-weight:400; font-size:19px; display:block; line-height:1}
+.brand small{display:block; font-weight:700; color:var(--muted); font-size:11.5px; line-height:1.2}
+nav.links{display:flex; gap:4px; margin-left:auto}
+nav.links a{text-decoration:none; font-size:14px; font-weight:800; color:var(--ink-2); padding:7px 11px; border-radius:10px; border:2px solid transparent}
+nav.links a:hover{border-color:var(--ink); background:var(--surface-2)}
+nav.links a.act{background:var(--sun); border-color:var(--ink); color:var(--ink)}
+@media (max-width:980px){ nav.links{display:none} .top .cv-btn{margin-left:auto} }
+@media (max-width:560px){ .brand small{display:none} .cv-btn .long{display:none} }
+
+/* ---------- hero / island ---------- */
+section{position:relative; padding:130px 0 0}
+.hero{padding:0; min-height:100svh; overflow:hidden; background:linear-gradient(180deg,#9fd8ff 0%, #c9ecff 45%, #fff1d6 88%, var(--bg) 100%); border-bottom:var(--bw) solid var(--ink)}
+.hero::before{content:""; position:absolute; right:9%; top:12%; width:120px; height:120px; border-radius:50%; background:var(--sun); border:var(--bw) solid var(--ink); box-shadow:0 0 0 14px rgba(255,210,63,.35), 0 0 0 30px rgba(255,210,63,.18)}
+#island{position:absolute; inset:0; width:100%; height:100%; display:block; z-index:1; touch-action:pan-y}
+.hero .fallback{position:absolute; inset:0; z-index:0; display:grid; place-items:center end; padding-right:6vw}
+.webgl .hero .fallback{display:none}
+.fb-island{width:min(520px,70vw); aspect-ratio:1.4; background:var(--grass); border:var(--bw) solid var(--ink); border-radius:50% 50% 45% 45%/60% 60% 40% 40%; box-shadow:0 26px 0 #b07a4f, 0 26px 0 var(--bw) var(--ink); animation:float 5s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-14px)}}
+.hero-ui{position:relative; z-index:2; pointer-events:none; min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding-top:100px; padding-bottom:70px}
+.hero-card{pointer-events:auto; max-width:530px; padding:26px 28px 24px; position:relative}
+.hero-card::after{content:""; position:absolute; right:-22px; bottom:40px; width:30px; height:30px; background:var(--paper); border-right:var(--bw) solid var(--ink); border-bottom:var(--bw) solid var(--ink); transform:rotate(-45deg) skew(12deg,12deg); border-radius:0 0 6px 0}
+.hero h1{font-family:var(--display); font-size:clamp(40px,5.6vw,72px); line-height:.98; margin-top:14px; letter-spacing:.005em}
+.hero h1 .c1{color:var(--coral)} .hero h1 .c2{color:var(--s1)}
+.hero .lede{font-size:17px; margin-top:14px}
+.hero .ctas{display:flex; gap:12px; margin-top:22px; flex-wrap:wrap}
+.hero-stats{pointer-events:auto; display:flex; gap:12px; margin-top:22px; flex-wrap:wrap}
+.hero-stats .sticker:nth-child(2){background:var(--mint); transform:rotate(2deg)} .hero-stats .sticker:nth-child(3){background:var(--pink); transform:rotate(-2deg)} .hero-stats .sticker:nth-child(4){background:#bde0fe; transform:rotate(1.5deg)}
+.hero-ui>*{transition:opacity .4s, transform .4s}
+.hero.focused .hero-ui>*{opacity:0; transform:translateX(-30px); pointer-events:none}
+/* ---------- background music (boombox) ---------- */
+.radio.nudge{animation:nudge 1.6s ease-in-out infinite}
+.radio.nudge::after{content:"🔊 Tap anywhere for music"; position:absolute; left:calc(100% + 10px); top:50%; transform:translateY(-50%); white-space:nowrap; font-size:12.5px; font-weight:900; padding:5px 11px; background:var(--sun); border:2px solid var(--ink); border-radius:999px; box-shadow:2px 2px 0 var(--ink)}
+@keyframes nudge{0%,100%{transform:rotate(0)}10%{transform:rotate(-6deg)}20%{transform:rotate(6deg)}30%{transform:rotate(0)}}
+
+.radio{position:fixed; left:16px; bottom:calc(16px + env(safe-area-inset-bottom, 0px)); z-index:55; display:flex; align-items:center; gap:10px; padding:6px; background:var(--paper); border:var(--bw) solid var(--ink); border-radius:999px; box-shadow:var(--pop-sm); max-width:calc(100vw - 32px)}
+.radio-btn{width:44px; height:44px; flex:none; border-radius:50%; border:2px solid var(--ink); background:var(--sun); cursor:pointer; display:grid; place-items:center; padding:0}
+.radio-btn:active{transform:translate(1px,1px)}
+.radio .eq{display:flex; align-items:flex-end; gap:3px; height:18px}
+.radio .eq i{width:4px; height:6px; background:var(--ink); border-radius:2px}
+.radio.playing .eq i{animation:eq .9s ease-in-out infinite}
+.radio.playing .eq i:nth-child(2){animation-delay:-.3s} .radio.playing .eq i:nth-child(3){animation-delay:-.6s} .radio.playing .eq i:nth-child(4){animation-delay:-.15s}
+@keyframes eq{0%,100%{height:5px}50%{height:18px}}
+.radio .note{display:none; font-size:18px; line-height:1}
+.radio:not(.playing) .eq{display:none} .radio:not(.playing) .note{display:block}
+.radio-info{display:flex; flex-direction:column; min-width:0; flex:none; line-height:1.15; padding-right:2px}
+.radio-info b{font-size:13px; font-weight:900; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150px}
+.radio-info span{font-size:11.5px; color:var(--ink-2); font-weight:700; white-space:nowrap}
+.radio-next{width:32px; height:32px; flex:none; border-radius:50%; border:2px solid var(--ink); background:#fff; cursor:pointer; font-size:12px; display:grid; place-items:center; padding:0}
+.radio-vol{width:70px; height:8px; accent-color:var(--coral); border:0; background:none; box-shadow:none}
+.radio-vol::-webkit-slider-thumb{width:16px; height:16px; box-shadow:none}
+.radio.compact .radio-info,.radio.compact .radio-next,.radio.compact .radio-vol{display:none}
+.radio.compact{padding:4px}
+@media (max-width:560px){ .radio .radio-vol{display:none} .radio-info b{max-width:110px} }
+.island-hint{position:absolute; z-index:3; right:24px; bottom:22px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end}
+.island-hint .sticker{background:var(--paper); font-size:12.5px}
+#resetView{display:none}
+#resetView.on{display:inline-flex}
+.ilabels{position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden}
+.ilabel{position:absolute; left:0; top:0; transform:translate(-50%,-100%); white-space:nowrap; font-weight:900; font-size:12px; padding:4px 10px 5px; background:var(--paper); border:2px solid var(--ink); border-radius:12px; box-shadow:2px 2px 0 var(--ink); transition:opacity .25s, background .15s, scale .15s; line-height:1.15; text-align:center}
+.ilabel::after{content:""; position:absolute; left:50%; bottom:-7px; width:10px; height:10px; margin-left:-5px; background:inherit; border-right:2px solid var(--ink); border-bottom:2px solid var(--ink); transform:rotate(45deg)}
+.ilabel i{font-style:normal; display:none; font-family:var(--display); font-weight:400; font-size:15px; color:var(--s1)}
+.ilabel.miss i{color:var(--crit-text)}
+.ilabel.hot{background:var(--sun); scale:1.12; z-index:2000 !important}
+.ilabel.hot i,.ilabel.trophy i{display:block}
+.ilabel.trophy{background:var(--sun)}
+.loading{position:absolute; z-index:3; left:50%; top:62%; transform:translate(-50%,-50%); display:none}
+.webgl .loading.on{display:inline-flex}
+@media (max-width:820px){
+  .hero-ui{justify-content:flex-start; padding-top:96px}
+  #island,.ilabels{top:auto; bottom:0; height:58svh}
+  .hero-card::after{display:none}
+  .hero{min-height:auto}
+  .hero-ui{min-height:auto; padding-bottom:62svh}
+  .island-hint{left:76px; right:12px; justify-content:flex-end; bottom:14px}
+  .hero::before{width:70px; height:70px; top:auto; bottom:52svh; right:8%}
+  .hero .fallback{place-items:end center; padding:0 0 8svh}
+}
+
+/* ---------- intro strip ---------- */
+.intro{padding-top:70px; overflow-x:clip}
+.intro-grid{display:grid; grid-template-columns:1.1fr 1fr; gap:22px; align-items:start}
+@media (max-width:960px){ .intro-grid{grid-template-columns:1fr} }
+.console{overflow:hidden; background:#23213a; color:#e9e6ff; font-family:var(--mono); font-size:13.5px}
+.console .chrome{display:flex; align-items:center; gap:8px; padding:11px 14px; border-bottom:var(--bw) solid var(--ink); background:var(--grape); color:#fff; font-weight:700; font-size:12.5px}
+.console .chrome i{width:13px; height:13px; border-radius:50%; background:var(--coral); border:2px solid var(--ink)}
+.console .chrome i:nth-child(2){background:var(--sun)} .console .chrome i:nth-child(3){background:var(--mint)}
+.console .chrome span{margin-left:6px}
+.console pre{margin:0; padding:18px 18px 22px; min-height:300px; white-space:pre-wrap; word-break:break-word; line-height:1.75; font-weight:500}
+.console .p{color:var(--mint)} .console .k{color:#8ec5ff} .console .v{color:#fff} .console .o{color:var(--sun)} .console .ok{color:var(--mint)}
+.caret{display:inline-block; width:9px; height:1.1em; background:var(--sun); vertical-align:-2px; animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.tiles{display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
+.tile{padding:16px 16px 14px; background:var(--paper); border:var(--bw) solid var(--ink); border-radius:18px; box-shadow:var(--pop-sm); transition:transform .2s}
+.tile:hover{transform:rotate(-1.5deg) translateY(-3px)}
+.tiles .tile:nth-child(6n+1){background:#fff3b8} .tiles .tile:nth-child(6n+2){background:#d6f5e7} .tiles .tile:nth-child(6n+3){background:#ffe0ec} .tiles .tile:nth-child(6n+4){background:#dcecff} .tiles .tile:nth-child(6n+5){background:#ffe3cf} .tiles .tile:nth-child(6n+6){background:#ece2ff}
+.tile .label{font-size:13px; color:var(--ink-2); font-weight:800}
+.tile .value{font-family:var(--display); font-size:34px; line-height:1.05; margin:6px 0 4px}
+.tile .foot{font-size:12.5px; color:var(--ink-2); line-height:1.4; font-weight:600}
+.tape{margin:80px -20px 0; transform:rotate(-1.6deg); background:var(--sun); border-top:var(--bw) solid var(--ink); border-bottom:var(--bw) solid var(--ink); overflow:hidden; padding:14px 0}
+.tape .track{display:flex; gap:34px; width:max-content; animation:marq 38s linear infinite}
+.tape span{font-family:var(--display); font-size:clamp(22px,2.8vw,32px); white-space:nowrap}
+.tape span.sep{color:var(--coral)}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ---------- section heads ---------- */
+.sec-head{position:relative; margin-bottom:34px}
+.sec-head .ep{display:inline-flex; margin-bottom:14px}
+
+/* ---------- campaigns: filters + scoreboard ---------- */
+.filters{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:16px}
+.seg{display:inline-flex; padding:4px; background:var(--paper); border:var(--bw) solid var(--ink); border-radius:14px; gap:3px; flex-wrap:wrap; box-shadow:var(--pop-sm)}
+.seg button{border:2px solid transparent; background:transparent; padding:6px 12px; border-radius:10px; font-size:13.5px; font-weight:800; color:var(--ink-2); cursor:pointer; white-space:nowrap}
+.seg button:hover{color:var(--ink); background:var(--surface-2)}
+.seg button[aria-pressed="true"]{background:var(--sun); color:var(--ink); border-color:var(--ink)}
+.select{appearance:none; -webkit-appearance:none; background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5l3 3 3-3' fill='none' stroke='%231d1b2f' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 11px center; border:var(--bw) solid var(--ink); border-radius:14px; padding:9px 32px 9px 13px; font-size:13.5px; font-weight:800; cursor:pointer; box-shadow:var(--pop-sm)}
+.tag-filter{display:none; align-items:center; gap:6px; font-size:13.5px; font-weight:800; padding:5px 6px 5px 13px; border-radius:999px; background:var(--pink); border:var(--bw) solid var(--ink)}
+.tag-filter.on{display:inline-flex}
+.tag-filter button{border:0; background:transparent; cursor:pointer; width:24px; height:24px; border-radius:50%; display:grid; place-items:center}
+.summary-strip{display:flex; flex-wrap:wrap; gap:8px 24px; font-size:14.5px; color:var(--ink-2); padding:14px 18px; margin-bottom:18px; border-radius:16px}
+.summary-strip b{color:var(--ink); font-weight:900; font-variant-numeric:tabular-nums}
+.score-card{padding:22px 22px 14px; margin-bottom:34px}
+.score-card .head{display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:flex-start; margin-bottom:8px}
+.score-card .head p{margin:4px 0 0; font-size:13.5px; color:var(--muted)}
+
+/* ---------- episodes ---------- */
+.episodes{display:flex; flex-direction:column; gap:34px}
+.episode{position:relative; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:0; overflow:hidden; background:var(--paper)}
+.episode.flip{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}
+.episode.flip .stage{order:2; border-left:var(--bw) solid var(--ink); border-right:0}
+@media (max-width:900px){ .episode,.episode.flip{grid-template-columns:1fr} .episode.flip .stage{order:0; border-left:0} }
+.stage{position:relative; padding:26px; border-right:var(--bw) solid var(--ink); display:flex; flex-direction:column; gap:14px; min-width:0; background-image:radial-gradient(rgba(29,27,47,.12) 1.4px, transparent 1.5px); background-size:18px 18px}
+@media (max-width:900px){ .stage{border-right:0; border-bottom:var(--bw) solid var(--ink)} }
+.stage .frame{position:relative; flex:1; min-height:340px; display:grid; place-items:center}
+.stage .media{position:relative; max-width:100%; max-height:440px; border:var(--bw) solid var(--ink); border-radius:16px; overflow:hidden; background:#fff; box-shadow:6px 6px 0 var(--ink); transform:rotate(-1.2deg); transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.stage .media:hover{transform:rotate(0) scale(1.02)}
+.stage .media img,.stage .media video{display:block; max-width:100%; max-height:436px; width:auto; height:auto}
+.stage .media.portrait img,.stage .media.portrait video{max-height:436px}
+.stage .cap{font-size:13px; font-weight:800; text-align:center; color:var(--ink-2)}
+.stage .cap b{color:var(--ink)}
+.thumbs{display:flex; gap:8px; overflow-x:auto; padding:4px 4px 8px; scrollbar-width:thin}
+.thumbs button{flex:none; width:58px; height:58px; padding:0; border:2px solid var(--ink); border-radius:10px; overflow:hidden; cursor:pointer; background:#fff; box-shadow:2px 2px 0 var(--ink); transition:transform .15s}
+.thumbs button:hover{transform:translateY(-2px)}
+.thumbs button[aria-pressed="true"]{outline:3px solid var(--coral); outline-offset:1px}
+.thumbs img{width:100%; height:100%; object-fit:cover; display:block}
+.thumbs .vid{position:relative}
+.thumbs .vid::after{content:"▶"; position:absolute; right:3px; bottom:2px; font-size:10px; background:var(--ink); color:#fff; border-radius:4px; padding:0 3px}
+.ep-body{padding:26px 28px 26px; display:flex; flex-direction:column; gap:16px; min-width:0}
+.ep-top{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+.ep-top .sticker{font-size:12px; padding:3px 10px}
+.ep-body h3.title{font-family:var(--display); font-weight:400; font-size:clamp(28px,3.4vw,40px); line-height:1.02}
+.ep-body .tagline{font-size:18px; font-weight:800; color:var(--ink); margin:0; line-height:1.35}
+.ep-body .meta{font-size:13.5px; color:var(--muted); font-weight:700}
+.bigkpi{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
+.bigkpi .v{font-family:var(--display); font-size:clamp(46px,6vw,68px); line-height:.95; padding:6px 16px 8px; background:var(--sun); border:var(--bw) solid var(--ink); border-radius:16px; box-shadow:var(--pop-sm); transform:rotate(-2deg)}
+.bigkpi.miss .v{background:#ffd3cf}
+.bigkpi .l{font-weight:800; font-size:14.5px; color:var(--ink-2); max-width:260px; line-height:1.35}
+.stickers{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+@media (max-width:520px){ .stickers{grid-template-columns:1fr 1fr} }
+.stickers div{padding:10px 12px; border:2px solid var(--ink); border-radius:14px; background:var(--surface-2); box-shadow:2px 2px 0 var(--ink)}
+.stickers div:nth-child(2){background:#dcecff} .stickers div:nth-child(3){background:#d6f5e7}
+.stickers b{display:block; font-family:var(--display); font-weight:400; font-size:22px; line-height:1.1}
+.stickers span{font-size:12px; font-weight:800; color:var(--ink-2); line-height:1.25; display:block}
+.bubble{position:relative; padding:14px 16px; background:#fff; border:2px solid var(--ink); border-radius:16px; font-size:15px; font-weight:700; color:var(--ink-2)}
+.bubble::before{content:"💡 The highlight"; display:block; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--coral); font-weight:700; margin-bottom:4px}
+.ep-body ul.did{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px}
+.ep-body ul.did li{position:relative; padding-left:28px; font-size:14.5px; color:var(--ink-2); font-weight:700}
+.ep-body ul.did li::before{content:"✓"; position:absolute; left:0; top:1px; width:20px; height:20px; border-radius:6px; background:var(--mint); border:2px solid var(--ink); display:grid; place-items:center; font-size:12px; font-weight:900; color:var(--ink); line-height:1}
+.ep-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:auto}
+.ep-empty{padding:40px; text-align:center; font-weight:800}
+
+/* ---------- drawer ---------- */
+.scrim{position:fixed; inset:0; background:rgba(29,27,47,.45); opacity:0; pointer-events:none; transition:opacity .25s; z-index:60}
+.scrim.on{opacity:1; pointer-events:auto}
+.drawer{position:fixed; top:10px; right:10px; bottom:10px; width:min(800px,calc(100vw - 20px)); background:var(--bg); z-index:61; transform:translateX(110%); transition:transform .45s cubic-bezier(.34,1.3,.64,1); overflow-y:auto; overscroll-behavior:contain; border:var(--bw) solid var(--ink); border-radius:22px; box-shadow:8px 8px 0 var(--ink)}
+.drawer:not(.on){visibility:hidden; transition:transform .35s ease-in, visibility 0s .35s}
+.drawer.on{transform:none}
+.drawer .d-head{position:sticky; top:0; z-index:3; background:var(--sun); padding:16px 22px; border-bottom:var(--bw) solid var(--ink); display:flex; gap:12px; align-items:flex-start; justify-content:space-between}
+.drawer .d-head h2{font-size:clamp(26px,3.4vw,38px)}
+.drawer .d-body{padding:22px; display:flex; flex-direction:column; gap:22px}
+@media (max-width:640px){ .drawer{top:0; right:0; bottom:0; width:100vw; border-radius:0; border-width:0} .drawer .d-head,.drawer .d-body{padding-left:16px; padding-right:16px} }
+.icon-btn{border:var(--bw) solid var(--ink); background:var(--paper); width:40px; height:40px; border-radius:12px; display:grid; place-items:center; cursor:pointer; flex:none; box-shadow:2px 2px 0 var(--ink)}
+.icon-btn:active{transform:translate(2px,2px); box-shadow:none}
+.d-tiles{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+@media (max-width:560px){ .d-tiles{grid-template-columns:repeat(2,1fr)} }
+.d-tiles .tile{box-shadow:2px 2px 0 var(--ink)}
+.d-tiles .tile .value{font-size:25px}
+.d-gallery{padding:16px}
+.d-gallery .row{display:flex; gap:12px; overflow-x:auto; padding:4px 4px 10px}
+.d-gallery figure{margin:0; flex:none; width:180px}
+.d-gallery figure .m{border:2px solid var(--ink); border-radius:12px; overflow:hidden; background:#fff; box-shadow:3px 3px 0 var(--ink); height:240px; display:grid; place-items:center}
+.d-gallery figure img,.d-gallery figure video{width:100%; height:100%; object-fit:contain; background:#fff; display:block}
+.d-gallery figcaption{font-size:12px; font-weight:800; color:var(--ink-2); margin-top:8px; line-height:1.3}
+.d-sec h4{margin:0; font-size:12px; font-family:var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2); font-weight:700}
+table.score{width:100%; border-collapse:collapse; font-size:14.5px}
+table.score th{font-weight:800; color:var(--muted); font-size:12.5px; text-align:left; padding:8px 10px; border-bottom:2px solid var(--ink)}
+table.score td{padding:10px; border-bottom:1.5px dashed var(--line); vertical-align:top}
+table.score td.num,table.score th.num{text-align:right}
+.verdict{display:inline-flex; align-items:center; gap:5px; font-size:12.5px; font-weight:900}
+.verdict.pass{color:var(--good-text)} .verdict.miss{color:var(--crit-text)} .verdict.var{color:var(--warn-text)}
+.lists{display:grid; gap:18px}
+.lists ul{margin:10px 0 0; padding:0 0 0 20px; color:var(--ink-2)}
+.lists li{margin:6px 0}
+.scroll-x{overflow-x:auto}
+
+/* ---------- charts ---------- */
+.chart{position:relative; width:100%}
+.chart svg{display:block; width:100%; height:auto; overflow:visible}
+.chart text{font-family:var(--sans); font-weight:700; fill:var(--muted); font-size:12px}
+.chart .t-ink{fill:var(--ink)} .chart .t-ink2{fill:var(--ink-2)}
+.chart .hit{fill:transparent}
+.chart .mark{transition:opacity .15s}
+.chart .dim .mark{opacity:.35}
+.chart .mark.hover{opacity:1 !important; filter:brightness(1.08)}
+.legend{display:flex; flex-wrap:wrap; gap:6px 16px; font-size:13.5px; color:var(--ink-2); margin:4px 0 8px; font-weight:700}
+.legend span{display:inline-flex; align-items:center; gap:6px}
+.legend i{width:11px; height:11px; border-radius:3px; display:inline-block}
+.legend i.line{height:3px; width:14px; border-radius:2px}
+details.data{margin-top:8px; font-size:13.5px}
+details.data summary{cursor:pointer; color:var(--ink-2); width:max-content; font-weight:800}
+details.data table{width:100%; border-collapse:collapse; margin-top:8px}
+details.data th,details.data td{padding:6px 8px; border-bottom:1px dashed var(--line); text-align:left}
+details.data td:not(:first-child),details.data th:not(:first-child){text-align:right; font-variant-numeric:tabular-nums}
+.chart-card{padding:18px 18px 12px}
+#tip{position:fixed; z-index:120; pointer-events:none; background:var(--paper); border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink); border-radius:12px; padding:8px 11px; font-size:13px; min-width:120px; max-width:280px; font-weight:700}
+#tip .tv{font-size:16px; font-weight:900; font-variant-numeric:tabular-nums}
+#tip .tl{color:var(--ink-2)}
+#tip .tr{display:flex; align-items:center; gap:10px; justify-content:space-between; margin-top:2px}
+#tip .tr i{width:12px; height:3px; border-radius:2px; display:inline-block; margin-right:6px}
+#tip .th{color:var(--muted); font-size:12px; margin-bottom:4px}
+
+/* ---------- insight lab ---------- */
+.lab{display:grid; grid-template-columns:290px 1fr; gap:20px}
+@media (max-width:880px){ .lab{grid-template-columns:1fr} }
+.lab-tabs{display:flex; flex-direction:column; gap:12px}
+@media (max-width:880px){ .lab-tabs{flex-direction:row; overflow-x:auto; padding:4px 6px 10px 2px} .lab-tabs button{min-width:230px} }
+.lab-tabs button{border:var(--bw) solid var(--ink); background:var(--paper); border-radius:16px; padding:14px 16px; text-align:left; cursor:pointer; box-shadow:var(--pop-sm); transition:transform .15s}
+.lab-tabs button:hover{transform:translate(-2px,-2px)}
+.lab-tabs button[aria-selected="true"]{background:var(--sky); color:#fff}
+.lab-tabs button[aria-selected="true"] .k{color:#eaf6ff}
+.lab-tabs .n{font-family:var(--display); font-size:22px; line-height:1}
+.lab-tabs .k{font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-top:6px; font-weight:700}
+.lab-tabs .t{font-weight:900; font-size:15.5px; margin-top:3px; line-height:1.3}
+.lab-panel{padding:24px}
+.lab-panel .claim{font-family:var(--display); font-size:clamp(24px,2.8vw,32px); line-height:1.1; margin:8px 0 6px}
+.lab-cols{display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:16px}
+@media (max-width:640px){ .lab-cols{grid-template-columns:1fr} }
+.lab-cols p{margin:8px 0 0; color:var(--ink-2); font-size:15px}
+.lab-cols h4{margin:0}
+.fade-swap{animation:swap .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes swap{from{opacity:0; transform:translateY(10px) scale(.98)}}
+.linkish{border:0; background:none; padding:0; color:var(--s1); font-weight:900; cursor:pointer; font-size:14px; display:inline-flex; gap:6px; align-items:center; text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:3px}
+
+/* ---------- simulator ---------- */
+.sim{display:grid; grid-template-columns:370px 1fr; gap:22px; align-items:start}
+@media (max-width:960px){ .sim{grid-template-columns:1fr} }
+.sim-controls{padding:22px; display:flex; flex-direction:column; gap:22px; background:#dcecff}
+.field label,.field .flabel{display:flex; justify-content:space-between; font-size:14px; font-weight:900; margin-bottom:10px}
+.field label output{font-family:var(--display); font-weight:400; font-size:18px; font-variant-numeric:tabular-nums}
+.field .hint{font-size:12.5px; color:var(--ink-2); margin-top:8px}
+.obj{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.obj button{border:2px solid var(--ink); background:var(--paper); border-radius:13px; padding:11px; text-align:left; cursor:pointer; font-size:13px; box-shadow:2px 2px 0 var(--ink); transition:transform .12s}
+.obj button:hover{transform:translate(-1px,-1px)}
+.obj button b{display:block; font-size:14.5px; font-weight:900}
+.obj button span{color:var(--ink-2); font-size:12px}
+.obj button[aria-pressed="true"]{background:var(--sun)}
+input[type=range]{-webkit-appearance:none; appearance:none; width:100%; height:12px; border-radius:8px; border:2px solid var(--ink); background:linear-gradient(90deg, var(--coral) 0 var(--fill,20%), var(--paper) var(--fill,20%))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; width:26px; height:26px; border-radius:50%; background:var(--sun); border:var(--bw) solid var(--ink); box-shadow:2px 2px 0 var(--ink); cursor:pointer}
+input[type=range]::-moz-range-thumb{width:22px; height:22px; border-radius:50%; background:var(--sun); border:var(--bw) solid var(--ink); cursor:pointer}
+.numin{display:flex; align-items:center; border:2px solid var(--ink); border-radius:12px; background:var(--paper); overflow:hidden}
+.numin span{padding:0 12px; color:var(--ink-2); font-weight:800}
+.numin input{border:0; background:transparent; padding:10px 12px 10px 0; width:100%; font-weight:800; font-variant-numeric:tabular-nums}
+.numin input:focus{outline:none}
+.numin:focus-within{outline:3px solid var(--sky); outline-offset:1px}
+.check{display:flex; gap:12px; align-items:flex-start; font-size:14.5px; cursor:pointer}
+.check input{margin-top:3px; accent-color:var(--coral); width:18px; height:18px}
+.sim-out{padding:24px; display:flex; flex-direction:column; gap:22px}
+.proj{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+@media (max-width:560px){ .proj{grid-template-columns:1fr 1fr} }
+.primary-out{padding:22px; border-radius:18px; border:var(--bw) solid var(--ink); background:var(--sun); box-shadow:var(--pop-sm)}
+.primary-out .v{font-family:var(--display); font-size:clamp(48px,8vw,80px); line-height:1; margin-top:4px}
+.range{position:relative; height:28px; margin-top:14px}
+.range .track{position:absolute; left:0; right:0; top:11px; height:6px; background:rgba(29,27,47,.18); border-radius:3px}
+.range .band{position:absolute; top:9px; height:10px; background:var(--paper); border:2px solid var(--ink); border-radius:6px}
+.range .pt{position:absolute; top:3px; width:22px; height:22px; margin-left:-11px; border-radius:50%; background:var(--coral); border:var(--bw) solid var(--ink); transition:left .5s cubic-bezier(.34,1.56,.64,1)}
+.range-labels{display:flex; justify-content:space-between; font-size:12.5px; color:var(--ink-2); font-weight:800}
+.stack{display:flex; height:34px; gap:2px; border-radius:10px; overflow:hidden; margin:12px 0 8px; border:2px solid var(--ink)}
+.stack div{height:100%; display:flex; align-items:center; padding:0 10px; color:#fff; font-size:12.5px; font-weight:900; white-space:nowrap; overflow:hidden; text-shadow:0 1px 0 rgba(0,0,0,.35)}
+.play{list-style:none; padding:0; margin:12px 0 0; display:grid; grid-template-columns:1fr 1fr; gap:12px}
+@media (max-width:640px){ .play{grid-template-columns:1fr} }
+.play li{padding:14px; border:2px solid var(--ink); border-radius:14px; background:#fff; font-size:14px; color:var(--ink-2); box-shadow:2px 2px 0 var(--ink)}
+.play li b{color:var(--ink); display:block; margin-bottom:2px; font-weight:900}
+.play .src{display:block; margin-top:8px}
+.comply{display:none} .comply.on{display:block; animation:swap .5s}
+.comply ul{list-style:none; padding:0; margin:12px 0 0; display:grid; grid-template-columns:1fr 1fr; gap:8px}
+@media (max-width:560px){ .comply ul{grid-template-columns:1fr} }
+.comply li{display:flex; gap:8px; font-size:14px; color:var(--ink-2); align-items:flex-start}
+
+/* ---------- automation ---------- */
+.auto-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:22px}
+@media (max-width:880px){ .auto-grid{grid-template-columns:1fr} }
+.auto{padding:22px; display:flex; flex-direction:column; gap:14px}
+.auto-grid .auto:nth-child(1){background:#fff3b8} .auto-grid .auto:nth-child(2){background:#d6f5e7} .auto-grid .auto:nth-child(3){background:#ffe0ec} .auto-grid .auto:nth-child(4){background:#dcecff}
+.auto .org{font-size:13px; color:var(--ink-2); font-weight:800}
+.ba-val{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; min-height:56px}
+.ba-val .v{font-family:var(--display); font-size:52px; line-height:1}
+.ba-val.before .v{color:var(--muted); text-decoration:line-through; text-decoration-thickness:4px; text-decoration-color:var(--coral)}
+.ba-val .l{color:var(--ink-2); font-size:14.5px; font-weight:800}
+.delta{font-size:13.5px; font-weight:900; color:var(--good-text)}
+.flow{display:flex; flex-wrap:wrap; align-items:center; row-gap:10px}
+.flow .step{font-size:12px; padding:6px 10px; border-radius:9px; background:#fff; border:2px solid var(--ink); font-family:var(--mono); font-weight:700; white-space:nowrap; box-shadow:2px 2px 0 var(--ink)}
+.flow .conn{position:relative; width:28px; height:3px; background:var(--ink); margin:0 5px; border-radius:2px}
+.flow .conn::after{content:""; position:absolute; top:-4px; left:0; width:10px; height:10px; border-radius:50%; background:var(--coral); border:2px solid var(--ink); animation:packet 1.4s linear infinite; animation-delay:var(--d,0s)}
+@keyframes packet{from{left:-5px} to{left:23px}}
+.flow .unit{display:inline-flex; align-items:center}
+.race{display:flex; flex-direction:column; gap:12px; padding:16px; border-radius:16px; background:#fff; border:2px solid var(--ink)}
+.lane .lh{display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:6px; font-weight:800}
+.lane .lh b{font-variant-numeric:tabular-nums; font-family:var(--mono)}
+.lane .bar{height:14px; background:var(--surface-2); border:2px solid var(--ink); border-radius:8px; overflow:hidden}
+.lane .bar i{display:block; height:100%; width:0}
+.docs{display:flex; gap:4px; margin-top:8px}
+.docs span{width:16px; height:20px; border-radius:4px; border:2px solid var(--ink); background:#fff; transition:transform .2s, background .2s}
+.docs span.done{background:var(--s1); transform:translateY(-3px) rotate(-6deg)}
+.lane.manual .docs span.done{background:var(--s2)}
+
+/* ---------- experience ---------- */
+.exp{display:grid; grid-template-columns:1.35fr 1fr; gap:22px; align-items:start}
+@media (max-width:960px){ .exp{grid-template-columns:1fr} }
+.timeline{position:relative; padding:8px 0}
+.timeline .rail{position:absolute; left:30px; top:30px; bottom:30px; width:4px; background:var(--surface-3); border-radius:2px}
+.timeline .rail i{position:absolute; left:0; top:0; width:100%; height:0; background:var(--coral); border-radius:2px}
+.role{position:relative}
+.role>button{width:100%; border:0; background:transparent; text-align:left; padding:16px 20px 16px 60px; cursor:pointer; display:grid; grid-template-columns:1fr auto; gap:4px 12px; align-items:start; border-radius:14px}
+.role>button:hover{background:var(--surface-2)}
+.role::before{content:""; position:absolute; left:22px; top:20px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:var(--bw) solid var(--ink); z-index:1; transition:background .3s, transform .3s}
+.role.lit::before{background:var(--sun); transform:scale(1.15)}
+.role .rt{font-weight:900; font-size:16.5px}
+.role .ro{font-size:14px; color:var(--ink-2)}
+.role .rd{font-size:12px; color:var(--ink-2); font-family:var(--mono); font-weight:700; text-align:right; white-space:nowrap; display:flex; gap:6px; align-items:center}
+.role .rk{grid-column:1/-1; margin-top:8px}
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.chip{font-size:12.5px; padding:3px 9px; border-radius:8px; background:var(--surface-2); color:var(--ink); border:2px solid var(--ink); font-weight:800}
+.role .rb{display:grid; grid-template-rows:0fr; transition:grid-template-rows .4s cubic-bezier(.34,1.3,.64,1)}
+.role .rb>div{overflow:hidden}
+.role.open .rb{grid-template-rows:1fr}
+.role .rb ul{margin:0; padding:0 20px 16px 78px; color:var(--ink-2); font-size:14.5px}
+.role .rb li{margin:6px 0}
+.role .chev{transition:transform .3s}
+.role.open .chev{transform:rotate(180deg)}
+.skills{padding:22px; display:flex; flex-direction:column; gap:20px; background:#ece2ff}
+.skill-group .chips{margin-top:10px}
+.schip{display:inline-flex; align-items:center; gap:7px; font-size:13.5px; padding:6px 11px; border-radius:11px; border:2px solid var(--ink); background:#fff; color:var(--ink); font-weight:800; box-shadow:2px 2px 0 var(--ink)}
+button.schip{cursor:pointer}
+button.schip:hover{background:var(--sun); transform:translate(-1px,-1px)}
+.schip em{font-style:normal; font-size:11.5px; font-weight:900; color:#fff; background:var(--ink); border-radius:6px; padding:1px 6px}
+
+/* ---------- contact ---------- */
+.contact{padding:48px; display:grid; grid-template-columns:1.3fr 1fr; gap:30px; align-items:center; background:var(--coral); color:#fff; overflow:hidden}
+.contact .eyebrow{color:#ffe6e2}
+.contact .lede{color:#fff5f3}
+@media (max-width:760px){ .contact{grid-template-columns:1fr; padding:26px} }
+.contact h2{font-size:clamp(34px,4.6vw,58px); margin-top:12px}
+.contact .links{display:flex; flex-direction:column; gap:12px}
+.contact .links a{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 18px; border:var(--bw) solid var(--ink); border-radius:16px; text-decoration:none; background:var(--paper); color:var(--ink); font-weight:900; box-shadow:var(--pop-sm); transition:transform .12s, box-shadow .12s; overflow-wrap:anywhere}
+.contact .links a:hover{transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--ink)}
+footer{padding:30px 0 44px; color:var(--ink-2); font-size:13.5px; font-weight:700}
+footer .wrap{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+section:last-of-type{padding-bottom:90px}
+
+@media (prefers-reduced-motion: reduce){ *{transition:none !important; animation:none !important; scroll-behavior:auto !important} .pop-in{opacity:1; transform:none} }
+</style>
+</head>
+<body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div id="tip" hidden role="tooltip"></div>
+
+<header class="top">
+  <div class="wrap">
+    <div class="bar">
+      <a class="brand" href="#top" aria-label="Adrian Rafael Hakeem, back to top">
+        <span class="mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 16 16"><path d="M3 12V8M6.5 12V4M10 12V9M13 12V6" stroke="#1d1b2f" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+        <span><b>Adrian Rafael Hakeem</b><small>Programmatic · Performance · Automation</small></span>
+      </a>
+      <nav class="links" aria-label="Sections">
+        <a href="#campaigns">Campaigns</a><a href="#insights">Insights</a><a href="#simulator">Simulator</a><a href="#automation">Automation</a><a href="#experience">Experience</a><a href="#contact">Contact</a>
+      </nav>
+      <a class="btn sun sm cv-btn" data-cv href="#" download><span><span class="long">Download </span>CV</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<!-- HERO: Ad Island -->
+<section class="hero" id="hero" aria-label="Ad Island">
+  <div class="fallback" aria-hidden="true"><div class="fb-island"></div></div>
+  <canvas id="island" aria-label="A cartoon 3D island. Each building is one campaign. The same campaigns are listed below the island." role="img"></canvas>
+  <div class="ilabels" id="ilabels" aria-hidden="true"></div>
+  <span class="sticker loading" id="loading">Building the island…</span>
+  <div class="wrap hero-ui">
+    <div class="toon hero-card pop-in">
+      <span class="sticker wobble">👋 Programmatic Specialist · YMT Ads, Jakarta</span>
+      <h1>I run media like a <span class="c1">P&amp;L</span>, and report it like <span class="c2">evidence</span>.</h1>
+      <p class="lede">Welcome to my ad island. Every building is a real campaign I ran, and its billboard shows the real creative. Taller buildings beat their brief by more. Click one to see what happened.</p>
+      <div class="ctas">
+        <a class="btn coral" href="#campaigns">See all 11 campaigns ↓</a>
+        <a class="btn" href="#simulator">Try the simulator</a>
+      </div>
+    </div>
+    <div class="hero-stats pop-in" style="transition-delay:.15s">
+      <span class="sticker">💰 US$558K budget</span><span class="sticker">🌏 4 SEA markets</span><span class="sticker">📈 80% buying margin</span><span class="sticker">🚀 30+ campaigns</span>
+    </div>
+  </div>
+  <div class="island-hint" aria-hidden="true"><span class="sticker" id="islandHint">🖱️ Drag to spin · click a building</span><button class="btn sm sun" id="resetView">↺ Whole island</button></div>
+</section>
+
+<!-- INTRO -->
+<section class="intro" aria-label="Summary">
+  <div class="wrap">
+    <div class="intro-grid">
+      <div class="toon console pop-in">
+        <div class="chrome"><i></i><i></i><i></i><span>adrian@ymt: ~/portfolio</span></div>
+        <pre id="console" aria-label="Summary in console form"></pre>
+      </div>
+      <div class="tiles" id="heroTiles"></div>
+    </div>
+  </div>
+  <div class="tape" aria-label="Brands and agencies worked with"><div class="track" id="marquee"></div></div>
+</section>
+
+<!-- CAMPAIGNS -->
+<section id="campaigns">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sticker ep" style="background:var(--mint)">Chapter 01</span>
+      <h2>Every campaign, <span class="hl">up close</span>.</h2>
+      <p class="lede">These are the 11 campaigns from my end-of-campaign reports, with their real creatives. KPIs come from the ad server and independent third parties (IAS, CM360, GA4). Budgets, rate cards and IO numbers are withheld for client confidentiality.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filter campaigns">
+      <div class="seg" id="modelSeg" role="group" aria-label="Buying model"></div>
+      <select class="select" id="vertSel" aria-label="Vertical"></select>
+      <select class="select" id="agencySel" aria-label="Agency"></select>
+      <select class="select" id="sortSel" aria-label="Sort">
+        <option value="story">Sort: highlights first</option>
+        <option value="kpi">Sort: beat the brief most</option>
+        <option value="date">Sort: most recent</option>
+        <option value="imps">Sort: impressions</option>
+      </select>
+      <span class="tag-filter" id="tagFilter"><span>Skill: <b id="tagName"></b></span><button aria-label="Clear skill filter" id="tagClear"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="2"/></svg></button></span>
+    </div>
+    <div class="toon summary-strip" id="strip" aria-live="polite"></div>
+    <div class="toon score-card pop-in">
+      <div class="head"><div><h3>Scoreboard: headline KPI vs the brief</h3><p>Actual as a % of the contracted target. The line at 100% is the brief. Click a bar to open the full case study.</p></div></div>
+      <div class="chart" id="kpiChart"></div>
+    </div>
+    <div class="episodes" id="episodes"></div>
+  </div>
+</section>
+
+<!-- INSIGHT LAB -->
+<section id="insights">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sticker ep" style="background:var(--sky); color:#fff">Chapter 02</span>
+      <h2>Beyond the KPI, <span class="hl">the next lever</span>.</h2>
+      <p class="lede">Every report I write ends with what to change on the next flight. These are four findings where the data went against the obvious assumption.</p>
+    </div>
+    <div class="lab pop-in">
+      <div class="lab-tabs" role="tablist" id="labTabs" aria-label="Insights"></div>
+      <div class="toon lab-panel" role="tabpanel" id="labPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULATOR -->
+<section id="simulator">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sticker ep" style="background:var(--pink)">Chapter 03</span>
+      <h2>Plan a flight with <span class="hl">my benchmarks</span>.</h2>
+      <p class="lede">Pick an objective and a budget. The projection uses the rates these campaigns actually returned, and the mix comes from what worked in them. The CPM is your assumption, so change it to match your market.</p>
+    </div>
+    <div class="sim pop-in">
+      <div class="toon sim-controls">
+        <div class="field"><div class="flabel">Objective</div><div class="obj" id="objBtns"></div></div>
+        <div class="field">
+          <label for="budget">Budget <output id="budgetOut" class="num"></output></label>
+          <input type="range" id="budget" min="5000" max="250000" step="1000" value="30000">
+        </div>
+        <div class="field">
+          <label for="cpm">CPM assumption</label>
+          <div class="numin"><span>US$</span><input id="cpm" type="number" inputmode="decimal" min="0.2" max="50" step="0.1" value="2.5" aria-describedby="cpmHint"></div>
+          <div class="hint" id="cpmHint">An illustrative input, not a rate card.</div>
+        </div>
+        <div class="field" id="radiusField" hidden>
+          <label for="radius">Geofence radius per outlet</label>
+          <select class="select" id="radius" style="width:100%"></select>
+          <div class="hint">Store visits per 1,000 impressions by radius band, from the Richeese footfall study. The tight bands converted best at about 50K impressions per outlet, and may not hold at much higher weight.</div>
+        </div>
+        <label class="check"><input type="checkbox" id="regulated"><span><b>Regulated category</b><br><span class="small" style="color:var(--ink-2)">For tobacco, infant nutrition and similar. Adds the compliance build I use.</span></span></label>
+      </div>
+      <div class="toon sim-out" id="simOut" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTOMATION -->
+<section id="automation">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sticker ep" style="background:var(--sun)">Chapter 04</span>
+      <h2>I delete manual work, <span class="hl">then measure it</span>.</h2>
+      <p class="lede">Flip each card between before and after. The contract generator has a race you can run.</p>
+    </div>
+    <div class="auto-grid" id="autoGrid"></div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sticker ep" style="background:#ece2ff">Chapter 05</span>
+      <h2>Where the numbers <span class="hl">come from</span>.</h2>
+      <p class="lede">Open a role to see what I did there. Skills are counted against evidence on this page, and clicking a campaign skill filters the campaigns.</p>
+    </div>
+    <div class="exp">
+      <div class="toon timeline pop-in" id="timeline"><div class="rail"><i id="railFill"></i></div></div>
+      <div class="toon skills pop-in" id="skills"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="toon contact pop-in">
+      <div>
+        <div class="eyebrow">The end · for now</div>
+        <h2>Let's talk media, margin and measurement.</h2>
+        <p class="lede">I'm open to programmatic, performance and marketing-operations roles in Southeast Asia. I work in English and Bahasa Indonesia.</p>
+      </div>
+      <div class="links" id="contactLinks"></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> Adrian Rafael Hakeem. Island hand-built with Three.js.</span>
+    <span>Data and creatives from end-of-campaign reports, Jun–Aug 2026. Budgets and rate cards withheld.</span>
+    <span>Music: "Ice Cave" and "Iced Village" by <a href="https://opengameart.org/users/tad">TAD</a>, CC0 via OpenGameArt.</span>
+  </div>
+</footer>
+
+<div class="radio compact" id="radio" hidden>
+  <button class="radio-btn" id="radioBtn" aria-pressed="false" aria-label="Play background music"><span class="note" aria-hidden="true">♪</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></button>
+  <div class="radio-info" aria-live="polite"><b id="radioTitle"></b><span id="radioArtist"></span></div>
+  <button class="radio-next" id="radioNext" aria-label="Next song">⏭</button>
+  <input class="radio-vol" id="radioVol" type="range" min="0" max="0.4" step="0.01" value="0.12" aria-label="Music volume">
+</div>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dTitle" aria-hidden="true"></aside>
+
+<script>
+/* ============================================================
+   CONFIG: edit these
+   ============================================================ */
+const CONFIG = {
+  email: 'arh300403@gmail.com',
+  linkedin: 'https://www.linkedin.com/in/adrianrhk',
+  github: '',                        // e.g. 'https://github.com/yourname'. Leave empty to hide.
+  cv: 'Adrian_Rafael_Hakeem_CV.pdf', // file in the same folder as index.html
+  ga4: '',                           // e.g. 'G-XXXXXXXXXX'. Leave empty to disable analytics.
+  // Background music: plays on loop at a low volume after the visitor's first click or tap.
+  // Put the mp3 files in assets/audio/. If a file is missing, the player hides itself.
+  music: {
+    volume: 0.12,                    // 0 to 1. 0.12 sits in the background.
+    tracks: [
+      // Both tracks: "8 bit lofi" by TAD, CC0 (public domain) via OpenGameArt.org
+      { title:'Ice Cave', artist:'TAD · 8-bit lofi', src:'assets/audio/ice-cave.mp3' },
+      { title:'Iced Village', artist:'TAD · 8-bit lofi', src:'assets/audio/iced-village.mp3' }
+    ]
+  }
+};
+
+const CAMPAIGNS = [
+{
+  id:'olx', brand:'OLX Classified', sub:'Buyer + seller CPS', agency:'Dentsu', vertical:'Marketplace', model:'cps',
+  format:'Cost-per-session · in-app display', flight:'9 Jul – 31 Aug 2026', start:'2026-07-09', delivery:114.8,
+  headline:{label:'Session rate', value:'34.2%', vs:'vs 10% contracted floor', idx:342},
+  n:{imps:16615097, clicks:335810, ctr:2.02, sessions:114792, sessRate:34.2},
+  tiles:[['Sessions','114,792','114.8% of booking'],['Session rate','34.2%','3.4× the 10% floor'],['New users','92%','primary KPI'],['Impressions','16.6M','2 flights'],['CTR','2.02%','335,810 clicks'],['GA4 engagement','95.1%','152s avg session']],
+  kpis:[
+    {m:'Sessions delivered', t:'100,000', a:'114,792 (114.8%)', pass:true},
+    {m:'Session rate', t:'min 10%', a:'34.2%', pass:true},
+    {m:'New-user share', t:'primary KPI', a:'92%', pass:true}],
+  summary:'Two flights, two sides of a marketplace: a buyer message (new cars) in July, then a seller message (free listing) in August.',
+  moves:['Ran July deliberately 32% ahead of even pace. The booking closed four days early at 126.1%.','Split August into buyer and seller line items at 80/20 of budget. Delivered weight landed at 79.6/20.4.','Ran a planned two-day push from a 96% position to close the booking. Engagement held at 95.09% against a 95.20% baseline.'],
+  insights:['A rising impression line beside a flat session line means CPS is paced correctly. Session rate decays because the most responsive users convert first.','The shorter flight converted better, at 138 impressions per session in July against 148 in August.','The car and motorbike tabs out-engaged every other segment on identical budgets. Equal money did not buy equal attention.','28% of sessions never scrolled, so the landing page\'s first screen is the next lever.'],
+  next:['Favour shorter bursts, or refresh the audience pool between flights.','Weight the seller budget toward the car and motorbike tabs.','Report engagement and duration next to session volume.'],
+  chart:{type:'columns', title:'Sessions: booked vs delivered, by flight', cats:['July','August'], series:[{name:'Booked',values:[31818,68182],c:'--s2'},{name:'Delivered',values:[40108,74684],c:'--s1'}], fmt:'int'},
+  tags:['CPS performance','GA4','Pacing & delivery']
+},
+{
+  id:'gemini', brand:'Axis Gemini', sub:'4-film CPS', agency:'Dentsu', vertical:'Telco', model:'cps',
+  format:'Cost-per-session · 15s video films', flight:'9 Jul – 31 Aug 2026', start:'2026-07-09', delivery:104.7,
+  headline:{label:'Session rate', value:'33.2%', vs:'vs 10% contracted floor', idx:332},
+  n:{imps:14223341, clicks:472675, ctr:3.32, sessions:157014, sessRate:33.2},
+  tiles:[['Sessions','157,014','104.7% of booking'],['Session rate','33.2%','3.3× the floor'],['CTR','3.32%','472,675 clicks'],['Sessions / 1k imps','11.04','best of 3 CPS'],['Engagement','73.4%','162s avg session'],['GA4 variance','0.00%','fully reconciled']],
+  kpis:[
+    {m:'Sessions delivered', t:'150,000', a:'157,014 (104.7%)', pass:true},
+    {m:'Session rate', t:'min 10%', a:'33.2%', pass:true}],
+  summary:'One creative idea cut into four 15-second films, each showing a different use case for the Gemini bundle.',
+  moves:['Held all four films in even rotation, with a 0.7-point spread, so differences were creative rather than delivery noise.','Extended into August on the same terms. Session rate rose from 32.6% to 34.0%.','Left the buy nationwide. 87% of resolved sessions came from outside Jakarta, across 284 cities.'],
+  insights:['The film that draws the most clicks is not the one that converts best. Thrift led CTR at 3.72%, while Study led session rate at 36.0%.','Weekly CTR tracks impressions per session at r = −0.94, so the lever is pacing, not creative.','There was no creative wear-out over 54 days. Every film ended August with engagement flat or higher.'],
+  next:['Weight Thrift and Study up, and keep an even rotation as the control.','Brief a higher daily cap. Supply absorbed record volume while CTR rose.','Use this setup as the reference build for creative and landing pages.'],
+  chart:{type:'columns', title:'Sessions per 1,000 impressions, by film', cats:['Thrift','Study','Cloud','Nano Banana'], series:[{name:'Sessions / 1k',values:[12.28,12.44,11.75,10.65],c:'--s1'}], fmt:'d2', yMin:0},
+  tags:['CPS performance','GA4','Creative testing','Pacing & delivery']
+},
+{
+  id:'axis5g', brand:'Axis 5G', sub:'52-city CPS', agency:'Dentsu', vertical:'Telco', model:'cps',
+  format:'Cost-per-session · static display', flight:'1 – 31 Jul 2026', start:'2026-07-01', delivery:107.1,
+  headline:{label:'Session rate', value:'29.4%', vs:'vs 10% contracted floor', idx:294},
+  n:{imps:8655085, clicks:218618, ctr:2.53, sessions:64280, sessRate:29.4},
+  tiles:[['Sessions','64,280','107.1% of booking'],['Session rate','29.4%','2.9× the floor'],['CTR','2.53%','218,618 clicks'],['Uninvoiced sessions','+4,280','kept live after booking met'],['Effective cost / session','−6.7%','vs contracted rate'],['GA4 gap','0.2%','sessions reconciled']],
+  kpis:[
+    {m:'Sessions delivered', t:'60,000', a:'64,280 (107.1%)', pass:true},
+    {m:'Session rate', t:'min 10%', a:'29.4%', pass:true}],
+  summary:'An 18–24 audience across a 52-city list, split by device into existing 5G users and non-5G users.',
+  moves:['The booking was met on 27 July. I kept the line live at 36% pace instead of switching it off, which added 3,236 uninvoiced sessions.','Leaned into the 6–10 July supply windows, which converted at 96–115 impressions per session.','Executed the 52-city list as briefed. All of the top six cities were on target.'],
+  insights:['The audience segment mattered more than the creative. The weakest 5G cell (68.49%) beat the strongest non-5G cell (67.30%).','5G users got 29% of the weight but returned a higher CTR (2.67% vs 2.47%) and 6.1 more seconds on site.','The 300x250 unit engaged as well as 1200x628 (67.20% vs 66.91%) on cheaper inventory.','The CTR decline traced to supply efficiency (r = −0.91), not creative fatigue.'],
+  next:['Raise the 5G-user share above 29% for retention or upsell briefs.','Test heavier 300x250 weighting.','Keep the current UTM and session-tagging convention.'],
+  chart:{type:'columns', title:'GA4 engagement rate by theme and device segment', cats:['Gaming','TikTok','Product'], series:[{name:'Non-5G',values:[67.30,66.17,64.68],c:'--s2'},{name:'5G users',values:[69.97,69.43,68.49],c:'--s1'}], fmt:'pct2', yMin:60},
+  tags:['CPS performance','GA4','Audience segmentation','Geo targeting']
+},
+{
+  id:'marlboro', brand:'Marlboro', sub:'Hyperlocal RMB', agency:'Publicis', vertical:'Tobacco (regulated)', model:'rich',
+  format:'Hyperlocal rich media banner', flight:'1 – 31 Aug 2026', start:'2026-08-01', delivery:100.24,
+  headline:{label:'Click-through rate', value:'3.01%', vs:'vs 1.50% KPI', idx:200.7},
+  n:{imps:1461873, clicks:43948, ctr:3.01, view:86.06, ivt:0.194, bs:99.74},
+  tiles:[['CTR','3.01%','2.0× the KPI'],['Clicks','43,948','vs 21,875 booked'],['Viewability (IAS)','86.06%','floor 70%'],['Invalid traffic','0.194%','cap 0.50%'],['Brand safety','99.74%','0 suitability incidents'],['Gaming apps','0 of 20','whitelist held']],
+  kpis:[
+    {m:'Click-through rate', t:'1.50%', a:'3.01%', pass:true},
+    {m:'Clicks', t:'21,875', a:'43,948', pass:true},
+    {m:'Viewability (IAS)', t:'70%', a:'86.06%', pass:true},
+    {m:'Brand safety', t:'90%', a:'99.74%', pass:true},
+    {m:'Invalid traffic', t:'max 0.50%', a:'0.194%', pass:true},
+    {m:'Out of geo', t:'0%', a:'0.00%', pass:true}],
+  summary:'Men aged 21–34 (SES A) around Alfamart and Indomaret store radii, on an app whitelist with gaming excluded.',
+  moves:['Whitelisted utility and news apps with gaming excluded, and verified that none of the 20 apps reached was a game.','Ran IAS independently so quality numbers came from a third party, not from us.','Split delivery evenly between the two retailer radii. They returned 3.05% vs 2.97% CTR, so there was no reason to drop either.'],
+  insights:['Four chat and AI apps produced 55% of clicks from 11.9% of impressions, at 13.9% CTR.','The best hour was 03:00 WIB at 6.40% CTR. Late-night users are in chat and AI-companion apps.','Viewability averaged 86%, but three days fell under the 70% floor. A floor per supply source would catch that during the flight.'],
+  next:['Book the chat and AI pocket as guaranteed volume, not residual supply.','Brief viewability floors per supply source.','Test weighting into 02:00–04:00.'],
+  chart:{type:'columns', title:'CTR by daypart (WIB)', cats:['Morning 06–11','Midday 12–16','Evening 17–21','Late 22–05'], series:[{name:'CTR',values:[2.25,2.55,3.16,4.38],c:'--s1'}], fmt:'pct2', yMin:0},
+  tags:['Rich media','Hyperlocal','IAS verification','CM360','Regulated category','Dayparting']
+},
+{
+  id:'fifa', brand:'Dji Sam Soe FIFA', sub:'Rich media · football', agency:'Publicis', vertical:'Tobacco (regulated)', model:'rich',
+  format:'320x480 rich media banner', flight:'2 – 20 Jul 2026', start:'2026-07-02', delivery:101.8,
+  headline:{label:'Click-through rate', value:'3.20%', vs:'vs 2.0% KPI', idx:160},
+  n:{imps:1484238, clicks:47462, ctr:3.20, view:95.3, ivt:0.05, bs:99.9},
+  tiles:[['CTR','3.20%','KPI 2.0%'],['Clicks','47,462','163% of target'],['Viewability (IAS)','95.3%','KPI 85%'],['Invalid traffic','0.05%','threshold 3%'],['Brand safety','99.9%','0 incidents'],['In-app vs web','3.9×','CTR multiple']],
+  kpis:[
+    {m:'Impressions delivered', t:'1,458,333', a:'1,484,238 (101.8%)', pass:true},
+    {m:'Clicks', t:'29,167', a:'47,462', pass:true},
+    {m:'Click-through rate', t:'2.0%', a:'3.2%', pass:true},
+    {m:'Brand safety', t:'90%', a:'99.9%', pass:true},
+    {m:'Viewability', t:'85%', a:'95.3%', pass:true},
+    {m:'Invalid traffic', t:'3%', a:'0.05%', pass:true}],
+  summary:'A football-moment rich media unit for male football fans aged 25–44 in 41 approved cities, with gaming excluded.',
+  moves:['Held a low-volume ramp for six days until the IAS and DCM reads came in, then scaled to about 150K impressions a day.','Fixed viewability in week one: 60.5% over the first six days, then 96.5% over the remaining 93% of delivery.','CTR crossed the 2.0% KPI on the day scaling began and stayed above it.'],
+  insights:['Three long-session reading and video apps carried 88.2% of delivery at 3.32% CTR.','In-app out-performed web by 3.9× (3.26% vs 0.84%).','Compliance held: 100% male, 100% aged 25–44, 0.00% out of geo, and the health warning stayed locked on frame.'],
+  next:['Keep the early third-party checkpoint before scaling.','Drop web placements or cap them at trace volume.','Reuse this build as the template for regulated categories.'],
+  chart:{type:'hbars', title:'CTR by app', rows:[['SpeakMaster',3.89],['FreeReels',3.46],['Fizzo Reading',3.13],['Opera Mini',1.01],['UC Browser',0.72]], fmt:'pct2', ref:{value:2,label:'KPI 2.0%'}},
+  tags:['Rich media','IAS verification','CM360','Regulated category','Pacing & delivery']
+},
+{
+  id:'dss', brand:'Dji Sam Soe', sub:'RMB · August', agency:'Publicis', vertical:'Tobacco (regulated)', model:'rich',
+  format:'Rich media banner, 2 creatives', flight:'13 – 31 Aug 2026', start:'2026-08-13', delivery:100.17,
+  headline:{label:'Click-through rate (CM360)', value:'1.95%', vs:'vs 2.00% KPI · missed', idx:97.5},
+  n:{imps:1484053, clicks:27991, ctr:1.89, view:85.32, ivt:0.047, bs:99.95},
+  tiles:[['CTR (CM360)','1.95%','KPI 2.00% · missed'],['Delivery','100.17%','in 19 of 31 days'],['Viewability (IAS)','85.32%','every day > 70%'],['Invalid traffic','0.047%','1/10 of the cap'],['Brand safety','99.95%','0 incidents'],['Best creative','+15%','Jedamu vs New Office']],
+  kpis:[
+    {m:'Delivered impressions', t:'1,481,481', a:'1,484,053 (100.17%)', pass:true},
+    {m:'Click-through rate', t:'2.00%', a:'1.95% (CM360)', pass:false},
+    {m:'Viewability (IAS)', t:'70%', a:'85.32%', pass:true},
+    {m:'Brand safety', t:'90%', a:'99.95%', pass:true},
+    {m:'Invalid traffic', t:'max 0.50%', a:'0.047%', pass:true},
+    {m:'Out of geo', t:'0%', a:'0.00%', pass:true}],
+  summary:'A flight that started late (13 August) and had to fit a full month of delivery into 19 days, for men aged 25–44 in a regulated category.',
+  moves:['Caught up from the 13 August start at 78K impressions a day, against the 48K a full month would have needed. Closed at 100.17%.','Rotated two creatives at even weight for a clean read. Jedamu returned 2.02% CTR against 1.75% for New Office.','Every IAS threshold cleared every day. The weakest day still had 77.3% viewability.'],
+  insights:['The CTR miss was a supply problem, not a creative one. The one high-response learning and AI app (6.21% CTR) was capped at 8.6% of impressions and thinned out after 19 August.','CTR ran at 2.43% until 19 August and 1.57% after.','The 18:00–19:00 window (maghrib and commute) dipped to 1.52%. Moving that weight to 14:00–17:00 would add about 1,005 clicks.'],
+  next:['Lock learning and AI inventory as guaranteed volume before launch.','Weight Jedamu up, worth about 2,000 extra clicks at the same spend.','Move the 18:00–19:00 weight into the afternoon.'],
+  chart:{type:'columns', title:'CTR before and after the high-response app ran out', cats:['2 – 19 Aug','20 – 31 Aug'], series:[{name:'CTR',values:[2.43,1.57],c:'--s1'}], fmt:'pct2', yMin:0, ref:{value:2.0,label:'KPI 2.00%'}},
+  tags:['Rich media','IAS verification','CM360','Regulated category','Creative testing','Dayparting']
+},
+{
+  id:'richeese', brand:'Richeese Factory', sub:'Map locator + footfall', agency:'EDOT', vertical:'QSR', model:'footfall',
+  format:'Hyperlocal rich media with store locator', flight:'25 Jun – 31 Aug 2026', start:'2026-06-25', delivery:102.6,
+  headline:{label:'Click-through rate', value:'1.95%', vs:'vs 1.00% plan', idx:195},
+  n:{imps:4503971, clicks:87808, ctr:1.95, reach:1685645, visits:21341, incr:5354},
+  tiles:[['Store visits','21,341','across 20 outlets'],['Incremental visits','5,354','25.1% of all visits'],['Visit lift','+33.5%','exposed vs unexposed'],['Unique reach','1.69M','230% of plan'],['CTR','1.95%','plan 1.00%'],['Video completion','57.1%','15s cut']],
+  kpis:[
+    {m:'Impressions delivered', t:'4,391,892', a:'4,503,971 (102.6%)', pass:true},
+    {m:'Click-through rate', t:'1.00%', a:'1.95%', pass:true},
+    {m:'Effective CPM vs plan', t:'at plan', a:'2.5% under', pass:true},
+    {m:'Reach', t:'731,982', a:'1,685,645 (230%)', pass:true},
+    {m:'Frequency', t:'cap 6', a:'2.67', pass:true}],
+  summary:'Geofenced rich media with an in-banner store locator across 20 Jakarta outlets, measured all the way to store visits.',
+  moves:['Geofenced each of the 20 outlets at its own radius (1.5–11.8 km) and paced evenly so exposed and unexposed users could be compared continuously.','Ran two units for two jobs: static for scale (70% of weight) and video for depth (2.76% CTR, 10.7s engagement).','Diagnosed the locator: 65.9% of GPS lookups failed in in-app webviews. I proposed passing the geofenced outlet into the creative instead.'],
+  insights:['The campaign drove 21,341 store visits, 5,354 of them incremental: one visit in four would not have happened without it.','Tight radii won. Outlets at 3.4–3.8 km returned 12.19 visits per 1,000 impressions, 3.6× the 6.8–7.9 km group.','Weight and efficiency ran in opposite directions. Jakarta Barat took 49.2% of impressions at the weakest rate, 4.08 visits per 1,000.','Moving a quarter of Barat\'s impressions to Utara and Selatan would add about 1,100 visits on the same budget.'],
+  next:['Tighten the wide radii. 60% of the drawn circle area was overlap.','Pass the outlet into the creative so every user gets a one-store answer, not just 34% of them.','Sequence OTT/CTV, then mobile video, then the rich media locator, then store-visit measurement.'],
+  chart:{type:'columns', title:'Share of impressions vs share of store visits, by district', cats:['Barat','Timur','Utara','Pusat','Selatan'], series:[{name:'Impression share',values:[49.2,18.6,14.0,12.5,5.7],c:'--s2'},{name:'Visit share',values:[42.3,20.4,18.6,11.8,7.0],c:'--s1'}], fmt:'pct1', yMin:0},
+  tags:['Rich media','Hyperlocal','Footfall attribution','Geo targeting','Dayparting']
+},
+{
+  id:'frisian', brand:'Frisian Flag Nutribrain', sub:'Microsite → WhatsApp', agency:'APEX · Publicis', vertical:'FMCG · Dairy', model:'rich',
+  format:'Rich media + microsite, 2 phases', flight:'14 Jul – 31 Aug 2026', start:'2026-07-14', delivery:103.2,
+  headline:{label:'Viewability (IAS)', value:'90.2%', vs:'vs 90% KPI', idx:100.2},
+  n:{imps:9303387, clicks:207600, ctr:2.23, reach:2200000, view:90.2, ivt:0.02, bs:99.98},
+  tiles:[['Clicks','207,600','2.23% CTR'],['Phase 2 CTR lift','+47%','2.08% → 3.05%'],['Awareness lift','+5.5pp','brand lift study'],['Unique reach','2.20M','two phases'],['Viewability (IAS)','90.2%','KPI 90%'],['First-party signals','8,859','career choices by mothers']],
+  kpis:[
+    {m:'Impressions delivered', t:'9,013,840', a:'9,303,387 (103.2%)', pass:true},
+    {m:'Viewability (IAS)', t:'90%', a:'90.2%', pass:true},
+    {m:'Invalid traffic', t:'max 1%', a:'0.02%', pass:true}],
+  summary:'Phase 1 was a personalised "dream career" microsite. Phase 2 was a recipe unit that opened WhatsApp directly.',
+  moves:['Instrumented all seven steps of the microsite funnel, from choosing a gender to tapping WhatsApp.','Phase 2 cut the journey from seven screens to one tap into WhatsApp. CTR rose 47% (2.08% → 3.05%) at half the frequency.','Shifted weight into entertainment, reading and lifestyle apps. Their share rose from 38.4% to 64.8%, and CTR from 2.22% to 3.59%.'],
+  insights:['Brand lift: awareness +5.5pp, consideration +3.4pp and purchase intent +1.9pp. It was the only brand in its set to gain.','8,859 mothers named a dream career for their child: 35% chose doctor and 78% chose an academic path. That is first-party data for the next brief.','The biggest funnel drop is the first screen (only 15% of sessions start). The photo upload is not the barrier: 81% of those who picked a career uploaded.','The +47% is directional, because message, format and destination all changed together.'],
+  next:['Run a clean single-variable A/B test on the next flight.','Use one promise, one CTA and one matching destination per unit.','Build creative around the doctor and scientist paths.'],
+  chart:{type:'hbars', title:'Phase 1 microsite funnel', rows:[['Microsite sessions',68674],['Journey started',10301],['Profession selected',8859],['Photo uploaded',7176],['Card downloaded',4248],['WhatsApp taps',974]], fmt:'int'},
+  tags:['Rich media','Microsite funnel','Brand lift','IAS verification','CM360']
+},
+{
+  id:'sq', brand:'Singapore Airlines', sub:'BCA Travel Fair', agency:null, vertical:'Travel', model:'rich',
+  format:'Display · 4 creative phases + A/B test', flight:'7 Jul – 2 Aug 2026', start:'2026-07-07', delivery:108.5,
+  headline:{label:'Impression delivery', value:'108.5%', vs:'of booking, at 7.8% under plan CPM', idx:108.5},
+  n:{imps:6904721, clicks:75932, ctr:1.10},
+  tiles:[['Impressions','6.90M','108.5% of booking'],['Clicks','75,932','1.10% CTR'],['A/B winner','+33%','MIX vs Europe-only'],['Best CTR','1.51%','A/B test line'],['eCPM vs plan','−7.8%','A/B test lowered price'],['Top-5 publishers','79%','of clicks, on 62% of imps']],
+  kpis:[
+    {m:'Impressions delivered', t:'6,363,636', a:'6,904,721 (108.5%)', pass:true},
+    {m:'Effective CPM', t:'at plan', a:'7.8% under', pass:true},
+    {m:'Budget before price points', t:'75%', a:'76.4%', pass:true},
+    {m:'Budget on price points', t:'25%', a:'23.6%', pass:true},
+    {m:'Jabodetabek share', t:'50%', a:'58.5% (A/B test ran there)', pass:null}],
+  summary:'A four-phase display build driving visits to a three-day travel fair in Jakarta, Surabaya, Medan and Denpasar.',
+  moves:['Ran a 300x600 A/B test in Jabodetabek: a multi-destination "MIX" creative against a Europe-only one. The test inventory lowered the overall price and added 8.5% bonus impressions.','Phased creative from teaser to hero fares to price points. CTR rose with each refresh: 0.98%, then 1.03%, then 1.21%.','Used a contextual keyword list to concentrate delivery on news and travel sites. The top five publishers took 61.9% of impressions and 79.3% of clicks.'],
+  insights:['MIX beat Europe-only by 33% (1.63% vs 1.22%). Leading with the lowest fare got people through the door.','Intent beat affluence. Active flight researchers clicked at 1.67%, against 1.10% for luxury travellers.','Surabaya (1.44%) out-performed Jakarta (0.97%) on the same creative.','The 300x250 unit returned only 0.04% CTR. Moving its 1.18M impressions to 320x480 would add about 15,000 clicks.'],
+  next:['Lead every fare creative with the cheapest entry price.','Shift budget from status-based segments to in-market behaviour.','Rebalance away from the default 50% Jabodetabek share.'],
+  chart:{type:'columns', title:'CTR by creative phase', cats:['Teaser','Hero Fares 1','Hero Fares 2','Price Points','A/B test'], series:[{name:'CTR',values:[0.98,1.03,1.21,1.06,1.51],c:'--s1'}], fmt:'pct2', yMin:0},
+  tags:['Display','A/B testing','Contextual targeting','Creative testing','Geo targeting','Dayparting']
+},
+{
+  id:'wyeth', brand:'Wyeth S-26 Procal Gold', sub:'OTT + CTV', agency:'WPP', vertical:'FMCG · Nutrition', model:'video',
+  format:'OTT + connected-TV video', flight:'17 – 31 Jul 2026', start:'2026-07-17', delivery:103.4,
+  headline:{label:'Video completion rate', value:'87.2%', vs:'vs > 80% KPI', idx:109},
+  n:{imps:2526721, ctr:1.2, vcr:87.2, cv:2204441, view:83.9, ivt:0.8, bs:99.2},
+  tiles:[['Completed views','2.20M','87.2% VCR'],['CTR','1.2%','249% of KPI'],['CTV completion','93.9%','vs 85.4% OTT'],['Audience in 25–44','92.6%','100% female'],['Viewability (IAS)','83.9%','KPI 80%'],['Brand safety','99.2%','0 incidents']],
+  kpis:[
+    {m:'Completion rate (VCR)', t:'> 80%', a:'87.2%', pass:true},
+    {m:'Click-through rate', t:'> 0.5%', a:'1.2%', pass:true},
+    {m:'Viewability (IAS)', t:'> 80%', a:'83.9%', pass:true},
+    {m:'Impression delivery', t:'2,444,444', a:'2,526,721 (103.4%)', pass:true},
+    {m:'Invalid traffic', t:'< 1%', a:'0.8%', pass:true},
+    {m:'Brand safety', t:'≥ 95%', a:'99.2%', pass:true}],
+  summary:'Growing-up milk aimed at "premium moms", on local and regional OTT plus smart-TV inventory.',
+  moves:['Opened at full weight, throttled on days 2–3 until the IAS and DCM reads were in, then scaled back up. Closed at 103.4% of booking.','Built the "Premium mom" segment nationwide: 100% female, with 92.6% of delivery inside ages 25–44.','Weighted toward local broadcaster OTT, where VCR ran at 93.4%. Vidio alone carried 44% of delivery.'],
+  insights:['CTV completed at 93.9% against 85.4% on OTT. It delivers the metric the client paid for.','Over half of drop-offs happened in the first 3.75 seconds, before the pack appeared. Viewers who got past 4 seconds finished 92.7% of the time.','The 35–44 bracket received 39.5% of impressions but produced 48.1% of clicks.','The "3anak" creative won on clicks with 23% less delivery, because its logo appears at 1.5 seconds.'],
+  next:['Raise the CTV allocation above 20%.','Move the brand and age-stage cue into the first 3 seconds.','Deepen direct deals with Vidio and RCTI+.'],
+  chart:{type:'line', title:'Video retention by quartile: CTV vs OTT', x:['Start','25%','50%','75%','Complete'], series:[{name:'CTV',values:[100,97.6,96.1,95.0,93.9],c:'--s1'},{name:'OTT',values:[100,92.2,88.9,86.8,85.4],c:'--s2'}], fmt:'pct1', yMin:80, yMax:100},
+  tags:['OTT / CTV video','IAS verification','CM360','Audience segmentation','Dayparting']
+},
+{
+  id:'pia', brand:'PIA 100 by Kino', sub:'Short-drama CPCV', agency:'iProspect · Dentsu', vertical:'FMCG · Snacks', model:'video',
+  format:'Short-drama video · cost per completed view', flight:'1 – 31 Aug 2026', start:'2026-08-01', delivery:102.1,
+  headline:{label:'Video completion rate', value:'86.9%', vs:'vs 80% KPI', idx:108.6},
+  n:{imps:5168478, ctr:0.89, vcr:86.9, cv:4491696, reach:2329273},
+  tiles:[['Completed views','4.49M','102.1% of booking'],['VCR','86.9%','> 90% in 2nd half'],['Cost per view','−10.9%','vs booked rate'],['Ad recall lift','+4.84pp','+29.6% relative'],['Unique reach','2.33M','frequency 2.22'],['Audience in band','100%','female 25–44']],
+  kpis:[
+    {m:'Completed views', t:'4,400,000', a:'4,491,696 (102.1%)', pass:true},
+    {m:'Video completion rate', t:'80%', a:'86.9%', pass:true},
+    {m:'Effective cost per completed view', t:'at booked rate', a:'10.9% under', pass:true}],
+  summary:'A soft-cake brand on short-drama and premium OTT inventory, bought on completed views and measured with a brand lift study.',
+  moves:['Held flat daily pacing of 130–147K views a day, so the cost per view never drifted from the booking.','Used premium OTT (Vidio and RCTI+, both over 94% VCR) as the completion backbone and short-drama apps for response (NetShort hit 5.48% CTR).','Targeting held exactly: 100% female, all within ages 25–44.'],
+  insights:['Brand lift ran across the funnel: ad recall +4.84pp, preference +2.75pp and purchase intent +3.34pp.','PIA 100 was the only brand in the competitive set to gain recall. The category leader fell 1.21pp.','Interactive video beat standard on both completion (90.0% vs 84.8%) and CTR.','Vertical video drew 5.6× the CTR of horizontal (1.78% vs 0.32%).'],
+  next:['Weight vertical and interactive formats higher on the next CPCV buy.','Split NetShort into its own response line item.','Re-run the brand lift study to build a trend.'],
+  chart:{type:'columns', title:'Brand lift study: control vs exposed', cats:['Ad recall','Preference','Purchase intent'], series:[{name:'Control',values:[16.34,11.87,46.07],c:'--s2'},{name:'Exposed',values:[21.18,14.62,49.41],c:'--s1'}], fmt:'pct2', yMin:0},
+  tags:['OTT / CTV video','Brand lift','Creative testing','Pacing & delivery']
+}
+];
+
+const MODELS = [
+  {id:'all', label:'All'},
+  {id:'rich', label:'Display & rich media'},
+  {id:'video', label:'Video · OTT/CTV'},
+  {id:'cps', label:'Performance CPS'},
+  {id:'footfall', label:'Footfall'}
+];
+
+const INSIGHTS = [
+  {k:'Footfall · Richeese', t:'Tight geofences beat wide ones by 3.6×', claim:'The outlets that got the most impressions converted the worst.',
+   what:'Each outlet ran at its own radius. The 3.4–3.8 km group returned 12.19 store visits per 1,000 impressions. The 6.8–7.9 km group, with five times the weight, returned 3.38. Wide circles also overlapped: 60% of the drawn area had outlets competing for the same people.',
+   so:'Radius is the biggest lever for the next flight. Tighten the wide circles and rebalance weight toward under-served districts. That is worth about 1,100 more visits at the same spend.',
+   ref:'richeese',
+   chart:{type:'columns', cats:['1.5–2.4 km','3.4–3.8 km','4.2–5.5 km','6.8–7.9 km','9.3–11.8 km'], series:[{name:'Visits per 1,000 impressions',values:[8.91,12.19,5.80,3.38,3.74],c:'--s1'}], fmt:'d2', yMin:0, extra:['222K imps','270K imps','755K imps','1.37M imps','1.89M imps'], title:'Store visits per 1,000 impressions, by geofence radius'}},
+  {k:'CPS · Axis Gemini', t:'CTR was a pacing problem, not a creative one', claim:'The weeks that needed fewer impressions per session had the best CTR.',
+   what:'Across eight weeks, CTR and "impressions needed per session" moved almost exactly opposite each other. Engagement by film stayed flat or rose, so the creative was not wearing out.',
+   so:'When CTR softens on a CPS buy, look at daily pacing and supply mix before briefing new creative. A creative refresh would have cost production budget and fixed nothing.',
+   ref:'gemini',
+   chart:{type:'scatter', title:'Weekly CTR vs impressions needed per session',
+     points:[['W1',101.5,2.91],['W2',107.1,2.90],['W3',87.6,3.57],['W4',72.5,3.73],['W5',74.7,3.57],['W6',81.2,3.63],['W7',90.7,3.35],['W8',98.1,3.20]],
+     xLabel:'Impressions per session', yLabel:'CTR %'}},
+  {k:'Display · Singapore Airlines', t:'Intent beat affluence', claim:'People planning a trip out-clicked people who fly often.',
+   what:'The two audience segments defined by behaviour (active flight research, outbound travel) returned 1.67% and 1.60% CTR. The two defined by status (frequent and luxury flyers) returned 1.12% and 1.10%. A three-day fair needs someone who is already planning.',
+   so:'Brief audiences by in-market behaviour rather than by income for time-bound offers. The same flight showed Surabaya and Medan beating Jakarta, so the default 50% capital-city weight should go too.',
+   ref:'sq',
+   chart:{type:'hbars', title:'CTR by audience segment', rows:[['Actively researching flights',1.67,'--s1'],['Outbound Indonesian travellers',1.60,'--s1'],['In-market: air travel & hotels',1.32,'--s1'],['Frequent international travellers',1.12,'--s2'],['Frequent & luxury travellers',1.10,'--s2']], fmt:'pct2', legend:[['Behaviour-based','--s1'],['Status-based','--s2']]}},
+  {k:'Rich media · Frisian Flag', t:'Fewer screens, more clicks', claim:'Cutting a 7-screen journey to one tap lifted CTR by 47% at half the frequency.',
+   what:'Phase 1 sent clicks to a personalised microsite: choose a career, upload a photo, download a card, then WhatsApp. Phase 2 opened WhatsApp directly with a recipe message. Message, format and destination changed together, so I report the lift as directional, not causal.',
+   so:'Match one promise to one CTA and one destination, then isolate variables in a clean A/B test. Phase 1 still had value: 8,859 mothers told the brand what they want their child to become.',
+   ref:'frisian',
+   chart:{type:'compare', title:'Phase 1 vs Phase 2',
+     rows:[['CTR','2.08%','3.05%','+47%'],['Frequency','4.88','2.44','−50%'],['Screens to WhatsApp','7','1','−6'],['Viewability','91.0%','85.9%','−5.1pp']]}}
+];
+
+const AUTOMATIONS = [
+  {id:'contract', title:'Contract generator', org:'Schoters by Ruangguru · KOL division',
+   before:{v:'8 min', l:'per contract, typed by hand', note:'Manual copy-paste from the partner sheet into a document template, with entry errors on names and fees.'},
+   after:{v:'< 2 min', l:'per contract, generated', note:'Each partner record in Airtable fills a Google Workspace template automatically. No retyping means no entry errors.'},
+   delta:'−75% time per document · manual entry errors eliminated',
+   flow:['Airtable record','Automation trigger','Google Docs template','PDF contract'],
+   race:true},
+  {id:'kol', title:'Split-team KOL restructure', org:'Schoters by Ruangguru · process redesign',
+   before:{v:'25', l:'creator listings sourced per week', note:'Every specialist sourced, negotiated and executed. Multitasking was the bottleneck.'},
+   after:{v:'56', l:'creator listings sourced per week', note:'I proposed and piloted separate sourcing and execution tracks. Execution volume rose 40% with 100% delivery success.'},
+   delta:'+124% sourcing capacity · +40% execution volume · 100% delivery',
+   flow:['Audit workflow','Split roles','Pilot','Scale next quarter'],
+   bars:{cats:['Listings / week'], before:25, after:56}},
+  {id:'seo', title:'Automated SEO reporting templates', org:'GTMLab (formerly GetFound) · 27+ accounts',
+   before:{v:'Weekly', l:'manual reporting for every account', note:'Keyword rankings, search visibility and ROI were compiled by hand for each client review.'},
+   after:{v:'0', l:'manual reports in the weekly workload', note:'Templated reports for rankings, visibility and ROI standardized reviews across all 27+ accounts.'},
+   delta:'Recurring manual reporting removed · one standard across 27+ accounts',
+   flow:['Rank & traffic data','Google Sheets template','Standard dashboard','Client review']},
+  {id:'dsp', title:'DSP self-serve features', org:'YMT Ads · with the engineering team',
+   before:{v:'Manual', l:'trafficking steps for every line item', note:'The operations team set up and changed each campaign by hand in the proprietary DSP.'},
+   after:{v:'Self-serve', l:'automated features in the DSP', note:'I specified the automated self-serve features with engineering and launched them, which cut manual trafficking work across the team.'},
+   delta:'Less manual trafficking across a 3-person team running 15+ campaigns a month',
+   flow:['Map manual steps','Write the spec','Build with engineering','Roll out to the team']}
+];
+
+const ROLES = [
+  {t:'Programmatic Specialist', o:'YMT Ads · Jakarta', d:'Apr 2026 – now', k:['US$558K half-year budget','80% buying margin','4 markets'],
+   b:['Held an 80% buying margin and kept overall revenue margin above 70% on a US$558K half-year media budget across Indonesia, the Philippines, Thailand and Vietnam.','Ran end-to-end operations for Unilever, P&G, Nestlé, Danone, AXIS, PMI and Djarum with WPP, Publicis and Dentsu.','Consistently hit the 1.5 ROAS benchmark on online-to-offline activations, leading a 3-person team through weekly pacing and eCPM reviews.','Held viewability above 85% and invalid traffic and tracking discrepancy below 1% through IAS, DoubleVerify and CM360.','Specified and launched automated self-serve DSP features with engineering.']},
+  {t:'Local SEO Analyst Intern', o:'GTMLab (formerly GetFound)', d:'Jan – Apr 2026', k:['27+ accounts','Automated reporting'],
+   b:['Owned the SEO lifecycle for 27+ local and enterprise accounts, from onboarding to on-page and local roadmap execution.','Built automated templates for keyword rankings, search visibility and ROI.','Ran Google Ads Search alongside SEO: match types, ad copy, negatives and search-term hygiene.']},
+  {t:'Digital Marketing Intern', o:'Schoters by Ruangguru', d:'Aug – Dec 2025', k:['+124% sourcing','−75% contract time','277K+ views'],
+   b:['Raised weekly sourcing capacity by 124% (from 25 to 56 listings) and execution volume by 40% through a split-team restructure.','Cut contract turnaround from 8 minutes to under 2 with Airtable and Google Workspace automation.','Delivered two flagship campaigns across a pipeline of 177+ partners. The top creative reached 277K+ views.']},
+  {t:'KOL Specialist (Freelance)', o:'Bert\'s Agency', d:'Apr – Dec 2025', k:['Nano → mega tiers','Pitch benchmarks'],
+   b:['Scored creators on audience fit, engagement rate, CPM and projected GMV for Kapal Api, Reckitt, Unilever and J&J pitches.','Built a categorized partner database and competitor benchmark set for business development.']},
+  {t:'Social Media Specialist', o:'LLDIKTI Wilayah III, Ministry of Higher Education', d:'Mar – Jun 2025', k:['Government comms'],
+   b:['Turned higher-education policy into published digital content, with accuracy cleared by the originating departments.','Rebuilt posting schedules and formats from channel insight data to lift engagement.']},
+  {t:'Digital Marketing Intern', o:'C Channel Indonesia', d:'Jan – Apr 2025', k:['9 concurrent campaigns'],
+   b:['Ran creator delivery on 9 concurrent Unilever and Beiersdorf campaigns in an English-speaking team, analyzing CPM, ROI and engagement.']},
+  {t:'Founder & Chairman', o:'Les Ailes De La Communication', d:'Dec 2023 – Jan 2025', k:['0 → 12-person team','3 institutional clients'],
+   b:['Built a student-led communications consultancy from zero to a 12-person team.','Won and delivered three institutional engagements, including one for a national legislative body.']},
+  {t:'BA Communication, Public Relations', o:'Universitas Prof. Dr. Moestopo (Beragama)', d:'Aug 2026', k:['GPA 3.90','Magna cum laude'],
+   b:['Teaching Assistant in Quantitative Research and Integrated Marketing Communication.']}
+];
+
+const SKILL_GROUPS = [
+  {g:'Media & performance (click to filter campaigns)', campaign:true, items:['Rich media','OTT / CTV video','CPS performance','Display','Hyperlocal','Footfall attribution','Regulated category','Pacing & delivery']},
+  {g:'Measurement (click to filter campaigns)', campaign:true, items:['IAS verification','CM360','GA4','Brand lift','A/B testing','Creative testing','Microsite funnel']},
+  {g:'Targeting (click to filter campaigns)', campaign:true, items:['Audience segmentation','Geo targeting','Contextual targeting','Dayparting']},
+  {g:'Data & automation', campaign:false, items:[['BigQuery & SQL','YMT'],['Python','YMT'],['Looker Studio','GTMLab, YMT'],['Google Apps Script','Schoters, GTMLab'],['Airtable','Schoters'],['API integration','YMT'],['Google Ads Search','GTMLab'],['SEO','GTMLab']]},
+  {g:'Commercial & leadership', campaign:false, items:[['Budget & margin','YMT'],['Team lead · 3','YMT'],['Process redesign','Schoters'],['Stakeholders in English & Bahasa','all roles']]}
+];
+
+
+const CREATIVES = {"olx": [{"p": "assets/c/olx/1.webp", "cap": "July buyer · Cari Mobil Baru atau Bekas", "w": 480, "h": 720}, {"p": "assets/c/olx/2.webp", "cap": "July buyer · Overthinking Pilih Mobil?", "w": 480, "h": 720}, {"p": "assets/c/olx/3.webp", "cap": "July buyer · Ragu Pilih Mobil Baru?", "w": 480, "h": 720}, {"p": "assets/c/olx/4.webp", "cap": "July buyer · Mager Keliling Dealer?", "w": 480, "h": 720}, {"p": "assets/c/olx/5.webp", "cap": "August seller · Mau Jual Mobil?", "w": 320, "h": 480}, {"p": "assets/c/olx/6.webp", "cap": "August seller · Mau Jual Motor?", "w": 320, "h": 480}, {"p": "assets/c/olx/7.webp", "cap": "August seller · Mau Jual HP?", "w": 320, "h": 480}, {"p": "assets/c/olx/8.webp", "cap": "August seller · Jual Apa Aja", "w": 320, "h": 480}], "gemini": [{"v": "assets/c/gemini/1.mp4", "p": "assets/c/gemini/1.webp", "cap": "Thrift · Gemini Pro, gaya thrift", "w": 360, "h": 266}, {"v": "assets/c/gemini/2.mp4", "p": "assets/c/gemini/2.webp", "cap": "Study · belajar bareng", "w": 360, "h": 266}, {"v": "assets/c/gemini/3.mp4", "p": "assets/c/gemini/3.webp", "cap": "Cloud · 400 GB gratis", "w": 360, "h": 266}, {"v": "assets/c/gemini/4.mp4", "p": "assets/c/gemini/4.webp", "cap": "Nano Banana · ganti muka", "w": 360, "h": 266}], "axis5g": [{"p": "assets/c/axis5g/1.webp", "cap": "Live Streaming Sebuasnya · TikTok theme", "w": 300, "h": 250}, {"p": "assets/c/axis5g/2.webp", "cap": "Win Streak Sebuasnya · Gaming theme", "w": 300, "h": 250}], "marlboro": [{"v": "assets/c/marlboro/1.mp4", "p": "assets/c/marlboro/1.webp", "cap": "Hyperlocal launch unit · 62-frame animation", "w": 426, "h": 640}], "dss": [{"v": "assets/c/dss/1.mp4", "p": "assets/c/dss/1.webp", "cap": "Jedamu · Setiap Jeda Punya Cerita", "w": 320, "h": 480}, {"v": "assets/c/dss/2.mp4", "p": "assets/c/dss/2.webp", "cap": "New Office · brand end-frame", "w": 320, "h": 480}], "richeese": [{"p": "assets/c/richeese/1.webp", "cap": "Ad unit · map teaser", "w": 466, "h": 636}, {"p": "assets/c/richeese/2.webp", "cap": "Map · 20 outlets pinned", "w": 466, "h": 636}, {"p": "assets/c/richeese/3.webp", "cap": "Nearest outlet, with distance", "w": 466, "h": 636}, {"p": "assets/c/richeese/4.webp", "cap": "In-app placement", "w": 347, "h": 720}], "frisian": [{"v": "assets/c/frisian/1.mp4", "p": "assets/c/frisian/1.webp", "cap": "Phase 1 · trigger banner", "w": 260, "h": 520}, {"v": "assets/c/frisian/2.mp4", "p": "assets/c/frisian/2.webp", "cap": "Phase 2 · recipe unit → WhatsApp", "w": 400, "h": 602}, {"p": "assets/c/frisian/3.webp", "cap": "Microsite 1 · choose gender", "w": 320, "h": 640}, {"p": "assets/c/frisian/4.webp", "cap": "Microsite 2 · choose profession", "w": 320, "h": 640}, {"p": "assets/c/frisian/5.webp", "cap": "Microsite 4 · upload photo", "w": 320, "h": 640}, {"p": "assets/c/frisian/6.webp", "cap": "Microsite 5 · card generating", "w": 320, "h": 640}, {"p": "assets/c/frisian/7.webp", "cap": "Microsite 6 · download card", "w": 320, "h": 568}, {"p": "assets/c/frisian/8.webp", "cap": "Microsite 7 · WhatsApp handoff", "w": 405, "h": 720}], "sq": [{"p": "assets/c/sq/1.webp", "cap": "A/B winner · MIX, opens at IDR 5.8 JT", "w": 361, "h": 720}, {"p": "assets/c/sq/2.webp", "cap": "A/B · Europe-only, opens at 13.5 JT", "w": 480, "h": 720}, {"p": "assets/c/sq/3.webp", "cap": "Hero · Jakarta, Gandaria City", "w": 320, "h": 480}, {"p": "assets/c/sq/4.webp", "cap": "Hero · Surabaya, Pakuwon Mall", "w": 480, "h": 720}, {"p": "assets/c/sq/5.webp", "cap": "Hero · Medan, Centre Point", "w": 320, "h": 480}, {"p": "assets/c/sq/6.webp", "cap": "Hero · Denpasar, Trans Studio", "w": 320, "h": 480}, {"p": "assets/c/sq/7.webp", "cap": "Landscape format", "w": 600, "h": 500}], "wyeth": [{"p": "assets/c/wyeth/1.webp", "cap": "Film · Semua Bisa Jadi Hebat", "w": 640, "h": 360}, {"p": "assets/c/wyeth/2.webp", "cap": "Film · Advanced Formulation", "w": 640, "h": 360}, {"p": "assets/c/wyeth/3.webp", "cap": "Film · kids moment", "w": 640, "h": 360}, {"p": "assets/c/wyeth/4.webp", "cap": "Display · TRY NOW", "w": 640, "h": 360}, {"p": "assets/c/wyeth/5.webp", "cap": "Packshot · S-26 Procal Gold 3", "w": 720, "h": 720}], "pia": [{"p": "assets/c/pia/1.webp", "cap": "Interactive vertical unit", "w": 405, "h": 720}, {"p": "assets/c/pia/2.webp", "cap": "Short-drama video frame", "w": 405, "h": 720}], "fifa": [{"p": "assets/c/fifa/1.webp", "cap": "320x480 rich media banner", "w": 476, "h": 720}, {"p": "assets/c/fifa/2.webp", "cap": "Frame 1 · Saatnya Momen Besar Dirayakan", "w": 251, "h": 382}, {"p": "assets/c/fifa/3.webp", "cap": "Frame 2 · Anda Pantas Menikmatinya", "w": 254, "h": 382}, {"p": "assets/c/fifa/4.webp", "cap": "End card · DJISAMSOE.ID", "w": 251, "h": 382}]};
+const EP = {"richeese": {"n": 1, "tag": "From impression to the store door.", "bg": "#ffe3cf", "bb": 0, "e": "🍗", "hi": 0}, "frisian": {"n": 2, "tag": "8,859 mothers told the brand their child's dream.", "bg": "#dcecff", "bb": 1, "e": "🥛", "hi": 1}, "gemini": {"n": 3, "tag": "One idea, four films, zero wear-out.", "bg": "#ece2ff", "bb": 0, "e": "🎬", "hi": 0}, "olx": {"n": 4, "tag": "Two flights, two sides of a marketplace.", "bg": "#d6f5e7", "bb": 0, "e": "🚗", "hi": 2}, "sq": {"n": 5, "tag": "The cheapest fare opened the door.", "bg": "#dcecff", "bb": 2, "e": "✈️", "hi": 0}, "wyeth": {"n": 6, "tag": "87% of mothers watched to the very end.", "bg": "#fff3b8", "bb": 0, "e": "📺", "hi": 0}, "pia": {"n": 7, "tag": "The only brand in its set to gain recall.", "bg": "#ffe0ec", "bb": 0, "e": "🍰", "hi": 1}, "marlboro": {"n": 8, "tag": "Double the CTR target, zero gaming apps.", "bg": "#ffe3cf", "bb": 0, "e": "📍", "hi": 0}, "fifa": {"n": 9, "tag": "Fixed viewability in week one, then scaled.", "bg": "#fff3b8", "bb": 0, "e": "⚽", "hi": 1}, "axis5g": {"n": 10, "tag": "Booking met four days early. Kept running for free.", "bg": "#ece2ff", "bb": 0, "e": "📶", "hi": 0}, "dss": {"n": 11, "tag": "A 19-day sprint, and an honest miss.", "bg": "#ffe0ec", "bb": 0, "e": "⏱️", "hi": 0}};
+
+/* ============================================================
+   Helpers
+   ============================================================ */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const h = (tag, props={}, ...kids) => { const e=document.createElement(tag); for(const [k,v] of Object.entries(props)){ if(k==='class') e.className=v; else if(k==='text') e.textContent=v; else if(k==='html') e.innerHTML=v; else if(k.startsWith('on')) e.addEventListener(k.slice(2),v); else if(v!==null && v!==undefined && v!==false) e.setAttribute(k,v===true?'':v);} for(const c of kids.flat()){ if(c==null) continue; e.append(c.nodeType?c:document.createTextNode(c)); } return e; };
+const fmtInt = n => Math.round(n).toLocaleString('en-US');
+const compact = n => n>=1e6 ? (n/1e6).toFixed(n>=1e7?1:2).replace(/\.0+$/,'')+'M' : n>=1e3 ? (n/1e3).toFixed(n>=1e5?0:1).replace(/\.0$/,'')+'K' : String(Math.round(n));
+const FMT = { int:v=>fmtInt(v), d2:v=>v.toFixed(2), pct1:v=>v.toFixed(1)+'%', pct2:v=>v.toFixed(2)+'%', idx:v=>Math.round(v)+'%' };
+const median = a => { const s=[...a].sort((x,y)=>x-y), m=s.length>>1; return s.length%2 ? s[m] : (s[m-1]+s[m])/2; };
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const byId = id => CAMPAIGNS.find(c=>c.id===id);
+const icon = {
+  check:'<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M5 8.2l2 2 4-4.2" stroke="var(--surface)" stroke-width="1.8" fill="none"/></svg>',
+  cross:'<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M5.5 5.5l5 5M10.5 5.5l-5 5" stroke="var(--surface)" stroke-width="1.8"/></svg>',
+  tri:'<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l7 12.5H1z" fill="currentColor"/><path d="M8 6v4" stroke="var(--surface)" stroke-width="1.8"/><circle cx="8" cy="12" r="1" fill="var(--surface)"/></svg>',
+  chev:'<svg class="chev" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>',
+  arrow:'<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>'
+};
+
+/* ============================================================
+   Tooltip
+   ============================================================ */
+const tip = $('#tip');
+function tipContent(head, rows){ // rows: [{v, l, c}]
+  tip.replaceChildren();
+  if(head) tip.append(h('div',{class:'th',text:head}));
+  rows.forEach(r=>{
+    if(rows.length===1 && !r.c){ tip.append(h('div',{class:'tv',text:r.v})); if(r.l) tip.append(h('div',{class:'tl',text:r.l})); return; }
+    const key = h('span',{class:'tl'}, r.c? h('i',{style:`background:var(${r.c})`}):null, r.l||'');
+    tip.append(h('div',{class:'tr'}, key, h('b',{class:'num',text:r.v})));
+  });
+}
+function moveTip(e){ const pad=14; const r=tip.getBoundingClientRect(); let x=e.clientX+pad, y=e.clientY+pad; if(x+r.width>innerWidth-8) x=e.clientX-r.width-pad; if(y+r.height>innerHeight-8) y=e.clientY-r.height-pad; tip.style.left=Math.max(8,x)+'px'; tip.style.top=Math.max(8,y)+'px'; }
+function bindTip(node, fn, markGroup){
+  const on = e => { fn(); tip.hidden=false; if(e.clientX!==undefined) moveTip(e); else { const b=node.getBoundingClientRect(); moveTip({clientX:b.right, clientY:b.top}); } if(markGroup){ markGroup.svg.classList.add('dim'); markGroup.marks.forEach(m=>m.classList.add('hover')); } };
+  const off = () => { tip.hidden=true; if(markGroup){ markGroup.svg.classList.remove('dim'); markGroup.marks.forEach(m=>m.classList.remove('hover')); } };
+  node.addEventListener('pointerenter',on); node.addEventListener('pointermove',moveTip); node.addEventListener('pointerleave',off);
+  node.addEventListener('focus',on); node.addEventListener('blur',off);
+}
+
+/* ============================================================
+   Charts: small SVG kit (bars, columns, line, scatter)
+   ============================================================ */
+const NS='http://www.w3.org/2000/svg';
+const S = (tag, attrs={}, parent) => { const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.append(e); return e; };
+function niceStep(range, count){ const raw=range/count, p=Math.pow(10,Math.floor(Math.log10(raw))), f=raw/p; return (f<1.5?1:f<3?2:f<7?5:10)*p; }
+function ticks(min,max,count=4){ const st=niceStep(max-min,count); const out=[]; for(let v=Math.ceil(min/st)*st; v<=max+1e-9; v+=st) out.push(+v.toFixed(6)); return {ticks:out, step:st}; }
+function barPathH(x0,x1,y,hgt){ const r=Math.min(4,hgt/2,Math.max(0,x1-x0)); return `M${x0},${y}H${x1-r}A${r},${r} 0 0 1 ${x1},${y+r}V${y+hgt-r}A${r},${r} 0 0 1 ${x1-r},${y+hgt}H${x0}Z`; }
+function barPathV(x,w,yb,yt){ const r=Math.min(4,w/2,Math.max(0,yb-yt)); return `M${x},${yb}V${yt+r}A${r},${r} 0 0 1 ${x+r},${yt}H${x+w-r}A${r},${r} 0 0 1 ${x+w},${yt+r}V${yb}Z`; }
+function measure(text, size=12, weight=400){ const c=measure.c||(measure.c=document.createElement('canvas').getContext('2d')); c.font=`${weight} ${size}px Inter, system-ui, sans-serif`; return c.measureText(text).width; }
+
+const mounted = [];
+function mount(container, spec){
+  container.replaceChildren();
+  const holder = h('div'); container.append(holder);
+  const draw = () => { holder.replaceChildren(); const w=Math.max(260, Math.floor(container.clientWidth)); CHARTS[spec.type](holder, spec, w); };
+  draw();
+  if(container._ro) container._ro.disconnect();
+  const ro = new ResizeObserver(()=>{ const w=Math.floor(container.clientWidth); if(w && w!==container._w){ container._w=w; draw(); } });
+  ro.observe(container); container._ro=ro; container._w=Math.floor(container.clientWidth);
+  if(spec.table!==false) container.append(dataTable(spec));
+  mounted.push({container, draw});
+}
+function legend(items, kind='rect'){ return h('div',{class:'legend'}, items.map(([name,c])=>h('span',{}, h('i',{class:kind==='line'?'line':'',style:`background:var(${c})`}), name))); }
+function dataTable(spec){
+  const f = FMT[spec.fmt]||(v=>v);
+  let head=[], rows=[];
+  if(spec.type==='columns'){ head=['', ...spec.series.map(s=>s.name)]; rows=spec.cats.map((c,i)=>[c, ...spec.series.map(s=>f(s.values[i]))]); }
+  else if(spec.type==='hbars'){ head=['', spec.valueName||'Value']; rows=spec.rows.map(r=>[r[0], f(r[1])]); }
+  else if(spec.type==='line'){ head=['', ...spec.series.map(s=>s.name)]; rows=spec.x.map((x,i)=>[x, ...spec.series.map(s=>f(s.values[i]))]); }
+  else if(spec.type==='scatter'){ head=['Week', spec.xLabel, spec.yLabel]; rows=spec.points.map(p=>[p[0], p[1].toFixed(1), p[2].toFixed(2)+'%']); }
+  else if(spec.type==='kpi'){ head=['Campaign','Headline KPI','Actual vs target']; rows=spec.rows.map(r=>[r.label, r.kpi, Math.round(r.value)+'%']); }
+  else return document.createComment('no table');
+  const t = h('table',{}, h('thead',{}, h('tr',{}, head.map(x=>h('th',{text:x})))), h('tbody',{}, rows.map(r=>h('tr',{}, r.map(x=>h('td',{text:String(x)}))))));
+  return h('details',{class:'data'}, h('summary',{text:'View data as a table'}), h('div',{class:'scroll-x'},t));
+}
+
+const CHARTS = {
+  columns(holder, spec, W){
+    const f=FMT[spec.fmt]||(v=>v);
+    if(spec.series.length>1) holder.append(legend(spec.series.map(s=>[s.name,s.c])));
+    const H=spec.height||220, m={t:22,r:8,b:spec.cats.some(c=>measure(c)>W/spec.cats.length-8)?40:26,l:40};
+    const all=spec.series.flatMap(s=>s.values).concat(spec.ref?[spec.ref.value]:[]);
+    const yMin=spec.yMin??0, yMaxRaw=spec.yMax??Math.max(...all)*1.12;
+    const tk=ticks(yMin,yMaxRaw,4); const yMax=Math.max(yMaxRaw, tk.ticks[tk.ticks.length-1]);
+    const svg=S('svg',{viewBox:`0 0 ${W} ${H}`, width:W, height:H, role:'img', 'aria-label':spec.title||'chart'});
+    holder.append(svg);
+    const iw=W-m.l-m.r, ih=H-m.t-m.b, y=v=>m.t+ih-(v-yMin)/(yMax-yMin)*ih;
+    tk.ticks.forEach(t=>{ S('line',{x1:m.l,x2:W-m.r,y1:y(t),y2:y(t),stroke:'var(--grid)','stroke-width':1},svg); const tx=S('text',{x:m.l-8,y:y(t)+4,'text-anchor':'end'},svg); tx.textContent=(spec.fmt&&spec.fmt.startsWith('pct'))? (+t.toFixed(2))+'%' : compact(t); });
+    S('line',{x1:m.l,x2:W-m.r,y1:y(yMin),y2:y(yMin),stroke:'var(--axis)','stroke-width':1},svg);
+    const band=iw/spec.cats.length, ns=spec.series.length, gap=2;
+    const bw=Math.min(24, (band*0.7-(ns-1)*gap)/ns);
+    const groupW=ns*bw+(ns-1)*gap;
+    const marksG=S('g',{},svg); const mg={svg, marks:[]};
+    spec.cats.forEach((cat,i)=>{
+      const gx=m.l+band*i+(band-groupW)/2;
+      const groupMarks=[];
+      spec.series.forEach((s,j)=>{
+        const v=s.values[i], x=gx+j*(bw+gap);
+        const p=S('path',{d:barPathV(x,bw,y(yMin),y(Math.max(v,yMin))),class:'mark',style:`fill:var(${s.c})`},marksG);
+        groupMarks.push(p);
+        const lw=measure(f(v),11.5); if(ns===1 ? lw<=band-6 : lw<=bw+gap){ const t=S('text',{x:x+bw/2,y:y(v)-6,'text-anchor':'middle',class:'t-ink2','font-size':11.5},svg); t.textContent=f(v); }
+      });
+      // category label
+      const lab=S('text',{x:gx+groupW/2,y:H-m.b+16,'text-anchor':'middle',class:'t-ink2'},svg);
+      const words=cat; if(measure(cat)>band-6 && cat.includes(' ')){ const parts=cat.split(' '); const mid=Math.ceil(parts.length/2); lab.textContent=parts.slice(0,mid).join(' '); const l2=S('text',{x:gx+groupW/2,y:H-m.b+30,'text-anchor':'middle',class:'t-ink2'},svg); l2.textContent=parts.slice(mid).join(' '); } else lab.textContent=words;
+      const hit=S('rect',{x:m.l+band*i,y:m.t,width:band,height:ih,class:'hit',tabindex:0,'aria-label':`${cat}: ${spec.series.map(s=>s.name+' '+f(s.values[i])).join(', ')}`},svg);
+      bindTip(hit, ()=>tipContent(cat + (spec.extra?` · ${spec.extra[i]}`:''), spec.series.map(s=>({v:f(s.values[i]), l:s.name, c:ns>1?s.c:null}))), {svg, marks:groupMarks});
+    });
+    if(spec.ref){ const ry=y(spec.ref.value); S('line',{x1:m.l,x2:W-m.r,y1:ry,y2:ry,stroke:'var(--ink)','stroke-width':1.5},svg); const rt=S('text',{x:W-m.r,y:ry-6,'text-anchor':'end',class:'t-ink','font-weight':600,'font-size':11.5},svg); rt.textContent=spec.ref.label; }
+  },
+  hbars(holder, spec, W){
+    const f=FMT[spec.fmt]||(v=>v);
+    if(spec.legend) holder.append(legend(spec.legend));
+    const narrow=W<520;
+    const labW=narrow?0:Math.min(220, Math.max(...spec.rows.map(r=>measure(r[0],12.5)))+14);
+    const rowH=narrow?46:34, bh=narrow?14:18, top=spec.ref?20:6;
+    const valW=Math.max(...spec.rows.map(r=>measure(f(r[1]),12.5,600)))+10;
+    const H=top+spec.rows.length*rowH+8;
+    const svg=S('svg',{viewBox:`0 0 ${W} ${H}`, width:W, height:H, role:'img','aria-label':spec.title||'bar chart'}); holder.append(svg);
+    const x0=labW, x1=W-valW-4, max=spec.max||Math.max(...spec.rows.map(r=>r[1]), spec.ref?spec.ref.value:0)*1.02;
+    const x=v=>x0+(v/max)*(x1-x0);
+    const mg={svg,marks:[]};
+    spec.rows.forEach((r,i)=>{
+      const yRow=top+i*rowH, by=narrow?yRow+22:yRow+(rowH-bh)/2;
+      const lab=S('text',{x:narrow?0:0,y:narrow?yRow+14:by+bh/2+4,class:'t-ink2','font-size':12.5},svg); lab.textContent=r[0];
+      S('rect',{x:x0,y:by,width:x1-x0,height:bh,rx:4,style:'fill:var(--surface-2)'},svg);
+      const p=S('path',{d:barPathH(x0,Math.max(x0+2,x(r[1])),by,bh),class:'mark',style:`fill:var(${r[2]||'--s1'})`},svg);
+      const vt=S('text',{x:Math.max(x0+2,x(r[1]))+6,y:by+bh/2+4,class:'t-ink','font-size':12.5,'font-weight':600},svg); vt.textContent=f(r[1]);
+      const hit=S('rect',{x:0,y:yRow,width:W,height:rowH,class:'hit',tabindex:0,'aria-label':`${r[0]}: ${f(r[1])}`},svg);
+      bindTip(hit, ()=>tipContent(r[0],[{v:f(r[1]), l:spec.valueName||''}]), {svg, marks:[p]});
+    });
+    if(spec.ref){ const rx=x(spec.ref.value); S('line',{x1:rx,x2:rx,y1:top-4,y2:H-4,stroke:'var(--ink)','stroke-width':1.5},svg); const t=S('text',{x:rx,y:12,'text-anchor':'middle',class:'t-ink','font-size':11.5,'font-weight':600},svg); t.textContent=spec.ref.label; }
+  },
+  line(holder, spec, W){
+    const f=FMT[spec.fmt]||(v=>v);
+    holder.append(legend(spec.series.map(s=>[s.name,s.c]),'line'));
+    const H=230, m={t:14,r:92,b:28,l:40};
+    const yMin=spec.yMin??0, yMax=spec.yMax??Math.max(...spec.series.flatMap(s=>s.values));
+    const tk=ticks(yMin,yMax,4);
+    const svg=S('svg',{viewBox:`0 0 ${W} ${H}`,width:W,height:H,role:'img','aria-label':spec.title}); holder.append(svg);
+    const iw=W-m.l-m.r, ih=H-m.t-m.b;
+    const x=i=>m.l+i*(iw/(spec.x.length-1)), y=v=>m.t+ih-(v-yMin)/(yMax-yMin)*ih;
+    tk.ticks.forEach(t=>{ S('line',{x1:m.l,x2:W-m.r,y1:y(t),y2:y(t),stroke:'var(--grid)'},svg); const tx=S('text',{x:m.l-8,y:y(t)+4,'text-anchor':'end'},svg); tx.textContent=t+'%'; });
+    spec.x.forEach((lab,i)=>{ const t=S('text',{x:x(i),y:H-8,'text-anchor':i===0?'start':i===spec.x.length-1?'end':'middle',class:'t-ink2'},svg); t.textContent=lab; });
+    const cross=S('line',{y1:m.t,y2:m.t+ih,stroke:'var(--axis)','stroke-width':1,opacity:0},svg);
+    spec.series.forEach(s=>{
+      const d=s.values.map((v,i)=>`${i?'L':'M'}${x(i)},${y(v)}`).join('');
+      S('path',{d:d+`L${x(s.values.length-1)},${y(yMin)}L${x(0)},${y(yMin)}Z`,style:`fill:var(${s.c})`,opacity:.08},svg);
+      S('path',{d,fill:'none',style:`stroke:var(${s.c})`,'stroke-width':2,'stroke-linejoin':'round','stroke-linecap':'round'},svg);
+      const li=s.values.length-1;
+      S('circle',{cx:x(li),cy:y(s.values[li]),r:4.5,style:`fill:var(${s.c})`,stroke:'var(--surface)','stroke-width':2},svg);
+      const t=S('text',{x:x(li)+10,y:y(s.values[li])+4,class:'t-ink','font-weight':600},svg); t.textContent=`${s.name} ${f(s.values[li])}`;
+    });
+    const dots=spec.series.map(s=>S('circle',{r:4.5,style:`fill:var(${s.c})`,stroke:'var(--surface)','stroke-width':2,opacity:0},svg));
+    const hit=S('rect',{x:m.l-10,y:m.t,width:iw+20,height:ih,class:'hit',tabindex:0,'aria-label':spec.title},svg);
+    const at=i=>{ cross.setAttribute('x1',x(i)); cross.setAttribute('x2',x(i)); cross.setAttribute('opacity',1); spec.series.forEach((s,j)=>{ dots[j].setAttribute('cx',x(i)); dots[j].setAttribute('cy',y(s.values[i])); dots[j].setAttribute('opacity',1); }); tipContent(spec.x[i], spec.series.map(s=>({v:f(s.values[i]), l:s.name, c:s.c}))); tip.hidden=false; };
+    hit.addEventListener('pointermove',e=>{ const b=svg.getBoundingClientRect(); const px=(e.clientX-b.left)*(W/b.width); const i=Math.max(0,Math.min(spec.x.length-1,Math.round((px-m.l)/(iw/(spec.x.length-1))))); at(i); moveTip(e); });
+    hit.addEventListener('pointerleave',()=>{ tip.hidden=true; cross.setAttribute('opacity',0); dots.forEach(d=>d.setAttribute('opacity',0)); });
+  },
+  scatter(holder, spec, W){
+    const H=260, m={t:14,r:16,b:40,l:48};
+    const xs=spec.points.map(p=>p[1]), ys=spec.points.map(p=>p[2]);
+    const xMin=Math.floor(Math.min(...xs)/10)*10, xMax=Math.ceil(Math.max(...xs)/10)*10;
+    const yMin=Math.floor(Math.min(...ys)*5)/5-0.2, yMax=Math.ceil(Math.max(...ys)*5)/5+0.1;
+    const svg=S('svg',{viewBox:`0 0 ${W} ${H}`,width:W,height:H,role:'img','aria-label':spec.title}); holder.append(svg);
+    const iw=W-m.l-m.r, ih=H-m.t-m.b, x=v=>m.l+(v-xMin)/(xMax-xMin)*iw, y=v=>m.t+ih-(v-yMin)/(yMax-yMin)*ih;
+    ticks(yMin,yMax,4).ticks.forEach(t=>{ S('line',{x1:m.l,x2:W-m.r,y1:y(t),y2:y(t),stroke:'var(--grid)'},svg); const tx=S('text',{x:m.l-8,y:y(t)+4,'text-anchor':'end'},svg); tx.textContent=t.toFixed(1)+'%'; });
+    ticks(xMin,xMax,5).ticks.forEach(t=>{ const tx=S('text',{x:x(t),y:m.t+ih+18,'text-anchor':'middle'},svg); tx.textContent=t; });
+    S('line',{x1:m.l,x2:W-m.r,y1:m.t+ih,y2:m.t+ih,stroke:'var(--axis)'},svg);
+    const xl=S('text',{x:m.l+iw/2,y:H-4,'text-anchor':'middle',class:'t-ink2'},svg); xl.textContent=spec.xLabel+' →';
+    // least squares + r
+    const n=xs.length, mx=xs.reduce((a,b)=>a+b)/n, my=ys.reduce((a,b)=>a+b)/n;
+    let sxy=0,sxx=0,syy=0; xs.forEach((v,i)=>{ sxy+=(v-mx)*(ys[i]-my); sxx+=(v-mx)**2; syy+=(ys[i]-my)**2; });
+    const b=sxy/sxx, a=my-b*mx, r=sxy/Math.sqrt(sxx*syy);
+    S('line',{x1:x(xMin),y1:y(a+b*xMin),x2:x(xMax),y2:y(a+b*xMax),stroke:'var(--axis)','stroke-width':1.5},svg);
+    const rt=S('text',{x:W-m.r,y:m.t+12,'text-anchor':'end',class:'t-ink','font-weight':600},svg); rt.textContent=`r = ${r.toFixed(2)}`;
+    spec.points.forEach(p=>{
+      const c=S('circle',{cx:x(p[1]),cy:y(p[2]),r:5,style:'fill:var(--s1)',stroke:'var(--surface)','stroke-width':2,class:'mark'},svg);
+      const t=S('text',{x:x(p[1])+9,y:y(p[2])+4,class:'t-ink2','font-size':11},svg); t.textContent=p[0];
+      const hit=S('circle',{cx:x(p[1]),cy:y(p[2]),r:14,class:'hit',tabindex:0,'aria-label':`${p[0]}: ${p[1]} impressions per session, ${p[2]}% CTR`},svg);
+      bindTip(hit, ()=>tipContent(p[0], [{v:p[2].toFixed(2)+'%', l:'CTR'},{v:p[1].toFixed(0), l:'Impressions per session'}]), {svg, marks:[c]});
+    });
+  },
+  kpi(holder, spec, W){ // headline KPI index bars, with miss / variance states
+    const narrow=W<560, rows=spec.rows;
+    const labW=narrow?0:Math.min(210, Math.max(...rows.map(r=>measure(r.label,13,600)))+16);
+    const rowH=narrow?52:40, bh=14, top=22;
+    const H=top+rows.length*rowH+24;
+    const svg=S('svg',{viewBox:`0 0 ${W} ${H}`,width:W,height:H,role:'img','aria-label':'Headline KPI as a percentage of target'}); holder.append(svg);
+    const max=Math.max(350, ...rows.map(r=>r.value)), valPad=narrow?96:260;
+    const x0=labW, x1=W-valPad, x=v=>x0+(v/max)*(x1-x0);
+    ticks(0,max,narrow?3:6).ticks.forEach(t=>{ S('line',{x1:x(t),x2:x(t),y1:top-6,y2:H-22,stroke:'var(--grid)'},svg); const tx=S('text',{x:x(t),y:H-6,'text-anchor':'middle'},svg); tx.textContent=t+'%'; });
+    const rx=x(100); S('line',{x1:rx,x2:rx,y1:top-8,y2:H-22,stroke:'var(--ink)','stroke-width':1.5},svg);
+    const rt=S('text',{x:rx+4,y:12,class:'t-ink','font-size':11.5,'font-weight':600},svg); rt.textContent='Brief = 100%';
+    rows.forEach((r,i)=>{
+      const yRow=top+i*rowH, by=narrow?yRow+24:yRow+(rowH-bh)/2;
+      const l=S('text',{x:0,y:narrow?yRow+15:by+bh/2+4,class:'t-ink','font-size':13,'font-weight':600,stroke:'var(--surface)','stroke-width':5,'paint-order':'stroke','stroke-linejoin':'round'},svg); l.textContent=r.label;
+      const color=r.state==='miss'?'--crit':'--s1';
+      const p=S('path',{d:barPathH(x0,x(r.value),by,bh),class:'mark',style:`fill:var(${color})`},svg);
+      const vt=S('text',{x:x(r.value)+8,y:by+bh/2+4,class:'t-ink','font-size':12.5,'font-weight':600},svg); vt.textContent=Math.round(r.value)+'%'+(r.state==='miss'?'  ✕ missed':'');
+      if(!narrow){ const kx=x(r.value)+8+measure(vt.textContent,12.5,600)+8, room=W-kx-4; let txt=r.kpi; if(measure(txt,12)>room){ while(txt.length>4 && measure(txt+'…',12)>room) txt=txt.slice(0,-1); txt=txt.trim()+'…'; } if(room>40){ const kt=S('text',{x:kx,y:by+bh/2+4,'font-size':12},svg); kt.textContent=txt; } }
+      const hit=S('rect',{x:0,y:yRow,width:W,height:rowH,class:'hit',tabindex:0,role:'button','aria-label':`${r.label}: ${r.kpi}, ${Math.round(r.value)}% of target. Open case study.`},svg);
+      hit.style.cursor='pointer'; hit.addEventListener('click',()=>openDrawer(r.id)); hit.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openDrawer(r.id);} });
+      bindTip(hit, ()=>tipContent(r.label, [{v:Math.round(r.value)+'% of target', l:r.kpi+' · click to open'}]), {svg, marks:[p]});
+    });
+  },
+  compare(holder, spec){
+    const t=h('table',{class:'score'}, h('thead',{}, h('tr',{}, h('th',{text:''}), h('th',{class:'num',text:'Phase 1'}), h('th',{class:'num',text:'Phase 2'}), h('th',{class:'num',text:'Change'}))),
+      h('tbody',{}, spec.rows.map(r=>h('tr',{}, h('td',{text:r[0]}), h('td',{class:'num',text:r[1]}), h('td',{class:'num'}, h('b',{text:r[2]})), h('td',{class:'num',text:r[3]})))));
+    holder.append(h('div',{class:'scroll-x'},t));
+  }
+};
+
+
+/* ============================================================
+   Summary tiles, console, ticker tape
+   ============================================================ */
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE = matchMedia('(pointer: fine)').matches;
+function kpiCounts(list){ let met=0,total=0,miss=0,vari=0; list.forEach(c=>c.kpis.forEach(k=>{ total++; if(k.pass===true) met++; else if(k.pass===false) miss++; else vari++; })); return {met,total,miss,vari}; }
+function renderHero(){
+  const imps=CAMPAIGNS.reduce((a,c)=>a+c.n.imps,0);
+  const sess=CAMPAIGNS.reduce((a,c)=>a+(c.n.sessions||0),0);
+  const cv=CAMPAIGNS.reduce((a,c)=>a+(c.n.cv||0),0);
+  const avgDel=CAMPAIGNS.reduce((a,c)=>a+c.delivery,0)/CAMPAIGNS.length;
+  const k=kpiCounts(CAMPAIGNS);
+  window.__AGG={imps,sess,cv,avgDel,k};
+  const tiles=[
+    ['Impressions delivered', compact(imps), `across the ${CAMPAIGNS.length} campaigns on this page`],
+    ['Contracted KPIs met', `${k.met}/${k.total}`, `${k.miss} missed by 0.05pp, ${k.vari} deliberate variance`],
+    ['Avg delivery vs booking', avgDel.toFixed(1)+'%', 'no campaign under 100%'],
+    ['Campaigns handled', '30+', '15+ live every month since Apr 2026'],
+    ['Sessions on CPS buys', compact(sess), '29–34% session rate vs 10% floor'],
+    ['Completed video views', compact(cv), '87% completion rate']
+  ];
+  $('#heroTiles').replaceChildren(...tiles.map((t,i)=>h('div',{class:'tile pop-in',style:`transition-delay:${i*.06}s`}, h('div',{class:'label',text:t[0]}), h('div',{class:'value','data-count':t[1],text:t[1]}), h('div',{class:'foot',text:t[2]}))));
+}
+function countUp(el){
+  const target=el.dataset.count, m=target.match(/-?\d+(\.\d+)?/); if(!m || REDUCE){ el.textContent=target; return; }
+  const num=parseFloat(m[0]), dec=m[1]?m[1].length-1:0, pre=target.slice(0,m.index), post=target.slice(m.index+m[0].length);
+  const t0=performance.now(), dur=1300;
+  const step=now=>{ const p=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-p,4); el.textContent=pre+(num*e).toFixed(dec)+post; if(p<1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function renderConsole(){
+  const a=window.__AGG;
+  const L=[
+    [['p','$ '],['v','adrian --summary']],
+    [['k','role       '],['v','Programmatic Specialist @ YMT Ads, Jakarta']],
+    [['k','budget     '],['v','US$558K / half-year · 4 SEA markets · '],['o','80% buying margin']],
+    [['k','campaigns  '],['v','30+ since Apr 2026 · 15+ live per month']],
+    [['k','audited    '],['v',`${CAMPAIGNS.length} EOC reports · ${compact(a.imps)} impressions`]],
+    [['k','kpis_met   '],['ok',`${a.k.met}/${a.k.total}`],['v',` · avg delivery ${a.avgDel.toFixed(1)}%`]],
+    [['k','quality    '],['v','viewability 83.9–95.3% · IVT ≤ 0.8% (IAS)']],
+    [['k','automation '],['o','−75%'],['v',' contract time · '],['o','+124%'],['v',' sourcing capacity']],
+    [['k','clients    '],['v','Unilever, P&G, Nestlé, Danone, PMI, Axis, Wyeth…']],
+    [['p','$ '],['v','status → '],['ok','open to new roles ✨']]
+  ];
+  const pre=$('#console'); pre.replaceChildren();
+  const caret=h('span',{class:'caret'});
+  if(REDUCE){ L.forEach(line=>{ line.forEach(([c,t])=>pre.append(h('span',{class:c,text:t}))); pre.append('\n'); }); pre.append(caret); return; }
+  let li=0, si=0, ci=0, cur=null;
+  const tick=()=>{
+    if(li>=L.length){ pre.append(caret); return; }
+    const seg=L[li][si];
+    if(!cur){ cur=h('span',{class:seg[0]}); pre.append(cur); }
+    cur.textContent=seg[1].slice(0,++ci); pre.append(caret);
+    if(ci>=seg[1].length){ ci=0; si++; cur=null; if(si>=L[li].length){ si=0; li++; caret.remove(); pre.append('\n'); setTimeout(tick, li===1?260:90); return; } }
+    setTimeout(tick, li===0? 45 : 9);
+  };
+  pre.append(caret);
+  const io=new IntersectionObserver(es=>{ if(es[0].isIntersecting){ io.disconnect(); setTimeout(tick,300); } },{threshold:.35});
+  io.observe(pre);
+}
+function renderMarquee(){
+  const names=['Unilever','P&G','Nestlé','Danone','Philip Morris','Axis','Wyeth','Frisian Flag','Singapore Airlines','OLX','Richeese Factory','Kino','Djarum','WPP','Publicis','Dentsu'];
+  const one=names.flatMap(n=>[h('span',{text:n}), h('span',{class:'sep','aria-hidden':'true',text:'★'})]);
+  const two=one.map(n=>{ const c=n.cloneNode(true); c.setAttribute('aria-hidden','true'); return c; });
+  $('#marquee').replaceChildren(...one, ...two);
+}
+
+/* ============================================================
+   Creatives: media elements that only play while on screen
+   ============================================================ */
+const videoIO = new IntersectionObserver(es=>es.forEach(e=>{ const v=e.target; if(e.isIntersecting && !REDUCE){ v.play().catch(()=>{}); } else v.pause(); }),{threshold:.35});
+function mediaEl(it, cls='media'){
+  const box=h('div',{class:cls+(it.h>it.w?' portrait':'')});
+  if(it.v){
+    const v=document.createElement('video'); v.muted=true; v.loop=true; v.playsInline=true; v.setAttribute('playsinline',''); v.setAttribute('muted',''); v.preload='none'; v.poster=it.p; v.src=it.v; v.setAttribute('aria-label',it.cap);
+    if(REDUCE) v.controls=true;
+    box.append(v); videoIO.observe(v);
+  } else box.append(h('img',{src:it.p, alt:it.cap, loading:'lazy', decoding:'async', width:it.w, height:it.h}));
+  return box;
+}
+
+/* ============================================================
+   Campaigns: filters, scoreboard, episodes
+   ============================================================ */
+const state={model:'all', vertical:'all', agency:'all', tag:null, sort:'story'};
+function agencyGroup(a){ if(!a) return 'Other / direct'; if(/Publicis/.test(a)) return 'Publicis'; if(/Dentsu/.test(a)) return 'Dentsu'; return a; }
+function vertGroup(v){ return v.split(' ·')[0].replace(' (regulated)',''); }
+function setupFilters(){
+  const seg=$('#modelSeg');
+  MODELS.forEach(m=>seg.append(h('button',{'aria-pressed':String(m.id===state.model), onclick:e=>{ state.model=m.id; $$('button',seg).forEach(b=>b.setAttribute('aria-pressed',String(b===e.currentTarget))); renderExplorer(); }}, m.label)));
+  const verts=['all',...new Set(CAMPAIGNS.map(c=>vertGroup(c.vertical)))];
+  $('#vertSel').append(...verts.map(v=>h('option',{value:v}, v==='all'?'All verticals':v)));
+  const ags=['all',...new Set(CAMPAIGNS.map(c=>agencyGroup(c.agency)))];
+  $('#agencySel').append(...ags.map(v=>h('option',{value:v}, v==='all'?'All agencies':v)));
+  $('#vertSel').onchange=e=>{state.vertical=e.target.value; renderExplorer();};
+  $('#agencySel').onchange=e=>{state.agency=e.target.value; renderExplorer();};
+  $('#sortSel').onchange=e=>{state.sort=e.target.value; renderExplorer();};
+  $('#tagClear').onclick=()=>{ state.tag=null; renderExplorer(); };
+}
+function filtered(){
+  let l=CAMPAIGNS.filter(c=>(state.model==='all'||c.model===state.model)&&(state.vertical==='all'||vertGroup(c.vertical)===state.vertical)&&(state.agency==='all'||agencyGroup(c.agency)===state.agency)&&(!state.tag||c.tags.includes(state.tag)));
+  const s={story:(a,b)=>(EP[a.id]?.n||99)-(EP[b.id]?.n||99), kpi:(a,b)=>b.headline.idx-a.headline.idx, date:(a,b)=>b.start.localeCompare(a.start), imps:(a,b)=>b.n.imps-a.n.imps}[state.sort];
+  return l.sort(s);
+}
+function renderKpiChart(list){
+  const kc=$('#kpiChart');
+  if(!list.length){ kc.replaceChildren(h('div',{class:'ep-empty',text:'No campaigns match these filters.'})); return; }
+  mount(kc, {type:'kpi', rows:[...list].sort((a,b)=>b.headline.idx-a.headline.idx).map(c=>({id:c.id,label:c.brand,value:c.headline.idx,kpi:`${c.headline.label} ${c.headline.value} ${c.headline.vs}`,state:c.kpis.some(k=>k.pass===false)&&c.headline.idx<100?'miss':'ok'}))});
+}
+function episodeEl(c, idx){
+  const ep=EP[c.id]||{n:idx+1}, cr=CREATIVES[c.id]||[];
+  const miss=c.kpis.some(k=>k.pass===false)&&c.headline.idx<100;
+  const kc=kpiCounts([c]);
+  // stage: creative gallery
+  const frame=h('div',{class:'frame'}), cap=h('div',{class:'cap'});
+  const thumbs=h('div',{class:'thumbs',role:'group','aria-label':`${c.brand} creatives`});
+  const show=i=>{ const it=cr[i]; frame.replaceChildren(mediaEl(it)); cap.replaceChildren(h('b',{text:`${i+1} of ${cr.length} · `}), it.cap); $$('button',thumbs).forEach((b,j)=>b.setAttribute('aria-pressed',String(i===j))); };
+  cr.forEach((it,i)=>thumbs.append(h('button',{class:it.v?'vid':null,'aria-label':`Show creative ${i+1}: ${it.cap}`,onclick:()=>show(i)}, h('img',{src:it.p,alt:'',loading:'lazy'}))));
+  const stage=h('div',{class:'stage',style:`background-color:${ep.bg||'var(--surface-2)'}`},
+    h('div',{class:'ep-top'}, h('span',{class:'sticker',style:'background:#fff',text:`EP.${String(ep.n).padStart(2,'0')}`}), h('span',{class:'sticker',style:'background:#fff',text:cr.length?`🎨 ${cr.length} creative${cr.length>1?'s':''}`:'No creative supplied'}), cr.some(x=>x.v)?h('span',{class:'sticker',style:'background:#fff',text:'▶ animated'}):null),
+    frame, cap, cr.length>1?thumbs:null);
+  if(cr.length) show(0);
+  // body
+  const body=h('div',{class:'ep-body'},
+    h('div',{class:'ep-top'}, h('span',{class:'sticker',style:'background:var(--surface-2)',text:vertGroup(c.vertical)}), c.agency?h('span',{class:'sticker',style:'background:#dcecff',text:c.agency}):null, h('span',{class:'sticker',style:kc.miss?'background:#ffd3cf':'background:var(--mint)',text:`${kc.miss?'⚠':'✓'} ${kc.met}/${kc.total} KPIs`})),
+    h('h3',{class:'title',text:`${ep.e||''} ${c.brand}`.trim()}),
+    h('p',{class:'tagline',text:ep.tag||c.summary}),
+    h('div',{class:'meta',text:`${c.format} · ${c.flight}`}),
+    h('div',{class:'bigkpi'+(miss?' miss':'')}, h('span',{class:'v',text:c.headline.value}), h('span',{class:'l',text:`${c.headline.label} ${c.headline.vs}`})),
+    h('div',{class:'stickers'}, c.tiles.slice(0,3).map(t=>h('div',{}, h('b',{text:t[1]}), h('span',{text:`${t[0]} · ${t[2]}`})))),
+    h('div',{class:'bubble',text:c.insights[ep.hi||0]}),
+    h('ul',{class:'did'}, c.moves.slice(0,2).map(m=>h('li',{text:m}))),
+    h('div',{class:'ep-actions'},
+      h('button',{class:'btn coral',onclick:()=>openDrawer(c.id)},'Full case study →'),
+      h('button',{class:'btn',onclick:()=>{ if(window.PF.focusIsland) window.PF.focusIsland(c.id); else $('#hero').scrollIntoView({behavior:'smooth'}); }},'🏝️ Find it on the island')));
+  return h('article',{class:'toon episode pop-in'+(idx%2?' flip':''), id:`ep-${c.id}`,'aria-label':`Episode ${ep.n}: ${c.brand}`}, stage, body);
+}
+function renderExplorer(){
+  const list=filtered();
+  $('#tagFilter').classList.toggle('on', !!state.tag); $('#tagName').textContent=state.tag||'';
+  const k=kpiCounts(list), imps=list.reduce((a,c)=>a+c.n.imps,0), del=list.length?list.reduce((a,c)=>a+c.delivery,0)/list.length:0;
+  const strip=$('#strip'); strip.replaceChildren();
+  const add=(label,val)=>strip.append(h('span',{}, label+' ', h('b',{text:val})));
+  add('Showing', `${list.length} of ${CAMPAIGNS.length}`); add('Impressions', compact(imps)); add('Avg delivery', list.length? del.toFixed(1)+'%':'—'); add('KPIs met', `${k.met}/${k.total}`);
+  if(list.length){ const ctrs=list.filter(c=>c.n.ctr).map(c=>c.n.ctr); if(ctrs.length) add('Median CTR', median(ctrs).toFixed(2)+'%'); }
+  renderKpiChart(list);
+  window.dispatchEvent(new CustomEvent('pf:filter',{detail:list.map(c=>c.id)}));
+  const box=$('#episodes'); $$('video',box).forEach(v=>videoIO.unobserve(v)); box.replaceChildren();
+  if(!list.length){ box.append(h('div',{class:'toon ep-empty',text:'Nothing here. Clear a filter to see more.'})); return; }
+  list.forEach((c,i)=>box.append(episodeEl(c,i)));
+  observeReveals(box);
+}
+
+/* ============================================================
+   Drawer (full case study, with every creative)
+   ============================================================ */
+let lastFocus=null;
+function openDrawer(id){
+  const c=byId(id); if(!c) return;
+  lastFocus=document.activeElement;
+  const d=$('#drawer'); $$('video',d).forEach(v=>videoIO.unobserve(v)); d.replaceChildren();
+  const kc=kpiCounts([c]), ep=EP[c.id]||{}, cr=CREATIVES[c.id]||[];
+  d.append(h('div',{class:'d-head'},
+    h('div',{}, h('div',{class:'eyebrow',text:`EP.${String(ep.n||'').padStart(2,'0')} · ${c.vertical} · ${c.flight}`}), h('h2',{id:'dTitle',style:'margin-top:6px',text:`${ep.e||''} ${c.brand}`.trim()}), h('div',{class:'small',style:'margin-top:6px;font-weight:800',text:[c.agency?`Agency: ${c.agency}`:null, c.format].filter(Boolean).join(' · ')})),
+    h('button',{class:'icon-btn','aria-label':'Close case study',onclick:closeDrawer,html:'<svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>'})));
+  const body=h('div',{class:'d-body'}); d.append(body);
+  body.append(h('p',{style:'margin:0;font-size:18px;font-weight:800',text:c.summary}));
+  body.append(h('div',{class:'d-tiles'}, c.tiles.map(t=>h('div',{class:'tile'}, h('div',{class:'label',text:t[0]}), h('div',{class:'value',text:t[1]}), h('div',{class:'foot',text:t[2]})))));
+  if(cr.length) body.append(h('div',{class:'toon d-gallery'}, h('h4',{text:`The creatives · ${cr.length}`}), h('div',{class:'row'}, cr.map(it=>h('figure',{}, mediaEl(it,'m'), h('figcaption',{text:it.cap}))))));
+  const tb=h('tbody');
+  c.kpis.forEach(k=>{ const v= k.pass===true? h('span',{class:'verdict pass',html:`${icon.check} Pass`}) : k.pass===false? h('span',{class:'verdict miss',html:`${icon.cross} Miss`}) : h('span',{class:'verdict var',html:`${icon.tri} Variance`});
+    tb.append(h('tr',{}, h('td',{text:k.m}), h('td',{class:'num',text:k.t}), h('td',{class:'num',text:k.a}), h('td',{},v))); });
+  body.append(h('div',{class:'d-sec'}, h('h4',{text:`KPI scorecard · ${kc.met} of ${kc.total} met`}),
+    h('div',{class:'scroll-x',style:'margin-top:8px'}, h('table',{class:'score'}, h('thead',{}, h('tr',{}, h('th',{text:'Metric'}), h('th',{class:'num',text:'Target'}), h('th',{class:'num',text:'Actual'}), h('th',{text:'Verdict'}))), tb))));
+  const chWrap=h('div',{class:'toon chart-card'}, h('h3',{text:c.chart.title,style:'margin-bottom:10px'}));
+  const chEl=h('div',{class:'chart'}); chWrap.append(chEl); body.append(chWrap);
+  const L=(title,items)=>h('div',{class:'d-sec'}, h('h4',{text:title}), h('ul',{}, items.map(i=>h('li',{text:i}))));
+  body.append(h('div',{class:'lists'}, L('What I did', c.moves), L('What the data said', c.insights), L('Next flight', c.next)));
+  body.append(h('div',{class:'small muted',text:'Source: end-of-campaign report prepared by Adrian at YMT. Budgets, rate cards and IO numbers are withheld.'}));
+  $('#scrim').classList.add('on'); d.classList.add('on'); d.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+  requestAnimationFrame(()=>{ mount(chEl, c.chart); d.scrollTop=0; $('.icon-btn',d).focus({preventScroll:true}); });
+  history.replaceState(null,'',`#case-${c.id}`);
+}
+function closeDrawer(){
+  const d=$('#drawer'); if(!d.classList.contains('on')) return;
+  $$('video',d).forEach(v=>{ v.pause(); videoIO.unobserve(v); });
+  d.classList.remove('on'); $('#scrim').classList.remove('on'); d.setAttribute('aria-hidden','true'); document.body.style.overflow=''; tip.hidden=true;
+  history.replaceState(null,'',location.pathname+location.search);
+  if(lastFocus) lastFocus.focus({preventScroll:true});
+}
+$('#scrim').onclick=closeDrawer;
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeDrawer();
+  if(e.key==='Tab' && $('#drawer').classList.contains('on')){ const f=$$('button,a,[tabindex="0"],summary',$('#drawer')).filter(x=>x.offsetParent!==null); if(!f.length) return; const first=f[0], last=f[f.length-1]; if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); } else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); } }
+});
+/* ============================================================
+   Insight lab
+   ============================================================ */
+function renderLab(i=0){
+  const tabs=$('#labTabs'); tabs.replaceChildren();
+  INSIGHTS.forEach((ins,j)=>tabs.append(h('button',{role:'tab','aria-selected':String(i===j),tabindex:i===j?0:-1,id:`lab-${j}`,'aria-controls':'labPanel',onclick:()=>renderLab(j),onkeydown:e=>{ if(e.key==='ArrowDown'||e.key==='ArrowRight'){e.preventDefault(); const n=(j+1)%INSIGHTS.length; renderLab(n); $(`#lab-${n}`).focus();} if(e.key==='ArrowUp'||e.key==='ArrowLeft'){e.preventDefault(); const n=(j-1+INSIGHTS.length)%INSIGHTS.length; renderLab(n); $(`#lab-${n}`).focus();} }},
+    h('div',{class:'n',text:`0${j+1}`}), h('div',{class:'k',text:ins.k}), h('div',{class:'t',text:ins.t}))));
+  const ins=INSIGHTS[i], p=$('#labPanel'); p.replaceChildren(); p.setAttribute('aria-labelledby',`lab-${i}`);
+  const inner=h('div',{class:'fade-swap'});
+  inner.append(h('div',{class:'eyebrow',text:ins.k}), h('div',{class:'claim',text:ins.claim}), h('div',{class:'muted small',text:ins.chart.title}));
+  const ch=h('div',{class:'chart',style:'margin-top:14px'}); inner.append(ch);
+  inner.append(h('div',{class:'lab-cols'}, h('div',{}, h('h4',{class:'eyebrow',text:'What the data shows'}), h('p',{text:ins.what})), h('div',{}, h('h4',{class:'eyebrow',text:'So what'}), h('p',{text:ins.so}))));
+  inner.append(h('div',{style:'margin-top:16px'}, h('button',{class:'linkish',onclick:()=>openDrawer(ins.ref),html:`Open the ${byId(ins.ref).brand} case study ${icon.arrow}`})));
+  p.append(inner);
+  mount(ch, ins.chart);
+}
+
+/* ============================================================
+   Simulator
+   ============================================================ */
+const bench = (() => {
+  const pick=(ids,key)=>ids.map(id=>byId(id).n[key]);
+  const range=a=>({lo:Math.min(...a), mid:median(a), hi:Math.max(...a), n:a.length});
+  return {
+    vcr: range(pick(['wyeth','pia'],'vcr')),
+    ctrVideo: range(pick(['wyeth','pia'],'ctr')),
+    ctrDisplay: range(pick(['sq','marlboro','dss','fifa','richeese','frisian'],'ctr')),
+    ctrCps: range(pick(['olx','gemini','axis5g'],'ctr')),
+    sessPer1k: range(['olx','gemini','axis5g'].map(id=>byId(id).n.sessions/byId(id).n.imps*1000)),
+    view: range(CAMPAIGNS.filter(c=>c.n.view).map(c=>c.n.view)),
+    ivt: range(CAMPAIGNS.filter(c=>c.n.ivt!=null).map(c=>c.n.ivt))
+  };
+})();
+const RADII=[['1.5–2.4 km',8.91],['3.4–3.8 km',12.19],['4.2–5.5 km',5.80],['6.8–7.9 km',3.38],['9.3–11.8 km',3.74],['Campaign average (mixed radii)',4.74]];
+const OBJECTIVES={
+  awareness:{label:'Awareness', desc:'Completed video views', primary:'Completed views', rate:()=>bench.vcr, unit:'VCR', pct:true, calc:(imps,r)=>imps*r/100,
+    secondary:imps=>[['Clicks', imps*bench.ctrVideo.mid/100, `at ${bench.ctrVideo.mid.toFixed(2)}% CTR`]],
+    mix:[['Local broadcaster OTT',45,'--s1'],['Connected TV',30,'--s2'],['Short-drama vertical',25,'--s3']],
+    play:[['wyeth','Raise CTV above 20% of weight.','CTV completed at 93.9% against 85.4% on OTT.'],['pia','Use premium OTT as the completion backbone.','Vidio and RCTI+ both completed above 94%.'],['pia','Split short-drama apps into their own response line.','NetShort returned 5.48% CTR from 7.3% of impressions.'],['wyeth','Put the brand in the first 3 seconds.','Over half of drop-offs happen before 3.75 seconds.']]},
+  engagement:{label:'Engagement', desc:'Clicks from rich media', primary:'Clicks', rate:()=>bench.ctrDisplay, unit:'CTR', pct:true, calc:(imps,r)=>imps*r/100,
+    secondary:imps=>[['Viewable impressions', imps*bench.view.mid/100, `at ${bench.view.mid.toFixed(1)}% viewability`]],
+    mix:[['Reading & short-video apps',55,'--s1'],['Learning, AI & chat apps',25,'--s2'],['News & contextual',20,'--s3']],
+    play:[['fifa','Weight long-session reading and video apps.','Three of them carried 88% of delivery at 3.32% CTR.'],['marlboro','Book chat and AI apps as guaranteed volume.','They produced 55% of clicks from 11.9% of impressions.'],['sq','Use contextual lists for intent.','News and travel sites delivered 79% of clicks from 62% of impressions.'],['fifa','Do not scale until third-party reads are in.','Viewability went from 60.5% to 96.5% after a one-week checkpoint.']]},
+  traffic:{label:'Site traffic', desc:'Sessions on a CPS buy', primary:'Sessions', rate:()=>bench.sessPer1k, unit:'sessions / 1k imps', calc:(imps,r)=>imps*r/1000,
+    secondary:imps=>[['Clicks', imps*bench.ctrCps.mid/100, `at ${bench.ctrCps.mid.toFixed(2)}% CTR`]],
+    mix:[['Core in-app display & video',70,'--s1'],['High-intent segment',20,'--s2'],['Test cell',10,'--s3']],
+    play:[['gemini','Manage CTR through pacing before changing creative.','Weekly CTR tracked impressions per session at r = −0.94.'],['axis5g','Weight the segment before the creative.','5G users out-engaged non-5G users on every theme.'],['olx','Prefer shorter bursts.','The 23-day flight needed 138 impressions per session; the 29-day flight needed 148.'],['gemini','Rotate creative evenly as a control.','An even split let one film win on clicks and another on conversion.']]},
+  footfall:{label:'Store visits', desc:'Geofenced footfall', primary:'Store visits', rate:()=>{ const v=RADII[+$('#radius').value][1]; return {lo:v,mid:v,hi:v,n:1}; }, unit:'visits / 1k imps', calc:(imps,r)=>imps*r/1000,
+    secondary:imps=>{ const v=RADII[+$('#radius').value][1]; return [['Incremental visits', imps*v/1000*0.251, '25.1% incremental share'],['Clicks', imps*0.0195, 'at 1.95% CTR']]; },
+    mix:[['Static + map locator (scale)',65,'--s1'],['Video + map locator (depth)',35,'--s2']],
+    play:[['richeese','Geofence tight: 3.4–3.8 km.','That band converted at 3.6× the 6.8–7.9 km band.'],['richeese','Cap weight on saturated outlets.','The district with 49% of impressions converted worst.'],['richeese','Pass the outlet into the creative.','66% of GPS lookups failed inside app webviews.'],['richeese','Keep closed-loop measurement.','It proved +33.5% visit lift against unexposed users.']]}
+};
+let objective='engagement', lastPrimary=0;
+function setupSim(){
+  const ob=$('#objBtns');
+  Object.entries(OBJECTIVES).forEach(([k,o])=>ob.append(h('button',{'aria-pressed':String(k===objective), 'data-k':k, onclick:()=>{ objective=k; $$('button',ob).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.k===k))); $('#radiusField').hidden=k!=='footfall'; renderSim(); }}, h('b',{text:o.label}), h('span',{text:o.desc}))));
+  RADII.forEach((r,i)=>$('#radius').append(h('option',{value:i, selected:i===RADII.length-1}, `${r[0]} → ${r[1]} visits per 1k`)));
+  ['budget','cpm','radius','regulated'].forEach(id=>$('#'+id).addEventListener('input',renderSim));
+  renderSim();
+}
+const fmtRate=(v,o)=> o.pct ? (v>=20? v.toFixed(1): v.toFixed(2))+'%' : v.toFixed(2);
+function tweenNum(el, from, to){
+  if(REDUCE){ el.textContent=fmtInt(to); return; }
+  const t0=performance.now(), dur=650;
+  const step=now=>{ const p=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-p,3); el.textContent=fmtInt(from+(to-from)*e); if(p<1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function renderSim(){
+  const bEl=$('#budget'), budget=+bEl.value, cpm=Math.max(0.2, +$('#cpm').value||2.5);
+  bEl.style.setProperty('--fill', ((budget-bEl.min)/(bEl.max-bEl.min)*100)+'%');
+  $('#budgetOut').textContent='US$'+fmtInt(budget);
+  const o=OBJECTIVES[objective], imps=budget/cpm*1000, r=o.rate();
+  const lo=o.calc(imps,r.lo), mid=o.calc(imps,r.mid), hi=o.calc(imps,r.hi);
+  const out=$('#simOut'); out.replaceChildren();
+  const big=h('div',{class:'v num',text:fmtInt(lastPrimary)});
+  const prim=h('div',{class:'primary-out'},
+    h('div',{class:'eyebrow',text:`Projected ${o.primary.toLowerCase()}`}), big,
+    h('div',{class:'muted small',style:'margin-top:6px',text: r.n>1 ? `Expected value at the median ${o.unit} (${fmtRate(r.mid,o)}) across ${r.n} campaigns` : `Single-campaign benchmark: ${fmtRate(r.mid,o)} ${o.unit}`}));
+  if(r.n>1 && hi>lo){
+    const pos=v=>((v-lo)/(hi-lo))*100;
+    prim.append(h('div',{class:'range'}, h('div',{class:'track'}), h('div',{class:'band',style:'left:0;right:0'}), h('div',{class:'pt',style:`left:${pos(mid)}%`,title:'Expected'})),
+      h('div',{class:'range-labels'}, h('span',{text:`Low ${compact(lo)} (${fmtRate(r.lo,o)})`}), h('span',{text:`High ${compact(hi)} (${fmtRate(r.hi,o)})`})));
+  }
+  out.append(prim); tweenNum(big, lastPrimary, mid); lastPrimary=mid;
+  const proj=h('div',{class:'proj'});
+  const tile=(l,v,f)=>h('div',{class:'tile'}, h('div',{class:'label',text:l}), h('div',{class:'value',style:'font-size:24px',text:v}), h('div',{class:'foot',text:f}));
+  proj.append(tile('Impressions', compact(imps), `at US$${cpm.toFixed(2)} CPM`));
+  o.secondary(imps).forEach(s=>proj.append(tile(s[0], compact(s[1]), s[2])));
+  if(proj.children.length<3) proj.append(tile('Quality to expect', `${bench.view.lo.toFixed(0)}–${bench.view.hi.toFixed(0)}%`, `viewability · IVT ≤ ${bench.ivt.hi}%`));
+  out.append(proj);
+  out.append(h('div',{}, h('h3',{text:'Suggested starting mix'}), h('div',{class:'stack',role:'img','aria-label':o.mix.map(m=>`${m[0]} ${m[1]}%`).join(', ')}, o.mix.map(m=>h('div',{style:`flex:${m[1]};background:var(${m[2]})`,title:`${m[0]} ${m[1]}%`,text:m[1]+'%'}))), legend(o.mix.map(m=>[`${m[0]} · ${m[1]}%`,m[2]]))));
+  out.append(h('div',{}, h('h3',{text:'Playbook, from the campaigns above'}), h('ul',{class:'play'}, o.play.map(p=>h('li',{}, h('b',{text:p[1]}), p[2], h('span',{class:'src'}, h('button',{class:'linkish',onclick:()=>openDrawer(p[0]),html:`Evidence: ${byId(p[0]).brand} ${icon.arrow}`})))))));
+  const reg=$('#regulated').checked;
+  out.append(h('div',{class:'comply'+(reg?' on':'')}, h('h3',{text:'Regulated-category build'}), h('ul',{}, [
+    'App whitelist with gaming excluded, verified after the flight','Age and gender locked to the brief (100% in band on the PMI flights)','Independent IAS verification: viewability, IVT, brand safety, geo','Statutory warning locked to every frame, not only the end card','Approved city list with 0.00% out-of-geo delivery','Low-volume ramp until third-party reads are in'
+  ].map(t=>h('li',{html:`<span style="color:var(--good-text)">${icon.check}</span>`}, t)))));
+  out.append(h('p',{class:'muted small',style:'margin:0',text:'A planning sketch, not a quote. Rates are what these campaigns actually returned. CPM is your input. Real outcomes depend on market, creative, seasonality and supply.'}));
+}
+
+/* ============================================================
+   Automation
+   ============================================================ */
+function renderAuto(){
+  const g=$('#autoGrid');
+  AUTOMATIONS.forEach((a,idx)=>{
+    let mode='after';
+    const card=h('div',{class:'toon auto pop-in',style:`transition-delay:${idx*.08}s`});
+    const seg=h('div',{class:'seg',role:'group','aria-label':'Before or after'});
+    const val=h('div',{class:'ba-val'}); const note=h('p',{style:'margin:0;color:var(--ink-2);font-size:14.5px'});
+    const paint=()=>{ const s=a[mode]; val.className='ba-val '+mode; val.replaceChildren(h('span',{class:'v fade-swap',text:s.v}), h('span',{class:'l',text:s.l})); note.textContent=s.note; $$('button',seg).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.m===mode))); };
+    ['before','after'].forEach(m=>seg.append(h('button',{'data-m':m,onclick:()=>{mode=m; paint();}}, m[0].toUpperCase()+m.slice(1))));
+    card.append(h('div',{style:'display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap'}, h('div',{}, h('h3',{text:a.title}), h('div',{class:'org',text:a.org})), seg));
+    card.append(val, note, h('div',{class:'delta',text:a.delta}));
+    card.append(h('div',{class:'flow','aria-label':'Workflow: '+a.flow.join(', then ')}, a.flow.map((s,i)=>h('span',{class:'unit'}, i? h('span',{class:'conn','aria-hidden':'true',style:`--d:${i*.4}s`}):null, h('span',{class:'step',text:s})))));
+    if(a.race) card.append(raceWidget());
+    if(a.bars){ const ch=h('div',{class:'chart'}); card.append(ch); requestAnimationFrame(()=>mount(ch,{type:'hbars',title:'Creator listings sourced per week',rows:[['Before (shared roles)',a.bars.before,'--s2'],['After (split teams)',a.bars.after,'--s1']],fmt:'int',max:60,table:false})); }
+    paint(); g.append(card);
+  });
+}
+function raceWidget(){
+  const N=10, MAN=8, AUTO=1.9;
+  const wrap=h('div',{class:'race'});
+  const mk=(cls,label,c)=>{ const docs=h('div',{class:'docs'}, Array.from({length:N},()=>h('span'))); const t=h('b',{text:'0.0 min'}); const bar=h('i',{style:`background:var(${c})`}); return {el:h('div',{class:`lane ${cls}`}, h('div',{class:'lh'}, h('span',{text:label}), t), h('div',{class:'bar'},bar), docs), t, bar, docs}; };
+  const man=mk('manual','Manual · 8 min each','--s2'), auto=mk('lane-auto','Automated · under 2 min each','--s1');
+  const btn=h('button',{class:'btn coral sm'},'▶ Generate 10 contracts');
+  const res=h('span',{class:'muted small',text:'Simulated at 1 second = 10 minutes.'});
+  wrap.append(h('div',{style:'display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap'}, btn, res), man.el, auto.el);
+  const fmt=m=>`${m.toFixed(m<10?1:0)} min`;
+  let raf=null;
+  btn.onclick=()=>{
+    cancelAnimationFrame(raf); const t0=performance.now(); btn.disabled=true; res.textContent='Running…';
+    const step=now=>{
+      const simMin=(now-t0)/1000*10;
+      [[man,MAN],[auto,AUTO]].forEach(([l,per])=>{ const total=N*per, m=Math.min(simMin,total); l.t.textContent=fmt(m); l.bar.style.width=(m/(N*MAN)*100)+'%'; const done=Math.floor(m/per+1e-9); $$('span',l.docs).forEach((s,i)=>s.classList.toggle('done',i<done)); });
+      if(simMin<N*MAN) raf=requestAnimationFrame(step); else { btn.disabled=false; btn.textContent='↻  Run again'; res.textContent=`${N*MAN} min manual vs ${N*AUTO} min automated. That saves ${Math.round(N*(MAN-AUTO))} minutes per 10 contracts.`; }
+    };
+    raf=requestAnimationFrame(step);
+  };
+  return wrap;
+}
+
+/* ============================================================
+   Experience & skills
+   ============================================================ */
+function renderExp(){
+  const tl=$('#timeline');
+  ROLES.forEach((r,i)=>{
+    const wrap=h('div',{class:'role'+(i===0?' open':'')});
+    const id='rb'+i;
+    const btn=h('button',{'aria-expanded':String(i===0),'aria-controls':id,onclick:()=>{ const o=wrap.classList.toggle('open'); btn.setAttribute('aria-expanded',String(o)); setTimeout(updateRail,480); }},
+      h('div',{}, h('div',{class:'rt',text:r.t}), h('div',{class:'ro',text:r.o})),
+      h('div',{class:'rd',html:`${r.d} ${icon.chev}`}),
+      h('div',{class:'chips rk'}, r.k.map(k=>h('span',{class:'chip',text:k}))));
+    wrap.append(btn, h('div',{class:'rb',id}, h('div',{}, h('ul',{}, r.b.map(b=>h('li',{text:b}))))));
+    tl.append(wrap);
+  });
+  const sk=$('#skills');
+  SKILL_GROUPS.forEach(g=>{
+    const chips=h('div',{class:'chips'});
+    g.items.forEach(it=>{
+      if(g.campaign){ const n=CAMPAIGNS.filter(c=>c.tags.includes(it)).length;
+        chips.append(h('button',{class:'schip',title:`Filter campaigns by ${it}`,onclick:()=>{ state.tag=it; state.model='all'; state.vertical='all'; state.agency='all'; $('#vertSel').value='all'; $('#agencySel').value='all'; $$('#modelSeg button').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===0))); renderExplorer(); $('#campaigns').scrollIntoView({behavior:REDUCE?'auto':'smooth'}); }}, it, h('em',{text:`${n}`})));
+      } else chips.append(h('span',{class:'schip'}, it[0], h('em',{text:it[1]})));
+    });
+    sk.append(h('div',{class:'skill-group'}, h('div',{class:'eyebrow',text:g.g}), chips));
+  });
+}
+function updateRail(){
+  const tl=$('#timeline'), fill=$('#railFill'); if(!tl) return;
+  const r=tl.getBoundingClientRect(), vh=innerHeight;
+  const p=Math.max(0,Math.min(1,(vh*0.6-r.top)/(r.height)));
+  const rail=$('.rail',tl); fill.style.height=(p*rail.offsetHeight)+'px';
+  const lineY=r.top+28+p*rail.offsetHeight;
+  $$('.role',tl).forEach(ro=>ro.classList.toggle('lit', ro.getBoundingClientRect().top+22<=lineY));
+}
+
+/* ============================================================
+   Contact, analytics
+   ============================================================ */
+function renderContact(){
+  const L=$('#contactLinks');
+  const row=(label,href,sub,dl)=>h('a',{href, target:href.startsWith('http')?'_blank':null, rel:href.startsWith('http')?'noopener':null, download:dl?'':null}, h('span',{}, label, h('div',{class:'muted small',style:'font-weight:400',text:sub})), h('span',{html:icon.arrow}));
+  L.append(row('Email', 'mailto:'+CONFIG.email, CONFIG.email));
+  L.append(row('LinkedIn', CONFIG.linkedin, CONFIG.linkedin.replace(/^https?:\/\/(www\.)?/,'')));
+  if(CONFIG.github) L.append(row('GitHub', CONFIG.github, 'Automation code samples'));
+  L.append(row('Download CV (PDF)', CONFIG.cv, 'One page', true));
+  $$('[data-cv]').forEach(a=>a.href=CONFIG.cv);
+  $('#yr').textContent=new Date().getFullYear();
+}
+function setupAnalytics(){
+  if(!CONFIG.ga4) return;
+  const s=document.createElement('script'); s.async=true; s.src='https://www.googletagmanager.com/gtag/js?id='+CONFIG.ga4; document.head.append(s);
+  window.dataLayer=window.dataLayer||[]; window.gtag=function(){dataLayer.push(arguments);}; gtag('js',new Date()); gtag('config',CONFIG.ga4);
+  const _open=openDrawer; window.openDrawer=openDrawer=function(id){ gtag('event','open_case_study',{campaign_id:id}); return _open(id); };
+  document.addEventListener('click',e=>{ const b=e.target.closest('#objBtns button'); if(b) gtag('event','simulator_objective',{objective:b.dataset.k}); });
+}
+
+/* ============================================================
+   Motion: pop-ins, count-ups, scroll progress
+   ============================================================ */
+const revealIO = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); revealIO.unobserve(e.target); $$('[data-count]',e.target).forEach(countUp); } }),{threshold:.08, rootMargin:'0px 0px -5% 0px'});
+function observeReveals(root=document){ $$('.pop-in',root).forEach(el=>{ if(!el.classList.contains('in')) revealIO.observe(el); }); }
+function setupScroll(){
+  const bar=$('#progress'), links=$$('nav.links a');
+  const secs=links.map(a=>$(a.getAttribute('href')));
+  let ticking=false;
+  const on=()=>{ ticking=false;
+    const max=document.documentElement.scrollHeight-innerHeight; bar.style.transform=`scaleX(${max>0?scrollY/max:0})`;
+    updateRail();
+    let cur=-1; secs.forEach((s,i)=>{ if(s && s.getBoundingClientRect().top<innerHeight*.4) cur=i; }); links.forEach((a,i)=>a.classList.toggle('act',i===cur));
+  };
+  addEventListener('scroll',()=>{ if(!ticking){ ticking=true; requestAnimationFrame(on); } },{passive:true});
+  on();
+}
+
+/* ============================================================
+   Background music: low-volume looping playlist.
+   Browsers only allow sound after the visitor interacts, so it
+   starts on the first click/tap/key press, fades in, and pauses
+   when the tab is hidden. The visitor's on/off choice is remembered.
+   ============================================================ */
+function setupMusic(){
+  const M=CONFIG.music; if(!M || !M.tracks || !M.tracks.length) return;
+  const box=$('#radio'), btn=$('#radioBtn'), title=$('#radioTitle'), artist=$('#radioArtist'), next=$('#radioNext'), vol=$('#radioVol');
+  const store={ get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }, set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} } };
+  let target=+(store.get('music-vol') ?? M.volume); if(!(target>=0)) target=M.volume;
+  vol.value=target;
+  const audio=new Audio(); audio.preload='metadata'; audio.volume=0;
+  let i=0, ok=false, want=store.get('music')!=='off', fadeRaf=0, wasPlaying=false;
+  const load=k=>{ i=(k+M.tracks.length)%M.tracks.length; const t=M.tracks[i]; audio.src=t.src; title.textContent=t.title; artist.textContent=t.artist; };
+  const fadeTo=(v,ms,done)=>{ cancelAnimationFrame(fadeRaf); const v0=audio.volume, t0=performance.now(); const step=now=>{ const p=Math.min(1,(now-t0)/ms); audio.volume=Math.max(0,Math.min(1,v0+(v-v0)*p)); if(p<1) fadeRaf=requestAnimationFrame(step); else if(done) done(); }; fadeRaf=requestAnimationFrame(step); };
+  const paint=()=>{ const on=!audio.paused; box.classList.toggle('playing',on); btn.setAttribute('aria-pressed',String(on)); btn.setAttribute('aria-label', on?'Pause background music':'Play background music'); box.classList.toggle('compact', !on); };
+  const play=()=>audio.play().then(()=>{ box.classList.remove('nudge'); fadeTo(target, 2500); paint(); return true; }).catch(()=>{ paint(); return false; });
+  const pause=()=>fadeTo(0, 400, ()=>{ audio.pause(); paint(); });
+  audio.addEventListener('loadedmetadata',()=>{ if(!ok){ ok=true; box.hidden=false; } },{once:false});
+  audio.addEventListener('error',()=>{ if(!ok){ // try the other track before giving up
+      if(i<M.tracks.length-1){ load(i+1); } else box.hidden=true; } });
+  audio.addEventListener('ended',()=>{ load(i+1); play(); });
+  audio.addEventListener('play',paint); audio.addEventListener('pause',paint);
+  btn.onclick=e=>{ e.stopPropagation(); if(audio.paused){ want=true; store.set('music','on'); play(); } else { want=false; store.set('music','off'); pause(); } };
+  next.onclick=e=>{ e.stopPropagation(); load(i+1); want=true; store.set('music','on'); audio.volume=0; play(); };
+  vol.oninput=()=>{ target=+vol.value; store.set('music-vol',target); if(!audio.paused) audio.volume=target; };
+  vol.onclick=e=>e.stopPropagation();
+  const first=()=>{ ['pointerdown','touchend','keydown'].forEach(ev=>removeEventListener(ev,first,true)); if(want && audio.paused) play(); };
+  ['pointerdown','touchend','keydown'].forEach(ev=>addEventListener(ev,first,true));
+  document.addEventListener('visibilitychange',()=>{ if(document.hidden){ wasPlaying=!audio.paused; if(wasPlaying) audio.pause(); } else if(wasPlaying && want){ audio.volume=0; play(); } });
+  box.hidden=false;
+  load(0);
+  // Try to start right away. Browsers allow this only on some visits (e.g. a returning visitor on desktop Chrome);
+  // otherwise it starts on the first click, tap or key press, and the button nudges the visitor.
+  if(want) play().then(ok2=>{ if(!ok2 && want) box.classList.add('nudge'); });
+}
+
+/* ============================================================
+   Boot
+   ============================================================ */
+renderHero();
+renderConsole();
+renderMarquee();
+setupFilters();
+window.PF={campaigns:CAMPAIGNS, EP, CREATIVES, filtered:()=>filtered().map(c=>c.id), REDUCE, FINE};
+renderExplorer();
+renderLab(0);
+setupSim();
+renderAuto();
+renderExp();
+renderContact();
+setupAnalytics();
+observeReveals();
+setupScroll();
+setupMusic();
+const openFromHash=()=>{ const m=location.hash.match(/^#case-(\w+)/); if(m && byId(m[1])) openDrawer(m[1]); };
+setTimeout(openFromHash,300); addEventListener('hashchange',openFromHash);
+
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { OutlineEffect } from 'three/addons/effects/OutlineEffect.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+
+const PF = window.PF, REDUCE = PF.REDUCE, FINE = PF.FINE;
+function webglOK(){ try{ const c=document.createElement('canvas'); return !!(c.getContext('webgl2')||c.getContext('webgl')); }catch(e){ return false; } }
+const GL_OK = webglOK() && !/[?&]nogl/.test(location.search);
+if(GL_OK) document.documentElement.classList.add('webgl');
+
+GL_OK && (function island(){
+  const canvas = document.getElementById('island');
+  const labelsEl = document.getElementById('ilabels');
+  const loading = document.getElementById('loading'); loading.classList.add('on');
+  const resetBtn = document.getElementById('resetView');
+  const INK = 0x1d1b2f;
+  let tween = null, focused = null;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true, powerPreference:'high-performance' });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, FINE ? 1.75 : 1.5));
+  renderer.setClearColor(0x000000, 0);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  const effect = new OutlineEffect(renderer, { defaultThickness:0.0048, defaultColor:[0.114,0.106,0.184], defaultAlpha:1 });
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 300);
+  const HOME_TARGET = new THREE.Vector3(0, 1.2, 0);
+  const HOME_DIR = new THREE.Vector3(0, 0.52, 0.855).normalize();
+  let homeDist = 25;
+
+  /* ---------- materials ---------- */
+  const gm = new THREE.DataTexture(new Uint8Array([120, 195, 255]), 3, 1, THREE.RedFormat);
+  gm.minFilter = gm.magFilter = THREE.NearestFilter; gm.needsUpdate = true;
+  const cache = {};
+  const toon = hex => cache[hex] || (cache[hex] = new THREE.MeshToonMaterial({ color:hex, gradientMap:gm }));
+  const noOutline = m => { m.userData.outlineParameters = { visible:false }; return m; };
+  function mesh(geo, hex, o={}){ const m = new THREE.Mesh(geo, o.mat || toon(hex)); m.castShadow = o.cast !== false; m.receiveShadow = !!o.receive; return m; }
+  const rbox = (w,h,d,r=0.12) => new RoundedBoxGeometry(w,h,d,3,Math.min(r, w/2-0.01, h/2-0.01, d/2-0.01));
+
+  /* ---------- lights ---------- */
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xa8c8ff, 1.15));
+  const sun = new THREE.DirectionalLight(0xffffff, 1.9); sun.position.set(9, 17, 8); sun.castShadow = true;
+  const sm = FINE ? 2048 : 1024; sun.shadow.mapSize.set(sm, sm);
+  Object.assign(sun.shadow.camera, { left:-13, right:13, top:13, bottom:-13, near:1, far:60 }); sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.02;
+  scene.add(sun);
+
+  const world = new THREE.Group(); scene.add(world);
+  const isle = new THREE.Group(); world.add(isle);
+
+  /* ---------- the island ---------- */
+  const grass = mesh(new THREE.CylinderGeometry(9, 8.7, 1.1, 64), 0x7ed957, { receive:true }); grass.position.y = -0.55; isle.add(grass);
+  const beach = mesh(new THREE.CylinderGeometry(9.4, 9.25, 0.45, 64), 0xffe29a, { receive:true }); beach.position.y = -1.0; isle.add(beach);
+  const rock = mesh(new THREE.ConeGeometry(9.2, 7, 10, 1), 0xb07a4f); rock.rotation.x = Math.PI; rock.position.y = -4.7; isle.add(rock);
+  const rock2 = mesh(new THREE.ConeGeometry(4.2, 3.4, 8), 0x8c5a3a); rock2.rotation.x = Math.PI; rock2.position.set(2.6, -7.2, 1.4); isle.add(rock2);
+  const rock3 = mesh(new THREE.ConeGeometry(3, 2.6, 7), 0x9b6a45); rock3.rotation.x = Math.PI; rock3.position.set(-3.1, -6.3, -1.8); isle.add(rock3);
+  const plaza = mesh(new THREE.CylinderGeometry(2.2, 2.2, 0.14, 48), 0xfff1c9, { receive:true, cast:false }); plaza.position.y = 0.07; isle.add(plaza);
+  const roadGeo = new THREE.RingGeometry(7.1, 7.9, 72); roadGeo.rotateX(-Math.PI/2);
+  const road = mesh(roadGeo, 0x6b6f86, { receive:true, cast:false }); road.position.y = 0.025; isle.add(road);
+  const dashMat = noOutline(new THREE.MeshToonMaterial({ color:0xffffff, gradientMap:gm }));
+  for(let i=0;i<36;i++){ const a=i/36*Math.PI*2; const d=mesh(new THREE.BoxGeometry(0.34,0.02,0.07), 0, {cast:false, mat:dashMat}); d.position.set(Math.sin(a)*7.5, 0.045, Math.cos(a)*7.5); d.rotation.y=a+Math.PI/2; isle.add(d); }
+
+  /* ---------- campaign buildings ---------- */
+  const order = [...PF.campaigns].sort((a,b)=>(PF.EP[a.id]?.n||99)-(PF.EP[b.id]?.n||99));
+  const N = order.length, R = 5.35;
+  const tl = new THREE.LoadingManager(); tl.onLoad = () => loading.classList.remove('on'); tl.onError = () => loading.classList.remove('on');
+  const loader = new THREE.TextureLoader(tl);
+  const buildings = []; const anim = [];
+  const addWindows = (g, w, H, face=0.001, color=0xbde0fe) => {
+    for(let y=0.55; y < H-0.25; y+=0.5) for(const x of [-w*0.23, w*0.23]){ const wi = mesh(new THREE.BoxGeometry(0.2,0.24,0.05), color, {cast:false}); wi.position.set(x, y, w/2+face); g.add(wi); }
+  };
+  const door = (g, w, color=0x1d1b2f) => { const d = mesh(new THREE.BoxGeometry(0.28,0.42,0.06), color, {cast:false}); d.position.set(0, 0.21, w/2+0.01); g.add(d); };
+
+  const THEMES = {
+    richeese(g,H){ const w=1.15; const b=mesh(rbox(w,H,w),0xffd23f,{receive:true}); b.position.y=H/2; g.add(b); addWindows(g,w,H); door(g,w,0xff6b5b);
+      for(let i=0;i<4;i++){ const s=mesh(new THREE.BoxGeometry(w/4,0.07,0.34),i%2?0xffffff:0xff4d4d,{cast:false}); s.position.set(-w/2+w/8+i*w/4,0.72,w/2+0.13); s.rotation.x=0.5; g.add(s); }
+      const pin=new THREE.Group(); const cone=mesh(new THREE.ConeGeometry(0.28,0.6,20),0xff4d4d); cone.rotation.x=Math.PI; cone.position.y=0.3; const ball=mesh(new THREE.SphereGeometry(0.3,24,16),0xff4d4d); ball.position.y=0.66; const dot=mesh(new THREE.SphereGeometry(0.12,16,12),0xffffff); dot.position.set(0,0.68,0.22); pin.add(cone,ball,dot); pin.position.y=H+0.15; g.add(pin);
+      anim.push(t=>{ pin.position.y=H+0.15+Math.abs(Math.sin(t*2.2))*0.35; pin.rotation.y=t*1.2; });
+      const ring=mesh(new THREE.TorusGeometry(0.95,0.035,8,48),0xff6b5b,{cast:false}); ring.rotation.x=Math.PI/2; ring.position.y=0.05; g.add(ring); anim.push(t=>{ const s=1+((t*0.6)%1)*0.9; ring.scale.set(s,s,s); });
+      return { top:H+1.1, w }; },
+    frisian(g,H){ const w=1.1; const b=mesh(rbox(w,H,w,0.06),0xf4f9ff,{receive:true}); b.position.y=H/2; g.add(b);
+      const band=mesh(new THREE.BoxGeometry(w+0.02,H*0.35,w+0.02),0x4dabf7,{cast:false}); band.position.y=H*0.42; g.add(band); door(g,w,0x2a78d6);
+      const rg=new THREE.CylinderGeometry(0.64,0.64,w,3); rg.rotateZ(Math.PI/2); rg.rotateX(-Math.PI/2); const roof=mesh(rg,0x2a78d6); roof.position.y=H+0.3; g.add(roof);
+      const cap=mesh(new THREE.CylinderGeometry(0.16,0.16,0.2,20),0xff6b5b); cap.position.set(0.2,H+0.72,0.2); g.add(cap);
+      const heart=mesh(new THREE.SphereGeometry(0.2,16,12),0xff9ecd); heart.position.set(0,H+1.25,0); g.add(heart); anim.push(t=>{ const s=1+Math.sin(t*4)*0.12; heart.scale.set(s,s,s); });
+      return { top:H+1.5, w }; },
+    gemini(g,H,tex){ const w=1.25; const b=mesh(rbox(w,H,w*0.8),0x9b5de5,{receive:true}); b.position.y=H/2; g.add(b); door(g,w*0.8);
+      const sw=w*0.95, sh=sw*0.75; const scr=mesh(new THREE.BoxGeometry(sw+0.1,sh+0.1,0.08),INK,{cast:false}); scr.position.set(0,H-sh/2-0.18,w*0.4+0.04); g.add(scr);
+      if(tex){ const p=new THREE.Mesh(new THREE.PlaneGeometry(sw,sh), noOutline(new THREE.MeshBasicMaterial({map:tex, toneMapped:false}))); p.position.set(0,H-sh/2-0.18,w*0.4+0.085); g.add(p); }
+      const star=mesh(new THREE.OctahedronGeometry(0.34,0),0xffd23f); star.position.y=H+0.55; star.scale.set(1,1.4,0.5); g.add(star); anim.push(t=>{ star.rotation.y=t*2; star.position.y=H+0.55+Math.sin(t*3)*0.1; });
+      return { top:H+1.1, w, screen:true }; },
+    olx(g,H){ const w=1.2; const b=mesh(rbox(w,H,w),0x23b5a6,{receive:true}); b.position.y=H/2; g.add(b);
+      const glass=mesh(new THREE.BoxGeometry(w*0.8,H*0.45,0.05),0xbde0fe,{cast:false}); glass.position.set(0,H*0.3,w/2+0.01); g.add(glass);
+      const tt=mesh(new THREE.CylinderGeometry(0.55,0.55,0.08,32),0xfff1c9); tt.position.y=H+0.04; g.add(tt);
+      const car=new THREE.Group(); const body=mesh(rbox(0.8,0.22,0.42,0.08),0xff6b5b); body.position.y=0.2; const cab=mesh(rbox(0.44,0.2,0.38,0.07),0xbde0fe); cab.position.set(-0.04,0.38,0); car.add(body,cab);
+      for(const [x,z] of [[0.26,0.2],[-0.26,0.2],[0.26,-0.2],[-0.26,-0.2]]){ const wh=mesh(new THREE.CylinderGeometry(0.09,0.09,0.06,16),INK); wh.rotation.x=Math.PI/2; wh.position.set(x,0.09,z); car.add(wh); }
+      car.position.y=H+0.08; g.add(car); anim.push(t=>{ car.rotation.y=t*0.9; });
+      return { top:H+0.9, w }; },
+    sq(g,H){ const w=0.75; const b=mesh(new THREE.CylinderGeometry(0.34,0.46,H,24),0xf4f9ff,{receive:true}); b.position.y=H/2; g.add(b);
+      const band=mesh(new THREE.CylinderGeometry(0.36,0.38,0.14,24),0x2a78d6,{cast:false}); band.position.y=H*0.55; g.add(band);
+      const cab=mesh(new THREE.CylinderGeometry(0.62,0.5,0.46,8),0xbde0fe); cab.position.y=H+0.23; g.add(cab);
+      const capm=mesh(new THREE.CylinderGeometry(0.2,0.68,0.2,8),0xff6b5b); capm.position.y=H+0.56; g.add(capm);
+      const plane=new THREE.Group(); const fus=mesh(new THREE.CapsuleGeometry(0.1,0.55,6,12),0xffffff); fus.rotation.z=Math.PI/2; const wing=mesh(new THREE.BoxGeometry(0.16,0.03,0.8),0x2a78d6); const tail=mesh(new THREE.BoxGeometry(0.14,0.22,0.03),0xff6b5b); tail.position.set(-0.3,0.12,0); plane.add(fus,wing,tail);
+      const pivot=new THREE.Group(); pivot.position.y=H+1.2; plane.position.set(0,0,1.25); pivot.add(plane); g.add(pivot);
+      anim.push(t=>{ pivot.rotation.y=t*1.1; plane.position.y=Math.sin(t*2.2)*0.12; plane.rotation.x=0.25; });
+      return { top:H+1.6, w:1.1 }; },
+    wyeth(g,H){ const b=mesh(new THREE.CylinderGeometry(0.62,0.62,H,32),0xf4d58d,{receive:true}); b.position.y=H/2; g.add(b);
+      const label=mesh(new THREE.CylinderGeometry(0.635,0.635,H*0.42,32),0xffffff,{cast:false}); label.position.y=H*0.5; g.add(label);
+      const lid=mesh(new THREE.CylinderGeometry(0.66,0.66,0.2,32),0x2a78d6); lid.position.y=H+0.1; g.add(lid);
+      const knob=mesh(new THREE.TorusGeometry(0.18,0.05,8,24),0x2a78d6); knob.position.y=H+0.26; knob.rotation.x=Math.PI/2; g.add(knob);
+      const bub=[0,1,2].map(i=>{ const s=mesh(new THREE.SphereGeometry(0.09+i*0.03,14,10),0xffffff); g.add(s); return s; });
+      anim.push(t=>{ bub.forEach((s,i)=>{ const p=(t*0.5+i/3)%1; s.position.set(Math.sin(i*2)*0.3, H+0.35+p*1.1, Math.cos(i*2)*0.3); const k=1-p; s.scale.set(k,k,k); }); });
+      return { top:H+1.2, w:1.25 }; },
+    pia(g,H){ const tiers=[[0.66,0xd9a066],[0.5,0xfff1c9],[0.36,0xd9a066]]; let y=0; const th=H/3;
+      tiers.forEach(([r,c],i)=>{ const m=mesh(new THREE.CylinderGeometry(r,r,th,32),c,{receive:true}); m.position.y=y+th/2; g.add(m); const icing=mesh(new THREE.TorusGeometry(r,0.06,8,32),0xff9ecd,{cast:false}); icing.rotation.x=Math.PI/2; icing.position.y=y+th; g.add(icing); y+=th; });
+      const cherry=mesh(new THREE.SphereGeometry(0.18,20,14),0xff4d4d); cherry.position.y=H+0.18; g.add(cherry); anim.push(t=>{ cherry.position.y=H+0.18+Math.abs(Math.sin(t*3))*0.18; });
+      return { top:H+0.7, w:1.3 }; },
+    marlboro(g,H){ const w=1.1; const b=mesh(rbox(w,H,w),0xff8a5b,{receive:true}); b.position.y=H/2; g.add(b); addWindows(g,w,H,0.001,0xfff1c9); door(g,w);
+      for(let i=0;i<5;i++){ const s=mesh(new THREE.BoxGeometry(w/5,0.08,0.3),i%2?0xffffff:0xff4d4d,{cast:false}); s.position.set(-w/2+w/10+i*w/5,0.78,w/2+0.12); s.rotation.x=0.5; g.add(s); }
+      const rings=[0,1].map(i=>{ const r=mesh(new THREE.TorusGeometry(1,0.03,8,48),0xff6b5b,{cast:false}); r.rotation.x=Math.PI/2; r.position.y=0.05; g.add(r); return r; });
+      anim.push(t=>{ rings.forEach((r,i)=>{ const p=(t*0.45+i*0.5)%1; const s=0.8+p*1.4; r.scale.set(s,s,s); }); });
+      return { top:H+0.6, w }; },
+    fifa(g,H){ const w=1.15; const b=mesh(rbox(w,H,w),0xc9a227,{receive:true}); b.position.y=H/2; g.add(b); addWindows(g,w,H,0.001,0xfff1c9); door(g,w);
+      const ball=new THREE.Mesh(new THREE.IcosahedronGeometry(0.34,1), new THREE.MeshToonMaterial({color:0xffffff, gradientMap:gm})); ball.castShadow=true; g.add(ball);
+      anim.push(t=>{ ball.position.y=H+0.34+Math.abs(Math.sin(t*3))*0.6; ball.rotation.x=t*2; ball.rotation.z=t; });
+      return { top:H+1.3, w }; },
+    axis5g(g,H){ const w=1.0; const b=mesh(rbox(w,H,w),0x7b2cbf,{receive:true}); b.position.y=H/2; g.add(b); addWindows(g,w,H,0.001,0xff9ecd); door(g,w);
+      const mast=mesh(new THREE.CylinderGeometry(0.05,0.08,1.0,12),0xdddddd); mast.position.y=H+0.5; g.add(mast);
+      const tip=mesh(new THREE.SphereGeometry(0.1,14,10),0xff4d4d); tip.position.y=H+1.05; g.add(tip);
+      const rings=[0,1,2].map(i=>{ const r=mesh(new THREE.TorusGeometry(0.25+i*0.18,0.035,8,32),0xff9ecd,{cast:false}); r.position.y=H+1.05; g.add(r); return r; });
+      anim.push(t=>{ rings.forEach((r,i)=>{ const p=(t*0.8+i/3)%1; r.scale.set(0.6+p,0.6+p,0.6+p); r.rotation.y=t*0.5; r.visible = p<0.92; }); });
+      return { top:H+1.4, w }; },
+    dss(g,H){ const w=1.05; const b=mesh(rbox(w,H,w),0xe0a93b,{receive:true}); b.position.y=H/2; g.add(b); addWindows(g,w,H,0.001,0xfff1c9); door(g,w);
+      const face=mesh(new THREE.CylinderGeometry(0.42,0.42,0.14,32),0xffffff); face.rotation.x=Math.PI/2; face.position.set(0,H+0.5,0); g.add(face);
+      const rim=mesh(new THREE.TorusGeometry(0.42,0.06,8,32),0xff6b5b); rim.position.copy(face.position); g.add(rim);
+      const btn=mesh(new THREE.CylinderGeometry(0.07,0.07,0.14,12),0xff6b5b); btn.position.set(0,H+0.98,0); g.add(btn);
+      const hand=mesh(new THREE.BoxGeometry(0.04,0.3,0.03),INK,{cast:false}); hand.geometry.translate(0,0.13,0); hand.position.set(0,H+0.5,0.09); g.add(hand);
+      anim.push(t=>{ hand.rotation.z=-t*2.4; });
+      return { top:H+1.2, w }; }
+  };
+
+  function billboard(tex, a){
+    const g = new THREE.Group();
+    let bh=1.55, bw=bh*a; if(bw>1.25){ bw=a>1?1.55:1.25; bh=bw/a; }
+    const base=0.55;
+    const frame=mesh(rbox(bw+0.14,bh+0.14,0.1,0.05),0xfffdf7); frame.position.y=base+bh/2; g.add(frame);
+    const pic=new THREE.Mesh(new THREE.PlaneGeometry(bw,bh), noOutline(new THREE.MeshBasicMaterial({ map:tex, toneMapped:false }))); pic.position.set(0,base+bh/2,0.056); g.add(pic);
+    for(const x of [-bw*0.3, bw*0.3]){ const p=mesh(new THREE.CylinderGeometry(0.035,0.035,base,8),INK); p.position.set(x,base/2,-0.02); g.add(p); }
+    return { g, top: base+bh+0.1 };
+  }
+
+  let videoEl=null;
+  order.forEach((c,i)=>{
+    const ep = PF.EP[c.id] || {}; const cr = (PF.CREATIVES[c.id]||[]);
+    const a = (i/N)*Math.PI*2 + 0.18;
+    const g = new THREE.Group(); g.position.set(Math.sin(a)*R, 0, Math.cos(a)*R); g.rotation.y = a; isle.add(g);
+    const inner = new THREE.Group(); g.add(inner);
+    const H = 1.0 + Math.min(c.headline.idx,350)/350*2.2;
+    const bld = new THREE.Group(); bld.position.x = -0.55; inner.add(bld);
+    let screenTex=null;
+    if(c.id==='gemini' && cr[0] && cr[0].v){
+      videoEl = document.createElement('video'); Object.assign(videoEl, { src:cr[0].v, muted:true, loop:true, playsInline:true, crossOrigin:'anonymous', preload:'auto' }); videoEl.setAttribute('playsinline','');
+      screenTex = new THREE.VideoTexture(videoEl); screenTex.colorSpace = THREE.SRGBColorSpace;
+    }
+    const info = (THEMES[c.id] || THEMES.olx)(bld, H, screenTex);
+    let top = info.top;
+    // billboard with the real creative
+    const pick = cr[ep.bb||0];
+    if(pick && !info.screen){
+      const tex = loader.load(pick.p); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
+      const bb = billboard(tex, pick.w/pick.h); bb.g.position.set(0.72, 0, 0.35); bb.g.rotation.y = -0.22; inner.add(bb.g); top = Math.max(top, bb.top);
+    }
+    if(info.screen) bld.position.x = 0;
+    // path to plaza
+    const path = mesh(new THREE.BoxGeometry(0.5, 0.03, R-2.6), 0xfff1c9, { cast:false, receive:true }); path.position.set(0, 0.03, -(R-2.6)/2 - 0.9); g.add(path);
+    inner.traverse(o=>{ if(o.isMesh) o.userData.cid = c.id; });
+    // label
+    const miss = c.kpis.some(k=>k.pass===false) && c.headline.idx < 100;
+    const lab = document.createElement('div'); lab.className = 'ilabel' + (miss ? ' miss':'');
+    const SHORT = {olx:'OLX', gemini:'Axis Gemini', axis5g:'Axis 5G', marlboro:'Marlboro', richeese:'Richeese', fifa:'DSS FIFA', wyeth:'Wyeth S-26', pia:'PIA 100', sq:'Singapore Air', frisian:'Frisian Flag', dss:'Dji Sam Soe'};
+    const sp = document.createElement('span'); sp.textContent = `${ep.e||''} ${SHORT[c.id]||c.brand}`.trim();
+    const iv = document.createElement('i'); iv.textContent = `${c.headline.value} ${c.headline.label.split(' (')[0].toLowerCase()}`;
+    lab.append(sp, iv); labelsEl.append(lab);
+    buildings.push({ c, g, inner, top, a, lab, on:true, s:1, sv:0, hop:0, hopV:0 });
+  });
+
+  /* ---------- plaza trophy ---------- */
+  const trophy = new THREE.Group(); isle.add(trophy);
+  const tb = mesh(rbox(1.1,0.5,1.1,0.08),0x1d1b2f); tb.position.y=0.39; trophy.add(tb);
+  const stem = mesh(new THREE.CylinderGeometry(0.12,0.2,0.5,16),0xffd23f); stem.position.y=0.89; trophy.add(stem);
+  const cup = mesh(new THREE.CylinderGeometry(0.55,0.2,0.75,24,1,true),0xffd23f); cup.position.y=1.5; trophy.add(cup);
+  cup.material = cup.material.clone(); cup.material.side = THREE.DoubleSide;
+  for(const s of [-1,1]){ const hdl=mesh(new THREE.TorusGeometry(0.2,0.05,8,20,Math.PI),0xffd23f); hdl.position.set(s*0.58,1.5,0); hdl.rotation.z=s>0?-Math.PI/2:Math.PI/2; trophy.add(hdl); }
+  const star = mesh(new THREE.OctahedronGeometry(0.2,0),0xffffff); star.position.y=2.15; trophy.add(star);
+  anim.push(t=>{ trophy.rotation.y = t*0.4; star.rotation.y = t*2; });
+  const tLab = document.createElement('div'); tLab.className='ilabel trophy'; tLab.innerHTML=''; const ts=document.createElement('span'); ts.textContent='🏆 Contracted KPIs met'; const ti=document.createElement('i'); ti.style.color='var(--ink)'; ti.textContent = `${window.__AGG.k.met} / ${window.__AGG.k.total}`; tLab.append(ts,ti); labelsEl.append(tLab);
+
+  /* ---------- trees, clouds, car, blimp ---------- */
+  const rnd = (s => () => (s = (s*16807)%2147483647) / 2147483647)(7);
+  const tree = (x,z,k=1) => { const t=new THREE.Group(); const tr=mesh(new THREE.CylinderGeometry(0.07,0.1,0.35,8),0x8c5a3a); tr.position.y=0.17; t.add(tr);
+    if(rnd()>0.5){ const c=mesh(new THREE.ConeGeometry(0.38,0.9,10),0x3ddc97); c.position.y=0.75; t.add(c); } else { const c=mesh(new THREE.SphereGeometry(0.38,16,12),0x58c96b); c.position.y=0.62; t.add(c); }
+    t.position.set(x,0,z); t.scale.setScalar(k*(0.8+rnd()*0.5)); isle.add(t); };
+  for(let i=0;i<30;i++){ const a=rnd()*Math.PI*2, r=8.15+rnd()*0.7; tree(Math.sin(a)*r, Math.cos(a)*r, 0.9); }
+  for(let i=0;i<N;i++){ const a=((i+0.5)/N)*Math.PI*2+0.18, r=3.2+rnd()*0.4; tree(Math.sin(a)*r, Math.cos(a)*r, 0.75); }
+  for(let i=0;i<N;i++){ const a=((i+0.5)/N)*Math.PI*2+0.18, r=6.4; tree(Math.sin(a)*r, Math.cos(a)*r, 0.8); }
+
+  const clouds = [];
+  for(let i=0;i<8;i++){ const cg=new THREE.Group(); const n=3+Math.floor(rnd()*3);
+    for(let j=0;j<n;j++){ const s=mesh(new THREE.SphereGeometry(0.6+rnd()*0.5,18,12),0xffffff,{cast:false}); s.position.set(j*0.75-(n*0.37), rnd()*0.3, rnd()*0.4); s.scale.y=0.75; cg.add(s); }
+    const a=rnd()*Math.PI*2, r=12+rnd()*5, y=-1+rnd()*8; cg.position.set(Math.sin(a)*r, y, Math.cos(a)*r); cg.userData={a, r, y, sp:0.02+rnd()*0.03}; scene.add(cg); clouds.push(cg); }
+
+  const car = new THREE.Group(); { const b=mesh(rbox(0.6,0.2,0.34,0.07),0x4dabf7); b.position.y=0.18; const c=mesh(rbox(0.32,0.17,0.3,0.06),0xfff1c9); c.position.set(-0.04,0.34,0); car.add(b,c);
+    for(const [x,z] of [[0.2,0.17],[-0.2,0.17],[0.2,-0.17],[-0.2,-0.17]]){ const w=mesh(new THREE.CylinderGeometry(0.07,0.07,0.05,12),INK); w.rotation.x=Math.PI/2; w.position.set(x,0.08,z); car.add(w); } isle.add(car); }
+  const car2 = car.clone(); car2.children[0].material = toon(0xff9ecd); isle.add(car2);
+
+  const blimp = new THREE.Group(); { const body=mesh(new THREE.SphereGeometry(1,28,18),0xff6b5b); body.scale.set(2.1,0.8,0.8); blimp.add(body);
+    for(const [ry,rz] of [[0,0],[0,Math.PI/2]]){ const fin=mesh(new THREE.BoxGeometry(0.5,0.9,0.06),0xffd23f); fin.position.set(-1.95,0,0); fin.rotation.set(0,ry,rz); blimp.add(fin); }
+    const gon=mesh(rbox(0.7,0.25,0.3,0.08),0xfffdf7); gon.position.y=-0.85; blimp.add(gon);
+    const cv=document.createElement('canvas'); cv.width=1024; cv.height=128; const x=cv.getContext('2d'); x.fillStyle='#fffdf7'; x.fillRect(0,0,1024,128); x.strokeStyle='#1d1b2f'; x.lineWidth=10; x.strokeRect(5,5,1014,118); x.fillStyle='#1d1b2f'; x.font='bold 64px Nunito, Arial, sans-serif'; x.textAlign='center'; x.textBaseline='middle';
+    x.fillText(`${(window.__AGG.imps/1e6).toFixed(1)}M impressions · ${window.__AGG.k.met}/${window.__AGG.k.total} KPIs met`, 512, 68);
+    const bt=new THREE.CanvasTexture(cv); bt.colorSpace=THREE.SRGBColorSpace;
+    const banner=new THREE.Mesh(new THREE.PlaneGeometry(4.4,0.55), noOutline(new THREE.MeshBasicMaterial({map:bt, side:THREE.DoubleSide, toneMapped:false}))); banner.position.set(-4.4,-0.2,0); blimp.add(banner);
+    const rope=mesh(new THREE.BoxGeometry(2.2,0.02,0.02),INK,{cast:false}); rope.position.set(-2.1,-0.1,0); blimp.add(rope);
+    blimp.scale.setScalar(0.8); scene.add(blimp); }
+
+  /* ---------- camera + controls ---------- */
+  const controls = new OrbitControls(camera, canvas);
+  controls.enableZoom = false; controls.enablePan = false; controls.enableDamping = true; controls.dampingFactor = 0.07;
+  controls.minPolarAngle = FINE ? 0.55 : 1.0; controls.maxPolarAngle = FINE ? 1.25 : 1.0;
+  controls.rotateSpeed = 0.6; controls.autoRotate = !REDUCE; controls.autoRotateSpeed = 0.45;
+  controls.target.copy(HOME_TARGET);
+  canvas.style.touchAction = 'pan-y';
+  let dragging = false; controls.addEventListener('start', ()=>{ dragging = true; controls.autoRotate = false; });
+  controls.addEventListener('end', ()=>{ dragging = false; if(!focused && !REDUCE) setTimeout(()=>{ if(!dragging && !focused) controls.autoRotate = true; }, 2500); });
+  if(!FINE) document.getElementById('islandHint').textContent = '👆 Swipe sideways to spin · tap a building';
+
+  let W=1, H=1, wide=true;
+  function resize(){
+    const r = canvas.getBoundingClientRect(); W=Math.max(1,r.width); H=Math.max(1,r.height);
+    renderer.setSize(W,H,false); camera.aspect = W/H;
+    wide = W > 820;
+    if(wide) camera.setViewOffset(W, H, -W*0.235, -H*0.03, W, H); else camera.setViewOffset(W, H, 0, H*0.1, W, H);
+    const aspect = wide ? (W*0.62)/H : W/H;
+    homeDist = Math.max(wide ? 30 : 22, (wide ? 11.2 : 8.6)/(Math.tan(THREE.MathUtils.degToRad(16))*aspect));
+    camera.updateProjectionMatrix();
+    if(!focused && !tween){ const d = camera.position.clone().sub(controls.target).normalize(); camera.position.copy(controls.target).add(d.multiplyScalar(homeDist)); }
+  }
+  camera.position.copy(HOME_TARGET).add(HOME_DIR.clone().multiplyScalar(homeDist));
+  new ResizeObserver(resize).observe(canvas); resize();
+
+  /* ---------- picking ---------- */
+  const ray = new THREE.Raycaster(), ptr = new THREE.Vector2(); let hot = null, downAt = null;
+  const pickables = () => buildings.filter(b=>b.on).map(b=>b.inner);
+  function pick(e){ const r = canvas.getBoundingClientRect(); ptr.set(((e.clientX-r.left)/r.width)*2-1, -((e.clientY-r.top)/r.height)*2+1); ray.setFromCamera(ptr, camera); const hit = ray.intersectObjects(pickables(), true)[0]; return hit ? buildings.find(b=>b.c.id===hit.object.userData.cid) : null; }
+  canvas.addEventListener('pointermove', e=>{ if(e.pointerType!=='mouse') return; const b = pick(e); if(b!==hot){ if(b){ b.hopV = 5; } hot=b; canvas.style.cursor = b ? 'pointer' : 'grab'; } });
+  canvas.addEventListener('pointerleave', ()=>{ hot=null; });
+  canvas.addEventListener('pointerdown', e=>{ downAt=[e.clientX,e.clientY]; });
+  canvas.addEventListener('pointerup', e=>{ if(!downAt) return; const moved=Math.hypot(e.clientX-downAt[0], e.clientY-downAt[1]); downAt=null; if(moved<8){ const b=pick(e); if(b) focus(b.c.id, true); } });
+
+  /* ---------- camera tween ---------- */
+  const ease = t => t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+  function flyTo(pos, target, dur, done){ tween = { p0:camera.position.clone(), t0:controls.target.clone(), p1:pos, t1:target, start:performance.now(), dur: REDUCE?1:dur, done }; controls.enabled = false; controls.autoRotate = false; }
+  function focus(id, openAfter){
+    const b = buildings.find(x=>x.c.id===id); if(!b) return;
+    focused = id; b.hopV = 6;
+    const wp = new THREE.Vector3(); b.g.getWorldPosition(wp);
+    const out = new THREE.Vector3(Math.sin(b.a), 0, Math.cos(b.a));
+    const tgt = wp.clone().add(new THREE.Vector3(0, 1.3, 0));
+    const pos = wp.clone().add(out.multiplyScalar(wide?9.5:10.5)).add(new THREE.Vector3(0, 4.2, 0));
+    if(wide){ const side = new THREE.Vector3(Math.cos(b.a), 0, -Math.sin(b.a)); pos.add(side.multiplyScalar(-0.6)); }
+    flyTo(pos, tgt, 1100, ()=>{ if(openAfter) window.openDrawer(id); });
+    resetBtn.classList.add('on'); document.getElementById('hero').classList.add('focused');
+  }
+  function goHome(){ focused = null; const pos = HOME_TARGET.clone().add(HOME_DIR.clone().multiplyScalar(homeDist)); flyTo(pos, HOME_TARGET.clone(), 1000, ()=>{ if(!REDUCE) controls.autoRotate = true; }); resetBtn.classList.remove('on'); document.getElementById('hero').classList.remove('focused'); }
+  resetBtn.addEventListener('click', goHome);
+  PF.focusIsland = id => { (wide ? document.getElementById('hero') : canvas).scrollIntoView({behavior:REDUCE?'auto':'smooth', block: wide ? 'start' : 'end'}); setTimeout(()=>focus(id,false), REDUCE?0:650); };
+
+  addEventListener('pf:filter', e=>{ const ids = new Set(e.detail); buildings.forEach(b=>{ b.on = ids.has(b.c.id); }); });
+
+  /* ---------- adaptive quality ---------- */
+  let frames=0, acc=0, level=0;
+  function adapt(dt){ if(level>=2) return; frames++; acc+=dt; if(frames>=50){ const fps=frames/acc; frames=0; acc=0; if(fps<28){ level++;
+    if(level===1){ renderer.setPixelRatio(1); renderer.shadowMap.enabled=false; scene.traverse(o=>{ if(o.material) o.material.needsUpdate=true; }); resize(); } } } }
+
+  /* ---------- loop ---------- */
+  const v3 = new THREE.Vector3(), camDir = new THREE.Vector3();
+  function place(el, worldPos, dim){
+    v3.copy(worldPos).project(camera);
+    const x=(v3.x*.5+.5)*W, y=(-v3.y*.5+.5)*H; const off = v3.z>1 || x<-80 || x>W+80 || y<-40 || y>H+60;
+    el.style.transform = `translate(${x}px, ${y}px) translate(-50%,-100%)`;
+    el.style.opacity = off ? 0 : dim;
+  }
+  let visible = true, last = performance.now(), t = 0;
+  const io = new IntersectionObserver(es=>{ visible = es[0].isIntersecting; if(visible){ last=performance.now(); if(videoEl) videoEl.play().catch(()=>{}); requestAnimationFrame(loop); } else if(videoEl) videoEl.pause(); }, { threshold:0 });
+  io.observe(canvas);
+  function loop(now=performance.now()){
+    if(!visible) return;
+    const dt = Math.min(0.05, (now-last)/1000); last = now; t += REDUCE ? 0 : dt;
+    if(tween){ const p = Math.min(1,(now-tween.start)/tween.dur), e = ease(p); camera.position.lerpVectors(tween.p0, tween.p1, e); controls.target.lerpVectors(tween.t0, tween.t1, e); if(p>=1){ const d=tween.done; tween=null; controls.enabled=true; d && d(); } }
+    controls.update();
+    world.position.y = Math.sin(t*0.8)*0.12;
+    anim.forEach(f=>f(t));
+    const ca = t*0.18; car.position.set(Math.sin(ca)*7.3, 0.03, Math.cos(ca)*7.3); car.rotation.y = ca;
+    const cb = -t*0.14+2; car2.position.set(Math.sin(cb)*7.7, 0.03, Math.cos(cb)*7.7); car2.rotation.y = cb + Math.PI;
+    const ba = t*0.08; blimp.position.set(Math.sin(ba)*13.5, 9.5+Math.sin(t*0.7)*0.3, Math.cos(ba)*13.5); blimp.rotation.y = ba;
+    clouds.forEach(cg=>{ const u=cg.userData; u.a += dt*u.sp; cg.position.set(Math.sin(u.a)*u.r, u.y+Math.sin(t*0.5+u.r)*0.2, Math.cos(u.a)*u.r); });
+    camDir.copy(camera.position).sub(controls.target).setY(0).normalize();
+    const camDist = camera.position.distanceTo(controls.target);
+    buildings.forEach(b=>{
+      // springy hop + scale
+      const goalS = b.on ? (hot===b || focused===b.c.id ? 1.08 : 1) : 0.45;
+      b.sv += (goalS - b.s) * 0.25; b.sv *= 0.7; b.s += b.sv;
+      b.hopV -= 30*dt; b.hop += b.hopV*dt; if(b.hop<0){ b.hop=0; b.hopV = Math.abs(b.hopV) > 2 ? -b.hopV*0.35 : 0; }
+      b.inner.scale.set(b.s*(1+Math.min(b.hop,0.3)*-0.15), b.s*(1+Math.min(b.hop,0.3)*0.25), b.s*(1+Math.min(b.hop,0.3)*-0.15));
+      b.inner.position.y = b.hop;
+      v3.set(0, b.top*b.s + b.hop + 0.25, 0); b.inner.localToWorld(v3);
+      const facing = Math.sin(b.a)*camDir.x + Math.cos(b.a)*camDir.z; // 1 = facing camera
+      const dim = !b.on ? 0 : (focused && focused!==b.c.id) ? 0 : facing < -0.25 ? 0 : facing < 0.2 ? 0.55 : 1;
+      place(b.lab, v3, dim);
+      b.lab.classList.toggle('hot', hot===b || focused===b.c.id);
+      b.lab.style.zIndex = Math.round(1000 + facing*100);
+    });
+    v3.set(0, 2.55, 0); trophy.localToWorld(v3); place(tLab, v3, focused ? 0.25 : 1);
+    adapt(dt);
+    if(level>=2) renderer.render(scene, camera); else effect.render(scene, camera);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+
+</script>
+</body>
+</html>
