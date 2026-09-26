@@ -69,4 +69,4 @@ The files are in `assets/audio/`. The music starts at a low volume after the vis
 
 ## Confidentiality
 
-Budgets, rate cards and IO numbers are left out. The creatives belong to the brands, so check with your employer and clients before publishing them.
+Budgets, rate cards and IO numbers are left out. The creatives belong to the brands, so check with your employer and clients before publishing them. 
