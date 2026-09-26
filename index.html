@@ -7,6 +7,12 @@
 <meta name="description" content="Programmatic specialist in Jakarta. Walk around a cartoon 3D island where every building is one of my campaigns, with the real creatives and results.">
 <meta property="og:title" content="Adrian's Ad Island · Programmatic & Performance Marketing">
 <meta property="og:description" content="11 campaigns, 72M+ impressions, 45 of 47 KPIs met. Click a building to open the case study.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rafaelhakeem.github.io/">
+<meta property="og:image" content="https://rafaelhakeem.github.io/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#bfe6ff">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='28' rx='9' fill='%23ffd23f' stroke='%231d1b2f' stroke-width='3'/%3E%3Cpath d='M9 22V15M14 22V10M19 22V17M24 22V12' stroke='%231d1b2f' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -398,6 +404,30 @@ input[type=range]::-moz-range-thumb{width:22px; height:22px; border-radius:50%; 
 .docs span.done{background:var(--s1); transform:translateY(-3px) rotate(-6deg)}
 .lane.manual .docs span.done{background:var(--s2)}
 
+/* ---------- Schoters case files ---------- */
+.schoters{display:flex; flex-direction:column; gap:24px; margin-top:44px}
+.sch-head{display:flex; flex-direction:column; align-items:flex-start; gap:8px}
+.sch-h{font-family:var(--display); font-weight:400; font-size:clamp(26px,3.2vw,38px); line-height:1.05}
+.casefile{padding:26px; display:flex; flex-direction:column; gap:14px; background:var(--paper)}
+.casefile:nth-of-type(odd){background:#fffaf0}
+.cf-title{font-family:var(--display); font-weight:400; font-size:clamp(24px,2.8vw,34px); line-height:1.05; text-wrap:balance}
+.cf-role{margin:0; font-weight:800; color:var(--ink-2); font-size:15px}
+.cf-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:24px; margin-top:6px}
+@media (max-width:900px){ .cf-grid{grid-template-columns:1fr} }
+.cf-col{display:flex; flex-direction:column; gap:10px; min-width:0}
+.cf-col>p{margin:0; color:var(--ink-2); font-size:15px}
+.cf-col h4{margin:6px 0 0}
+.cf-chart{padding:14px 14px 10px; background:#fff; border:2px solid var(--ink); border-radius:16px; box-shadow:3px 3px 0 var(--ink)}
+.cf-chart h4{margin:0 0 6px}
+.lanes{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+@media (max-width:520px){ .lanes{grid-template-columns:1fr} }
+.lanebox{padding:12px; border:2px solid var(--ink); border-radius:14px; background:#dcecff; display:flex; flex-direction:column; gap:4px; font-size:13.5px; color:var(--ink-2); font-weight:700}
+.lanebox:nth-child(2){background:#d6f5e7}
+@media (max-width:520px){ .cf-stats{grid-template-columns:1fr} .casefile{padding:18px} }
+.lanebox b{color:var(--ink); font-weight:900; font-size:14.5px}
+.cf-out::before{content:"✅ The outcome"}
+.auto .linkish{align-self:flex-start}
+
 /* ---------- experience ---------- */
 .exp{display:grid; grid-template-columns:1.35fr 1fr; gap:22px; align-items:start}
 @media (max-width:960px){ .exp{grid-template-columns:1fr} }
@@ -587,6 +617,7 @@ section:last-of-type{padding-bottom:90px}
       <p class="lede">Flip each card between before and after. The contract generator has a race you can run.</p>
     </div>
     <div class="auto-grid" id="autoGrid"></div>
+    <div class="schoters" id="schoters"></div>
   </div>
 </section>
 
@@ -622,7 +653,7 @@ section:last-of-type{padding-bottom:90px}
 
 <footer>
   <div class="wrap">
-    <span>© <span id="yr"></span> Adrian Rafael Hakeem. Island hand-built with Three.js. <span style="opacity:.6">v4 · mobile zoom</span></span>
+    <span>© <span id="yr"></span> Adrian Rafael Hakeem. Island hand-built with Three.js. <span style="opacity:.6">v5 · schoters</span></span>
     <span>Data and creatives from end-of-campaign reports, Jun–Aug 2026. Budgets and rate cards withheld.</span>
     <span>Music: "Ice Cave" and "Iced Village" by <a href="https://opengameart.org/users/tad">TAD</a>, CC0 via OpenGameArt.</span>
   </div>
@@ -899,18 +930,18 @@ const INSIGHTS = [
 ];
 
 const AUTOMATIONS = [
-  {id:'contract', title:'Contract generator', org:'Schoters by Ruangguru · KOL division',
-   before:{v:'8 min', l:'per contract, typed by hand', note:'Manual copy-paste from the partner sheet into a document template, with entry errors on names and fees.'},
-   after:{v:'< 2 min', l:'per contract, generated', note:'Each partner record in Airtable fills a Google Workspace template automatically. No retyping means no entry errors.'},
-   delta:'−75% time per document · manual entry errors eliminated',
-   flow:['Airtable record','Automation trigger','Google Docs template','PDF contract'],
-   race:true},
+  {id:'contract', title:'MoA (contract) automation', org:'Schoters by Ruangguru · KOL division · idea & technical build',
+   before:{v:'5–8 min', l:'per MoA, across 4 tools', note:'Find the right template, copy-paste partner data, save to Drive, then type the same data again into the legal review sheet. Airtable, Docs, Sheets and Drive, with lots of tab-switching.'},
+   after:{v:'~2 min', l:'per MoA, one input', note:'Partner data goes into one sheet once. The system picks the template, generates the MoA in Google Docs and files it to Drive and the legal sheet automatically.'},
+   delta:'−75% time per MoA · 7 → 13 MoAs per batch · 3 manual steps removed',
+   flow:['Partner data → Sheet','Auto-pick template','MoA in Google Docs','Drive + Legal sheet','Legal review'],
+   race:true, more:'sch-moa'},
   {id:'kol', title:'Split-team KOL restructure', org:'Schoters by Ruangguru · process redesign',
    before:{v:'25', l:'creator listings sourced per week', note:'Every specialist sourced, negotiated and executed. Multitasking was the bottleneck.'},
-   after:{v:'56', l:'creator listings sourced per week', note:'I proposed and piloted separate sourcing and execution tracks. Execution volume rose 40% with 100% delivery success.'},
-   delta:'+124% sourcing capacity · +40% execution volume · 100% delivery',
-   flow:['Audit workflow','Split roles','Pilot','Scale next quarter'],
-   bars:{cats:['Listings / week'], before:25, after:56}},
+   after:{v:'56', l:'creator listings sourced per week', note:'In a two-person pilot (Oct–Nov 2025) I ran the Inquiries lane: sourcing, listing and negotiating. A teammate ran Execution and handled 40% more KOLs than the best end-to-end specialist, at 100% success.'},
+   delta:'+124% sourcing capacity · +40% execution volume · 100% success rate',
+   flow:['Map the 7-step job','Split: Inquiries + Execution','Pilot Oct–Nov','Recommend full rollout'],
+   bars:{cats:['Listings / week'], before:25, after:56}, more:'sch-split'},
   {id:'seo', title:'Automated SEO reporting templates', org:'GTMLab (formerly GetFound) · 27+ accounts',
    before:{v:'Weekly', l:'manual reporting for every account', note:'Keyword rankings, search visibility and ROI were compiled by hand for each client review.'},
    after:{v:'0', l:'manual reports in the weekly workload', note:'Templated reports for rankings, visibility and ROI standardized reviews across all 27+ accounts.'},
@@ -928,8 +959,8 @@ const ROLES = [
    b:['Held an 80% buying margin and kept overall revenue margin above 70% on a US$558K half-year media budget across Indonesia, the Philippines, Thailand and Vietnam.','Ran end-to-end operations for Unilever, P&G, Nestlé, Danone, AXIS, PMI and Djarum with WPP, Publicis and Dentsu.','Consistently hit the 1.5 ROAS benchmark on online-to-offline activations, leading a 3-person team through weekly pacing and eCPM reviews.','Held viewability above 85% and invalid traffic and tracking discrepancy below 1% through IAS, DoubleVerify and CM360.','Specified and launched automated self-serve DSP features with engineering.']},
   {t:'Local SEO Analyst Intern', o:'GTMLab (formerly GetFound)', d:'Jan – Apr 2026', k:['27+ accounts','Automated reporting'],
    b:['Owned the SEO lifecycle for 27+ local and enterprise accounts, from onboarding to on-page and local roadmap execution.','Built automated templates for keyword rankings, search visibility and ROI.','Ran Google Ads Search alongside SEO: match types, ad copy, negatives and search-term hygiene.']},
-  {t:'Digital Marketing Intern', o:'Schoters by Ruangguru', d:'Aug – Dec 2025', k:['+124% sourcing','−75% contract time','277K+ views'],
-   b:['Raised weekly sourcing capacity by 124% (from 25 to 56 listings) and execution volume by 40% through a split-team restructure.','Cut contract turnaround from 8 minutes to under 2 with Airtable and Google Workspace automation.','Delivered two flagship campaigns across a pipeline of 177+ partners. The top creative reached 277K+ views.']},
+  {t:'Digital Marketing Intern', o:'Schoters by Ruangguru', d:'Aug – Dec 2025', k:['+124% sourcing','−75% MoA time','7 → 13 MoAs / batch','277K+ views'],
+   b:['Co-designed a split-team pilot (Oct–Nov 2025) and ran its Inquiries lane: weekly listings rose from about 25 to 56 (+124%) and stayed at 55+ in both months.','The Execution lane handled 52 KOLs at a 100% success rate, 40% more than the best end-to-end specialist. The team recommended a full rollout in three stages.','Came up with and built the MoA automation (trial 1–9 Dec 2025): one sheet input generates the contract, files it and queues legal review. Time per MoA fell from 5–8 minutes to about 2, and a batch grew from 7 to 13 MoAs.','Delivered two flagship campaigns across a pipeline of 177+ partners. The top creative reached 277K+ views.']},
   {t:'KOL Specialist (Freelance)', o:'Bert\'s Agency', d:'Apr – Dec 2025', k:['Nano → mega tiers','Pitch benchmarks'],
    b:['Scored creators on audience fit, engagement rate, CPM and projected GMV for Kapal Api, Reckitt, Unilever and J&J pitches.','Built a categorized partner database and competitor benchmark set for business development.']},
   {t:'Social Media Specialist', o:'LLDIKTI Wilayah III, Ministry of Higher Education', d:'Mar – Jun 2025', k:['Government comms'],
@@ -946,8 +977,8 @@ const SKILL_GROUPS = [
   {g:'Media & performance (click to filter campaigns)', campaign:true, items:['Rich media','OTT / CTV video','CPS performance','Display','Hyperlocal','Footfall attribution','Regulated category','Pacing & delivery']},
   {g:'Measurement (click to filter campaigns)', campaign:true, items:['IAS verification','CM360','GA4','Brand lift','A/B testing','Creative testing','Microsite funnel']},
   {g:'Targeting (click to filter campaigns)', campaign:true, items:['Audience segmentation','Geo targeting','Contextual targeting','Dayparting']},
-  {g:'Data & automation', campaign:false, items:[['BigQuery & SQL','YMT'],['Python','YMT'],['Looker Studio','GTMLab, YMT'],['Google Apps Script','Schoters, GTMLab'],['Airtable','Schoters'],['API integration','YMT'],['Google Ads Search','GTMLab'],['SEO','GTMLab']]},
-  {g:'Commercial & leadership', campaign:false, items:[['Budget & margin','YMT'],['Team lead · 3','YMT'],['Process redesign','Schoters'],['Stakeholders in English & Bahasa','all roles']]}
+  {g:'Data & automation', campaign:false, items:[['BigQuery & SQL','YMT'],['Python','YMT'],['Looker Studio','GTMLab, YMT'],['Google Apps Script','Schoters, GTMLab'],['Sheets → Docs automation','Schoters'],['Airtable','Schoters'],['API integration','YMT'],['Google Ads Search','GTMLab'],['SEO','GTMLab']]},
+  {g:'Commercial & leadership', campaign:false, items:[['Budget & margin','YMT'],['Team lead · 3','YMT'],['Process redesign','Schoters'],['Pilot design & measurement','Schoters'],['Stakeholders in English & Bahasa','all roles']]}
 ];
 
 
@@ -1163,7 +1194,7 @@ const CHARTS = {
     });
   },
   compare(holder, spec){
-    const t=h('table',{class:'score'}, h('thead',{}, h('tr',{}, h('th',{text:''}), h('th',{class:'num',text:'Phase 1'}), h('th',{class:'num',text:'Phase 2'}), h('th',{class:'num',text:'Change'}))),
+    const t=h('table',{class:'score'}, h('thead',{}, h('tr',{}, h('th',{text:''}), h('th',{class:'num',text:(spec.heads||[])[0]||'Phase 1'}), h('th',{class:'num',text:(spec.heads||[])[1]||'Phase 2'}), h('th',{class:'num',text:(spec.heads||[])[2]||'Change'}))),
       h('tbody',{}, spec.rows.map(r=>h('tr',{}, h('td',{text:r[0]}), h('td',{class:'num',text:r[1]}), h('td',{class:'num'}, h('b',{text:r[2]})), h('td',{class:'num',text:r[3]})))));
     holder.append(h('div',{class:'scroll-x'},t));
   }
@@ -1469,6 +1500,57 @@ function renderSim(){
 /* ============================================================
    Automation
    ============================================================ */
+/* ============================================================
+   Schoters case files (internship). Peer names are anonymized.
+   Values marked ≈ are read from the pilot deck's bar charts.
+   ============================================================ */
+const SCHOTERS = [
+ { id:'sch-split', tag:'Case file · Schoters by Ruangguru · Oct–Nov 2025', title:'Split-team pilot: from multitasking to laser focus',
+   role:'My role: co-designed the pilot and ran the Inquiries lane (sourcing, listing, negotiating KOLs). A teammate ran the Execution lane.',
+   problem:'Every KOL specialist did the whole job alone: find, list, approach, add to the rate card, brief, follow up and log insight. Constant context-switching meant slow progress, errors and listings that clashed between teammates.',
+   stats:[['+124%','weekly listings','≈25 → 56 per week'],['55+','held both months','≈2× the end-to-end baseline'],['52 KOLs','handled by Execution','100% success · +40% vs best end-to-end']],
+   before:['Find KOL','List','Approach','Rate card','Brief','Follow up','Log insight'],
+   lanes:[['Inquiries lane (me)','Curate KOLs per product (SAA, WAA, STYLE, AGS) · ask and negotiate rate cards · reuse rejected KOLs'],['Execution lane','Partner data for the MoA · briefing · follow-up · posting reminders · insight input']],
+   charts:[
+     {title:'Average weekly listings: specialist vs end-to-end teammates', note:'Teammates are anonymized. Their values (≈) are read from the pilot deck.',
+      spec:{type:'hbars', rows:[['Me · Inquiries specialist',56,'--s1'],['Teammate A',37,'--s2'],['Teammate B',34,'--s2'],['Teammate C',33,'--s2'],['Teammate D',30,'--s2'],['Teammate E',24,'--s2'],['Teammate F',18,'--s2'],['Teammate G',13,'--s2'],['Teammate H',3,'--s2']], fmt:'int', ref:{value:25,label:'End-to-end avg ≈25'}, max:60, valueName:'listings per week', legend:[['Specialist model','--s1'],['End-to-end model','--s2']]}},
+     {title:'KOLs handled in execution, Oct–Nov (label shows success rate)', note:'Success = execution done; "wait payment / wait insight" only depend on finance.',
+      spec:{type:'hbars', rows:[['Execution specialist · 100% success',52,'--s1'],['End-to-end A · 100% success',37,'--s2'],['End-to-end B · 57% success',35,'--s2'],['End-to-end C · 100% success',25,'--s2']], fmt:'int', max:60, valueName:'KOLs handled', legend:[['Specialist model','--s1'],['End-to-end model','--s2']]}}
+   ],
+   outcome:'The pilot was declared a success, and we recommended a full rollout in three stages: restructure everyone into Inquiries or Execution lanes, document our two workflows as the team standard, then add tooling for an automatic hand-over between lanes.'
+ },
+ { id:'sch-moa', tag:'Case file · Schoters by Ruangguru · trial 1–9 Dec 2025', title:'MoA automation: one input, contract ready',
+   role:'My role: the idea and the technical build (tools and automation). Three teammates ran the trial and presented it.',
+   problem:'Every partner contract (MoA) meant finding the right template, copy-pasting partner data, saving to Drive and typing the same data again into the legal review sheet. Four tools, lots of tab-switching, 5–8 minutes each, and easy to get wrong.',
+   stats:[['~2 min','per MoA','was 5–8 min'],['7 → 13','MoAs in a batch','+86%, Nov vs Dec batch'],['3 steps','removed','copy-paste, save, re-type']],
+   flows:[['Before (manual)',['Find MoA template','Copy-paste partner data','Save to Drive','Re-type into review sheet','Legal review']],['After (automated)',['Enter partner data once','System picks template','MoA generated in Docs','Auto-saved to Drive + legal sheet','Legal review']]],
+   charts:[
+     {title:'MoAs produced per batch', note:'Batch of 7 Nov 2025 (manual) vs batch of 2 Dec 2025 (automated).',
+      spec:{type:'columns', cats:['7 Nov batch · manual','2 Dec batch · automated'], series:[{name:'MoAs produced',values:[7,13],c:'--s1'}], fmt:'int', yMin:0}}
+   ],
+   outcome:'It worked, with two lessons: sheet input still needs a double-check, and the triggers need regular maintenance. Next step we proposed: partners fill a Google Form themselves, the data flows straight into the automation and legal sheets, and admins only monitor, double-check and route C-level signatures.'
+ }
+];
+function renderSchoters(){
+  const box=$('#schoters'); if(!box) return;
+  box.append(h('div',{class:'sch-head'}, h('span',{class:'sticker',style:'background:#dcecff',text:'Deep dive'}), h('h3',{class:'sch-h',text:'Case files from my Schoters internship'}), h('p',{class:'lede',style:'margin-top:6px',text:'Two process projects from the KOL team, rebuilt from our internal pilot decks. Teammates are anonymized where their numbers appear.'})));
+  SCHOTERS.forEach(c=>{
+    const card=h('article',{class:'toon casefile pop-in',id:c.id});
+    card.append(h('div',{class:'eyebrow',text:c.tag}), h('h3',{class:'cf-title',text:c.title}), h('p',{class:'cf-role',text:c.role}));
+    card.append(h('div',{class:'stickers cf-stats'}, c.stats.map(s=>h('div',{}, h('b',{text:s[0]}), h('span',{text:`${s[1]} · ${s[2]}`})))));
+    const left=h('div',{class:'cf-col'}, h('h4',{class:'eyebrow',text:'The problem'}), h('p',{text:c.problem}));
+    if(c.before){
+      left.append(h('h4',{class:'eyebrow',text:'Before: one person, seven jobs'}), h('div',{class:'flow'}, c.before.map((s,i)=>h('span',{class:'unit'}, i?h('span',{class:'conn','aria-hidden':'true',style:`--d:${i*.3}s`}):null, h('span',{class:'step',text:s})))));
+      left.append(h('h4',{class:'eyebrow',text:'After: two lanes'}), h('div',{class:'lanes'}, c.lanes.map(l=>h('div',{class:'lanebox'}, h('b',{text:l[0]}), h('span',{text:l[1]})))));
+    }
+    if(c.flows) c.flows.forEach(f=>left.append(h('h4',{class:'eyebrow',text:f[0]}), h('div',{class:'flow'}, f[1].map((s,i)=>h('span',{class:'unit'}, i?h('span',{class:'conn','aria-hidden':'true',style:`--d:${i*.3}s`}):null, h('span',{class:'step',text:s}))))));
+    left.append(h('div',{class:'bubble cf-out',text:c.outcome}));
+    const right=h('div',{class:'cf-col'});
+    c.charts.forEach(ch=>{ const el=h('div',{class:'chart'}); right.append(h('div',{class:'cf-chart'}, h('h4',{class:'eyebrow',text:ch.title}), el, h('p',{class:'small muted',style:'margin:6px 0 0',text:ch.note}))); requestAnimationFrame(()=>mount(el,ch.spec)); });
+    card.append(h('div',{class:'cf-grid'}, left, right));
+    box.append(card);
+  });
+}
 function renderAuto(){
   const g=$('#autoGrid');
   AUTOMATIONS.forEach((a,idx)=>{
@@ -1482,16 +1564,17 @@ function renderAuto(){
     card.append(val, note, h('div',{class:'delta',text:a.delta}));
     card.append(h('div',{class:'flow','aria-label':'Workflow: '+a.flow.join(', then ')}, a.flow.map((s,i)=>h('span',{class:'unit'}, i? h('span',{class:'conn','aria-hidden':'true',style:`--d:${i*.4}s`}):null, h('span',{class:'step',text:s})))));
     if(a.race) card.append(raceWidget());
+    if(a.more) card.append(h('a',{class:'linkish',href:'#'+a.more,text:'Read the full case file ↓'}));
     if(a.bars){ const ch=h('div',{class:'chart'}); card.append(ch); requestAnimationFrame(()=>mount(ch,{type:'hbars',title:'Creator listings sourced per week',rows:[['Before (shared roles)',a.bars.before,'--s2'],['After (split teams)',a.bars.after,'--s1']],fmt:'int',max:60,table:false})); }
     paint(); g.append(card);
   });
 }
 function raceWidget(){
-  const N=10, MAN=8, AUTO=1.9;
+  const N=10, MAN=6.5, AUTO=2;
   const wrap=h('div',{class:'race'});
   const mk=(cls,label,c)=>{ const docs=h('div',{class:'docs'}, Array.from({length:N},()=>h('span'))); const t=h('b',{text:'0.0 min'}); const bar=h('i',{style:`background:var(${c})`}); return {el:h('div',{class:`lane ${cls}`}, h('div',{class:'lh'}, h('span',{text:label}), t), h('div',{class:'bar'},bar), docs), t, bar, docs}; };
-  const man=mk('manual','Manual · 8 min each','--s2'), auto=mk('lane-auto','Automated · under 2 min each','--s1');
-  const btn=h('button',{class:'btn coral sm'},'▶ Generate 10 contracts');
+  const man=mk('manual','Manual · 5–8 min each (avg 6.5)','--s2'), auto=mk('lane-auto','Automated · about 2 min each','--s1');
+  const btn=h('button',{class:'btn coral sm'},'▶ Generate 10 MoAs');
   const res=h('span',{class:'muted small',text:'Simulated at 1 second = 10 minutes.'});
   wrap.append(h('div',{style:'display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap'}, btn, res), man.el, auto.el);
   const fmt=m=>`${m.toFixed(m<10?1:0)} min`;
@@ -1501,7 +1584,7 @@ function raceWidget(){
     const step=now=>{
       const simMin=(now-t0)/1000*10;
       [[man,MAN],[auto,AUTO]].forEach(([l,per])=>{ const total=N*per, m=Math.min(simMin,total); l.t.textContent=fmt(m); l.bar.style.width=(m/(N*MAN)*100)+'%'; const done=Math.floor(m/per+1e-9); $$('span',l.docs).forEach((s,i)=>s.classList.toggle('done',i<done)); });
-      if(simMin<N*MAN) raf=requestAnimationFrame(step); else { btn.disabled=false; btn.textContent='↻  Run again'; res.textContent=`${N*MAN} min manual vs ${N*AUTO} min automated. That saves ${Math.round(N*(MAN-AUTO))} minutes per 10 contracts.`; }
+      if(simMin<N*MAN) raf=requestAnimationFrame(step); else { btn.disabled=false; btn.textContent='↻  Run again'; res.textContent=`${N*MAN} min manual vs ${N*AUTO} min automated. That saves ${Math.round(N*(MAN-AUTO))} minutes per 10 MoAs.`; }
     };
     raf=requestAnimationFrame(step);
   };
@@ -1644,6 +1727,7 @@ renderExplorer();
 renderLab(0);
 setupSim();
 renderAuto();
+renderSchoters();
 renderExp();
 renderContact();
 setupAnalytics();
