@@ -103,7 +103,8 @@ section{position:relative; padding:130px 0 0}
 .hero.focused .hero-ui>*{opacity:0; transform:translateX(-30px); pointer-events:none}
 /* ---------- background music (boombox) ---------- */
 .radio.nudge{animation:nudge 1.6s ease-in-out infinite}
-.radio.nudge::after{content:"🔊 Tap anywhere for music"; position:absolute; left:calc(100% + 10px); top:50%; transform:translateY(-50%); white-space:nowrap; font-size:12.5px; font-weight:900; padding:5px 11px; background:var(--sun); border:2px solid var(--ink); border-radius:999px; box-shadow:2px 2px 0 var(--ink)}
+.radio-nudge{display:none; position:absolute; left:calc(100% + 10px); top:50%; transform:translateY(-50%); white-space:nowrap; font:inherit; font-size:12.5px; font-weight:900; padding:6px 12px; background:var(--sun); color:var(--ink); border:2px solid var(--ink); border-radius:999px; box-shadow:2px 2px 0 var(--ink); cursor:pointer}
+.radio.nudge .radio-nudge{display:block}
 @keyframes nudge{0%,100%{transform:rotate(0)}10%{transform:rotate(-6deg)}20%{transform:rotate(6deg)}30%{transform:rotate(0)}}
 
 .radio{position:fixed; left:16px; bottom:calc(16px + env(safe-area-inset-bottom, 0px)); z-index:55; display:flex; align-items:center; gap:10px; padding:6px; background:var(--paper); border:var(--bw) solid var(--ink); border-radius:999px; box-shadow:var(--pop-sm); max-width:calc(100vw - 32px)}
@@ -630,6 +631,7 @@ section:last-of-type{padding-bottom:90px}
   <button class="radio-btn" id="radioBtn" aria-pressed="false" aria-label="Play background music"><span class="note" aria-hidden="true">♪</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></button>
   <div class="radio-info" aria-live="polite"><b id="radioTitle"></b><span id="radioArtist"></span></div>
   <button class="radio-next" id="radioNext" aria-label="Next song">⏭</button>
+  <button class="radio-nudge" id="radioNudge" type="button">🔊 Tap for music</button>
   <input class="radio-vol" id="radioVol" type="range" min="0" max="0.4" step="0.01" value="0.12" aria-label="Music volume">
 </div>
 <div class="scrim" id="scrim"></div>
@@ -651,8 +653,8 @@ const CONFIG = {
     volume: 0.12,                    // 0 to 1. 0.12 sits in the background.
     tracks: [
       // Both tracks: "8 bit lofi" by TAD, CC0 (public domain) via OpenGameArt.org
-      { title:'Ice Cave', artist:'TAD · 8-bit lofi', src:'assets/audio/ice-cave.mp3' },
-      { title:'Iced Village', artist:'TAD · 8-bit lofi', src:'assets/audio/iced-village.mp3' }
+      { title:'Ice Cave', artist:'TAD · 8-bit lofi', src:'ice-cave.mp3' },
+      { title:'Iced Village', artist:'TAD · 8-bit lofi', src:'iced-village.mp3' }
     ]
   }
 };
@@ -948,7 +950,7 @@ const SKILL_GROUPS = [
 ];
 
 
-const CREATIVES = {"olx": [{"p": "assets/c/olx/1.webp", "cap": "July buyer · Cari Mobil Baru atau Bekas", "w": 480, "h": 720}, {"p": "assets/c/olx/2.webp", "cap": "July buyer · Overthinking Pilih Mobil?", "w": 480, "h": 720}, {"p": "assets/c/olx/3.webp", "cap": "July buyer · Ragu Pilih Mobil Baru?", "w": 480, "h": 720}, {"p": "assets/c/olx/4.webp", "cap": "July buyer · Mager Keliling Dealer?", "w": 480, "h": 720}, {"p": "assets/c/olx/5.webp", "cap": "August seller · Mau Jual Mobil?", "w": 320, "h": 480}, {"p": "assets/c/olx/6.webp", "cap": "August seller · Mau Jual Motor?", "w": 320, "h": 480}, {"p": "assets/c/olx/7.webp", "cap": "August seller · Mau Jual HP?", "w": 320, "h": 480}, {"p": "assets/c/olx/8.webp", "cap": "August seller · Jual Apa Aja", "w": 320, "h": 480}], "gemini": [{"v": "assets/c/gemini/1.mp4", "p": "assets/c/gemini/1.webp", "cap": "Thrift · Gemini Pro, gaya thrift", "w": 360, "h": 266}, {"v": "assets/c/gemini/2.mp4", "p": "assets/c/gemini/2.webp", "cap": "Study · belajar bareng", "w": 360, "h": 266}, {"v": "assets/c/gemini/3.mp4", "p": "assets/c/gemini/3.webp", "cap": "Cloud · 400 GB gratis", "w": 360, "h": 266}, {"v": "assets/c/gemini/4.mp4", "p": "assets/c/gemini/4.webp", "cap": "Nano Banana · ganti muka", "w": 360, "h": 266}], "axis5g": [{"p": "assets/c/axis5g/1.webp", "cap": "Live Streaming Sebuasnya · TikTok theme", "w": 300, "h": 250}, {"p": "assets/c/axis5g/2.webp", "cap": "Win Streak Sebuasnya · Gaming theme", "w": 300, "h": 250}], "marlboro": [{"v": "assets/c/marlboro/1.mp4", "p": "assets/c/marlboro/1.webp", "cap": "Hyperlocal launch unit · 62-frame animation", "w": 426, "h": 640}], "dss": [{"v": "assets/c/dss/1.mp4", "p": "assets/c/dss/1.webp", "cap": "Jedamu · Setiap Jeda Punya Cerita", "w": 320, "h": 480}, {"v": "assets/c/dss/2.mp4", "p": "assets/c/dss/2.webp", "cap": "New Office · brand end-frame", "w": 320, "h": 480}], "richeese": [{"p": "assets/c/richeese/1.webp", "cap": "Ad unit · map teaser", "w": 466, "h": 636}, {"p": "assets/c/richeese/2.webp", "cap": "Map · 20 outlets pinned", "w": 466, "h": 636}, {"p": "assets/c/richeese/3.webp", "cap": "Nearest outlet, with distance", "w": 466, "h": 636}, {"p": "assets/c/richeese/4.webp", "cap": "In-app placement", "w": 347, "h": 720}], "frisian": [{"v": "assets/c/frisian/1.mp4", "p": "assets/c/frisian/1.webp", "cap": "Phase 1 · trigger banner", "w": 260, "h": 520}, {"v": "assets/c/frisian/2.mp4", "p": "assets/c/frisian/2.webp", "cap": "Phase 2 · recipe unit → WhatsApp", "w": 400, "h": 602}, {"p": "assets/c/frisian/3.webp", "cap": "Microsite 1 · choose gender", "w": 320, "h": 640}, {"p": "assets/c/frisian/4.webp", "cap": "Microsite 2 · choose profession", "w": 320, "h": 640}, {"p": "assets/c/frisian/5.webp", "cap": "Microsite 4 · upload photo", "w": 320, "h": 640}, {"p": "assets/c/frisian/6.webp", "cap": "Microsite 5 · card generating", "w": 320, "h": 640}, {"p": "assets/c/frisian/7.webp", "cap": "Microsite 6 · download card", "w": 320, "h": 568}, {"p": "assets/c/frisian/8.webp", "cap": "Microsite 7 · WhatsApp handoff", "w": 405, "h": 720}], "sq": [{"p": "assets/c/sq/1.webp", "cap": "A/B winner · MIX, opens at IDR 5.8 JT", "w": 361, "h": 720}, {"p": "assets/c/sq/2.webp", "cap": "A/B · Europe-only, opens at 13.5 JT", "w": 480, "h": 720}, {"p": "assets/c/sq/3.webp", "cap": "Hero · Jakarta, Gandaria City", "w": 320, "h": 480}, {"p": "assets/c/sq/4.webp", "cap": "Hero · Surabaya, Pakuwon Mall", "w": 480, "h": 720}, {"p": "assets/c/sq/5.webp", "cap": "Hero · Medan, Centre Point", "w": 320, "h": 480}, {"p": "assets/c/sq/6.webp", "cap": "Hero · Denpasar, Trans Studio", "w": 320, "h": 480}, {"p": "assets/c/sq/7.webp", "cap": "Landscape format", "w": 600, "h": 500}], "wyeth": [{"p": "assets/c/wyeth/1.webp", "cap": "Film · Semua Bisa Jadi Hebat", "w": 640, "h": 360}, {"p": "assets/c/wyeth/2.webp", "cap": "Film · Advanced Formulation", "w": 640, "h": 360}, {"p": "assets/c/wyeth/3.webp", "cap": "Film · kids moment", "w": 640, "h": 360}, {"p": "assets/c/wyeth/4.webp", "cap": "Display · TRY NOW", "w": 640, "h": 360}, {"p": "assets/c/wyeth/5.webp", "cap": "Packshot · S-26 Procal Gold 3", "w": 720, "h": 720}], "pia": [{"p": "assets/c/pia/1.webp", "cap": "Interactive vertical unit", "w": 405, "h": 720}, {"p": "assets/c/pia/2.webp", "cap": "Short-drama video frame", "w": 405, "h": 720}], "fifa": [{"p": "assets/c/fifa/1.webp", "cap": "320x480 rich media banner", "w": 476, "h": 720}, {"p": "assets/c/fifa/2.webp", "cap": "Frame 1 · Saatnya Momen Besar Dirayakan", "w": 251, "h": 382}, {"p": "assets/c/fifa/3.webp", "cap": "Frame 2 · Anda Pantas Menikmatinya", "w": 254, "h": 382}, {"p": "assets/c/fifa/4.webp", "cap": "End card · DJISAMSOE.ID", "w": 251, "h": 382}]};
+const CREATIVES = {"olx": [{"p": "c-olx-1.webp", "cap": "July buyer · Cari Mobil Baru atau Bekas", "w": 480, "h": 720}, {"p": "c-olx-2.webp", "cap": "July buyer · Overthinking Pilih Mobil?", "w": 480, "h": 720}, {"p": "c-olx-3.webp", "cap": "July buyer · Ragu Pilih Mobil Baru?", "w": 480, "h": 720}, {"p": "c-olx-4.webp", "cap": "July buyer · Mager Keliling Dealer?", "w": 480, "h": 720}, {"p": "c-olx-5.webp", "cap": "August seller · Mau Jual Mobil?", "w": 320, "h": 480}, {"p": "c-olx-6.webp", "cap": "August seller · Mau Jual Motor?", "w": 320, "h": 480}, {"p": "c-olx-7.webp", "cap": "August seller · Mau Jual HP?", "w": 320, "h": 480}, {"p": "c-olx-8.webp", "cap": "August seller · Jual Apa Aja", "w": 320, "h": 480}], "gemini": [{"v": "c-gemini-1.mp4", "p": "c-gemini-1.webp", "cap": "Thrift · Gemini Pro, gaya thrift", "w": 360, "h": 266}, {"v": "c-gemini-2.mp4", "p": "c-gemini-2.webp", "cap": "Study · belajar bareng", "w": 360, "h": 266}, {"v": "c-gemini-3.mp4", "p": "c-gemini-3.webp", "cap": "Cloud · 400 GB gratis", "w": 360, "h": 266}, {"v": "c-gemini-4.mp4", "p": "c-gemini-4.webp", "cap": "Nano Banana · ganti muka", "w": 360, "h": 266}], "axis5g": [{"p": "c-axis5g-1.webp", "cap": "Live Streaming Sebuasnya · TikTok theme", "w": 300, "h": 250}, {"p": "c-axis5g-2.webp", "cap": "Win Streak Sebuasnya · Gaming theme", "w": 300, "h": 250}], "marlboro": [{"v": "c-marlboro-1.mp4", "p": "c-marlboro-1.webp", "cap": "Hyperlocal launch unit · 62-frame animation", "w": 426, "h": 640}], "dss": [{"v": "c-dss-1.mp4", "p": "c-dss-1.webp", "cap": "Jedamu · Setiap Jeda Punya Cerita", "w": 320, "h": 480}, {"v": "c-dss-2.mp4", "p": "c-dss-2.webp", "cap": "New Office · brand end-frame", "w": 320, "h": 480}], "richeese": [{"p": "c-richeese-1.webp", "cap": "Ad unit · map teaser", "w": 466, "h": 636}, {"p": "c-richeese-2.webp", "cap": "Map · 20 outlets pinned", "w": 466, "h": 636}, {"p": "c-richeese-3.webp", "cap": "Nearest outlet, with distance", "w": 466, "h": 636}, {"p": "c-richeese-4.webp", "cap": "In-app placement", "w": 347, "h": 720}], "frisian": [{"v": "c-frisian-1.mp4", "p": "c-frisian-1.webp", "cap": "Phase 1 · trigger banner", "w": 260, "h": 520}, {"v": "c-frisian-2.mp4", "p": "c-frisian-2.webp", "cap": "Phase 2 · recipe unit → WhatsApp", "w": 400, "h": 602}, {"p": "c-frisian-3.webp", "cap": "Microsite 1 · choose gender", "w": 320, "h": 640}, {"p": "c-frisian-4.webp", "cap": "Microsite 2 · choose profession", "w": 320, "h": 640}, {"p": "c-frisian-5.webp", "cap": "Microsite 4 · upload photo", "w": 320, "h": 640}, {"p": "c-frisian-6.webp", "cap": "Microsite 5 · card generating", "w": 320, "h": 640}, {"p": "c-frisian-7.webp", "cap": "Microsite 6 · download card", "w": 320, "h": 568}, {"p": "c-frisian-8.webp", "cap": "Microsite 7 · WhatsApp handoff", "w": 405, "h": 720}], "sq": [{"p": "c-sq-1.webp", "cap": "A/B winner · MIX, opens at IDR 5.8 JT", "w": 361, "h": 720}, {"p": "c-sq-2.webp", "cap": "A/B · Europe-only, opens at 13.5 JT", "w": 480, "h": 720}, {"p": "c-sq-3.webp", "cap": "Hero · Jakarta, Gandaria City", "w": 320, "h": 480}, {"p": "c-sq-4.webp", "cap": "Hero · Surabaya, Pakuwon Mall", "w": 480, "h": 720}, {"p": "c-sq-5.webp", "cap": "Hero · Medan, Centre Point", "w": 320, "h": 480}, {"p": "c-sq-6.webp", "cap": "Hero · Denpasar, Trans Studio", "w": 320, "h": 480}, {"p": "c-sq-7.webp", "cap": "Landscape format", "w": 600, "h": 500}], "wyeth": [{"p": "c-wyeth-1.webp", "cap": "Film · Semua Bisa Jadi Hebat", "w": 640, "h": 360}, {"p": "c-wyeth-2.webp", "cap": "Film · Advanced Formulation", "w": 640, "h": 360}, {"p": "c-wyeth-3.webp", "cap": "Film · kids moment", "w": 640, "h": 360}, {"p": "c-wyeth-4.webp", "cap": "Display · TRY NOW", "w": 640, "h": 360}, {"p": "c-wyeth-5.webp", "cap": "Packshot · S-26 Procal Gold 3", "w": 720, "h": 720}], "pia": [{"p": "c-pia-1.webp", "cap": "Interactive vertical unit", "w": 405, "h": 720}, {"p": "c-pia-2.webp", "cap": "Short-drama video frame", "w": 405, "h": 720}], "fifa": [{"p": "c-fifa-1.webp", "cap": "320x480 rich media banner", "w": 476, "h": 720}, {"p": "c-fifa-2.webp", "cap": "Frame 1 · Saatnya Momen Besar Dirayakan", "w": 251, "h": 382}, {"p": "c-fifa-3.webp", "cap": "Frame 2 · Anda Pantas Menikmatinya", "w": 254, "h": 382}, {"p": "c-fifa-4.webp", "cap": "End card · DJISAMSOE.ID", "w": 251, "h": 382}]};
 const EP = {"richeese": {"n": 1, "tag": "From impression to the store door.", "bg": "#ffe3cf", "bb": 0, "e": "🍗", "hi": 0}, "frisian": {"n": 2, "tag": "8,859 mothers told the brand their child's dream.", "bg": "#dcecff", "bb": 1, "e": "🥛", "hi": 1}, "gemini": {"n": 3, "tag": "One idea, four films, zero wear-out.", "bg": "#ece2ff", "bb": 0, "e": "🎬", "hi": 0}, "olx": {"n": 4, "tag": "Two flights, two sides of a marketplace.", "bg": "#d6f5e7", "bb": 0, "e": "🚗", "hi": 2}, "sq": {"n": 5, "tag": "The cheapest fare opened the door.", "bg": "#dcecff", "bb": 2, "e": "✈️", "hi": 0}, "wyeth": {"n": 6, "tag": "87% of mothers watched to the very end.", "bg": "#fff3b8", "bb": 0, "e": "📺", "hi": 0}, "pia": {"n": 7, "tag": "The only brand in its set to gain recall.", "bg": "#ffe0ec", "bb": 0, "e": "🍰", "hi": 1}, "marlboro": {"n": 8, "tag": "Double the CTR target, zero gaming apps.", "bg": "#ffe3cf", "bb": 0, "e": "📍", "hi": 0}, "fifa": {"n": 9, "tag": "Fixed viewability in week one, then scaled.", "bg": "#fff3b8", "bb": 0, "e": "⚽", "hi": 1}, "axis5g": {"n": 10, "tag": "Booking met four days early. Kept running for free.", "bg": "#ece2ff", "bb": 0, "e": "📶", "hi": 0}, "dss": {"n": 11, "tag": "A 19-day sprint, and an honest miss.", "bg": "#ffe0ec", "bb": 0, "e": "⏱️", "hi": 0}};
 
 /* ============================================================
@@ -1586,34 +1588,46 @@ function setupScroll(){
    ============================================================ */
 function setupMusic(){
   const M=CONFIG.music; if(!M || !M.tracks || !M.tracks.length) return;
-  const box=$('#radio'), btn=$('#radioBtn'), title=$('#radioTitle'), artist=$('#radioArtist'), next=$('#radioNext'), vol=$('#radioVol');
+  const box=$('#radio'), btn=$('#radioBtn'), title=$('#radioTitle'), artist=$('#radioArtist'), next=$('#radioNext'), vol=$('#radioVol'), nudge=$('#radioNudge');
   const store={ get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }, set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} } };
   let target=+(store.get('music-vol') ?? M.volume); if(!(target>=0)) target=M.volume;
   vol.value=target;
-  const audio=new Audio(); audio.preload='metadata'; audio.volume=0;
-  let i=0, ok=false, want=store.get('music')!=='off', fadeRaf=0, wasPlaying=false;
+  const audio=new Audio(); audio.preload='auto'; audio.setAttribute('playsinline','');
+  let i=0, want=store.get('music')!=='off', cur=0, fadeRaf=0, wasPlaying=false, fails=0, ctx=null, gain=null;
+  // iPhones ignore audio.volume, so route the sound through Web Audio (a gain node) once the visitor has interacted.
+  const setVol=v=>{ cur=Math.max(0,Math.min(1,v)); if(gain) gain.gain.value=cur; else audio.volume=cur; };
+  const sameOrigin=u=>{ try{ return new URL(u,location.href).origin===location.origin; }catch(e){ return false; } };
+  const wire=()=>{
+    if(ctx){ if(ctx.state!=='running') ctx.resume().catch(()=>{}); return; }
+    const AC=window.AudioContext||window.webkitAudioContext; if(!AC || !sameOrigin(audio.src)) return;
+    try{ ctx=new AC(); const src=ctx.createMediaElementSource(audio); gain=ctx.createGain(); src.connect(gain); gain.connect(ctx.destination); audio.volume=1; gain.gain.value=cur; ctx.resume().catch(()=>{}); }catch(e){ ctx=null; gain=null; }
+  };
   const load=k=>{ i=(k+M.tracks.length)%M.tracks.length; const t=M.tracks[i]; audio.src=t.src; title.textContent=t.title; artist.textContent=t.artist; };
-  const fadeTo=(v,ms,done)=>{ cancelAnimationFrame(fadeRaf); const v0=audio.volume, t0=performance.now(); const step=now=>{ const p=Math.min(1,(now-t0)/ms); audio.volume=Math.max(0,Math.min(1,v0+(v-v0)*p)); if(p<1) fadeRaf=requestAnimationFrame(step); else if(done) done(); }; fadeRaf=requestAnimationFrame(step); };
-  const paint=()=>{ const on=!audio.paused; box.classList.toggle('playing',on); btn.setAttribute('aria-pressed',String(on)); btn.setAttribute('aria-label', on?'Pause background music':'Play background music'); box.classList.toggle('compact', !on); };
-  const play=()=>audio.play().then(()=>{ box.classList.remove('nudge'); fadeTo(target, 2500); paint(); return true; }).catch(()=>{ paint(); return false; });
+  const fadeTo=(v,ms,done)=>{ cancelAnimationFrame(fadeRaf); const v0=cur, t0=performance.now(); const step=now=>{ const p=Math.min(1,(now-t0)/ms); setVol(v0+(v-v0)*p); if(p<1) fadeRaf=requestAnimationFrame(step); else if(done) done(); }; fadeRaf=requestAnimationFrame(step); };
+  const paint=()=>{ const on=!audio.paused; box.classList.toggle('playing',on); btn.setAttribute('aria-pressed',String(on)); btn.setAttribute('aria-label', on?'Pause background music':'Play background music'); box.classList.toggle('compact', !on); if(on) box.classList.remove('nudge'); };
+  const play=()=>{ const p=audio.play(); if(!p) return Promise.resolve(true);
+    return p.then(()=>{ box.classList.remove('nudge'); fadeTo(target, 2500); paint(); return true; })
+            .catch(()=>{ paint(); if(want) box.classList.add('nudge'); return false; }); };
   const pause=()=>fadeTo(0, 400, ()=>{ audio.pause(); paint(); });
-  audio.addEventListener('loadedmetadata',()=>{ if(!ok){ ok=true; box.hidden=false; } },{once:false});
-  audio.addEventListener('error',()=>{ if(!ok){ // try the other track before giving up
-      if(i<M.tracks.length-1){ load(i+1); } else box.hidden=true; } });
+  const start=()=>{ want=true; store.set('music','on'); wire(); if(audio.paused) play(); };
+  audio.addEventListener('canplay',()=>{ fails=0; box.hidden=false; });
+  audio.addEventListener('error',()=>{ fails++; console.warn('Music file could not be loaded:', audio.src);
+    if(fails>=M.tracks.length){ box.hidden=true; return; } const was=want && !audio.paused; load(i+1); if(was) play(); });
   audio.addEventListener('ended',()=>{ load(i+1); play(); });
   audio.addEventListener('play',paint); audio.addEventListener('pause',paint);
-  btn.onclick=e=>{ e.stopPropagation(); if(audio.paused){ want=true; store.set('music','on'); play(); } else { want=false; store.set('music','off'); pause(); } };
-  next.onclick=e=>{ e.stopPropagation(); load(i+1); want=true; store.set('music','on'); audio.volume=0; play(); };
-  vol.oninput=()=>{ target=+vol.value; store.set('music-vol',target); if(!audio.paused) audio.volume=target; };
-  vol.onclick=e=>e.stopPropagation();
-  const first=()=>{ ['pointerdown','touchend','keydown'].forEach(ev=>removeEventListener(ev,first,true)); if(want && audio.paused) play(); };
-  ['pointerdown','touchend','keydown'].forEach(ev=>addEventListener(ev,first,true));
-  document.addEventListener('visibilitychange',()=>{ if(document.hidden){ wasPlaying=!audio.paused; if(wasPlaying) audio.pause(); } else if(wasPlaying && want){ audio.volume=0; play(); } });
+  btn.onclick=()=>{ if(audio.paused) start(); else { want=false; store.set('music','off'); pause(); } };
+  nudge.onclick=start;
+  next.onclick=()=>{ wire(); load(i+1); want=true; store.set('music','on'); setVol(0); play(); };
+  vol.oninput=()=>{ target=+vol.value; store.set('music-vol',target); if(!audio.paused) setVol(target); };
+  // Any click, tap or key press on the page starts the music (unless the visitor switched it off).
+  // The listener stays on, so if one attempt is refused the next interaction tries again.
+  const gesture=e=>{ if(e.target && e.target.closest && e.target.closest('#radio')) return; if(!want) return; wire(); if(audio.paused) play(); };
+  ['pointerup','touchend','click','keydown'].forEach(ev=>addEventListener(ev,gesture,{capture:true,passive:true}));
+  document.addEventListener('visibilitychange',()=>{ if(document.hidden){ wasPlaying=!audio.paused; if(wasPlaying) audio.pause(); } else if(wasPlaying && want){ setVol(0); play(); } });
   box.hidden=false;
   load(0);
-  // Try to start right away. Browsers allow this only on some visits (e.g. a returning visitor on desktop Chrome);
-  // otherwise it starts on the first click, tap or key press, and the button nudges the visitor.
-  if(want) play().then(ok2=>{ if(!ok2 && want) box.classList.add('nudge'); });
+  // Try to start right away. Most browsers refuse sound before the first interaction; then the button nudges the visitor.
+  if(want) play();
 }
 
 /* ============================================================
