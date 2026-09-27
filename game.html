@@ -1,0 +1,1264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Pacing Panic: an 8-bit media-buying game. 30 days, one budget, three client briefs. Deliver the booking, hit the KPI, keep the margin. Made by Adrian Rafael Hakeem.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rafaelhakeem.github.io/game.html">
+<meta property="og:title" content="Pacing Panic · a media-buying game">
+<meta property="og:description" content="Pacing Panic: an 8-bit media-buying game. 30 days, one budget, three client briefs. Deliver the booking, hit the KPI, keep the margin. Made by Adrian Rafael Hakeem.">
+<meta name="image" property="og:image" content="https://rafaelhakeem.github.io/game-og.jpg?v=1">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pacing Panic title screen: a pixel media buyer racing along a 30-day calendar at night">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#16123a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Crect width='12' height='12' fill='%23ffd23f'/%3E%3Cpath d='M2 6h1v4H2zM5 3h1v7H5zM7 5h1v5H7zM9 2h1v8H9z' fill='%230a0820'/%3E%3C/svg%3E">
+<title>Pacing Panic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap">
+<style>
+/* One visual world on purpose: an 8-bit arcade cabinet at night, in the portfolio's colours. */
+:root{
+  color-scheme: dark;
+  --bg:#16123a; --bg2:#1d1850; --panel:#241d52; --panel2:#2f2766; --well:#120f2e;
+  --edge:#0a0820; --cream:#f6efe0; --muted:#b9b0d9; --dim:#7d74a8;
+  --sun:#ffd23f; --coral:#ff6b5b; --mint:#3ddc97; --sky:#4dabf7; --grape:#9b5de5;
+  --hi:#ffd23f; --warn:#ffd23f; --barbg:rgba(18,15,46,.94);
+  --dot1:rgba(255,210,63,.55); --dot2:rgba(207,224,255,.45);
+  --px:4px;
+  --disp:"Silkscreen", "Courier New", monospace;
+  --mono:"VT323", "Courier New", monospace;
+}
+/* Each brief re-skins the whole cabinet while you play it */
+:root[data-brief="launch"]{   /* Kopi Kilat: espresso and caramel, morning café */
+  --bg:#2a1a14; --bg2:#33201a; --panel:#3b261c; --panel2:#4a3024; --well:#1f130e; --edge:#140b07;
+  --cream:#fbefdc; --muted:#d8bfa6; --dim:#a08670; --sun:#ffb347; --hi:#ffc46b; --warn:#ffc46b; --sky:#8fd3ff; --grape:#e0896b;
+  --barbg:rgba(31,19,14,.95); --dot1:rgba(255,179,71,.35); --dot2:rgba(255,241,208,.25) }
+:root[data-brief="clicks"]{   /* Nusa Telco: neon city */
+  --bg:#070a1f; --bg2:#0b1030; --panel:#101842; --panel2:#18225a; --well:#050818; --edge:#01020a;
+  --cream:#e8f7ff; --muted:#9fb6e0; --dim:#6a7fb0; --sun:#29f0ff; --hi:#29f0ff; --warn:#ffd23f; --sky:#29f0ff; --grape:#ff4fd8;
+  --barbg:rgba(5,8,24,.95); --dot1:rgba(41,240,255,.5); --dot2:rgba(255,79,216,.4) }
+:root[data-brief="video"]{    /* Kasur Awan: pastel bedtime, the one light theme */
+  color-scheme: light;
+  --bg:#f6e4f1; --bg2:#efd9ec; --panel:#fff6fb; --panel2:#f3e3f7; --well:#ead8f1; --edge:#5b3f78;
+  --cream:#3d2a55; --muted:#6f5a8a; --dim:#8e7aa8; --sun:#ffe28a; --hi:#c2408a; --warn:#b77900; --coral:#ff6f86; --mint:#39c796; --sky:#6aa8ff; --grape:#a57cff;
+  --barbg:rgba(246,228,241,.96); --dot1:rgba(165,124,255,.35); --dot2:rgba(255,111,134,.3) }
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html,body{margin:0; background:var(--bg); color:var(--cream); transition:background-color .4s}
+body{font-family:var(--mono); font-size:21px; line-height:1.25; -webkit-font-smoothing:none;
+  background:
+    radial-gradient(circle at 12% 18%, var(--dot1) 0 1px, transparent 1.5px) 0 0/190px 170px,
+    radial-gradient(circle at 70% 60%, var(--dot2) 0 1px, transparent 1.5px) 0 0/230px 210px,
+    var(--bg);
+  padding-inline:16px; padding-block:0 96px}
+button,input{font:inherit; color:inherit}
+a{color:var(--hi)}
+:focus-visible{outline:3px dashed var(--sun); outline-offset:3px}
+.app{max-width:1100px; margin:0 auto; display:flex; flex-direction:column; gap:18px; padding-top:14px}
+h1,h2,h3{font-family:var(--disp); font-weight:700; margin:0; line-height:1.05; text-wrap:balance}
+.label{font-family:var(--disp); font-weight:400; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---- pixel window: notched corners + bevel, the NES dialog-box look ---- */
+.win{position:relative; background:var(--panel); border:var(--px) solid var(--edge);
+  clip-path:polygon(var(--px) 0, calc(100% - var(--px)) 0, 100% var(--px), 100% calc(100% - var(--px)), calc(100% - var(--px)) 100%, var(--px) 100%, 0 calc(100% - var(--px)), 0 var(--px));
+  box-shadow:inset 4px 4px 0 rgba(255,255,255,.07), inset -4px -4px 0 rgba(0,0,0,.28); padding:16px}
+.win.well{background:var(--well)}
+.btn{--c:var(--sun); --t:#1a1433; display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:48px; padding:10px 18px;
+  font-family:var(--disp); font-weight:700; font-size:17px; letter-spacing:.04em; text-transform:uppercase; color:var(--t); background:var(--c);
+  border:var(--px) solid var(--edge); cursor:pointer; text-decoration:none;
+  clip-path:polygon(var(--px) 0, calc(100% - var(--px)) 0, 100% var(--px), 100% calc(100% - var(--px)), calc(100% - var(--px)) 100%, var(--px) 100%, 0 calc(100% - var(--px)), 0 var(--px));
+  box-shadow:inset -4px -5px 0 rgba(0,0,0,.25), inset 4px 4px 0 rgba(255,255,255,.35); transition:transform .06s}
+.btn:active{transform:translateY(2px); box-shadow:inset 4px 5px 0 rgba(0,0,0,.25)}
+.btn.ghost{--c:var(--panel2); --t:var(--cream)}
+.btn.coral{--c:var(--coral)} .btn.mint{--c:var(--mint)} .btn.sky{--c:var(--sky)}
+.btn.sm{min-height:40px; padding:6px 12px; font-size:14px}
+.btn[disabled]{opacity:.45; cursor:not-allowed}
+
+/* ---- top bar ---- */
+.bar{display:flex; align-items:center; gap:12px; justify-content:space-between}
+.logo{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--cream)}
+.logo canvas{width:36px; height:36px; image-rendering:pixelated}
+.logo b{font-family:var(--disp); font-size:22px; letter-spacing:.02em}
+.logo small{display:block; font-size:16px; color:var(--muted); font-family:var(--mono)}
+.bar .tools{display:flex; gap:8px; align-items:center}
+.bar .tools .btn, .logo b{white-space:nowrap}
+@media (max-width:480px){ .logo b{font-size:15px} .logo small{display:none} .logo canvas{width:28px; height:28px} .bar .tools{gap:6px} .bar .tools .btn{min-height:40px; padding:4px 8px; font-size:12px} }
+
+/* ---- scene canvas ---- */
+.scene{display:block; width:100%; height:auto; aspect-ratio:240/78; image-rendering:pixelated; image-rendering:crisp-edges; background:var(--well)}
+
+/* ---- title screen ---- */
+.title{display:grid; gap:18px}
+.title .top2{display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:22px; align-items:center}
+@media (max-width:860px){ .title .top2{grid-template-columns:1fr} }
+.title .hero{display:grid; gap:16px; justify-items:start}
+.title h1{font-size:clamp(40px, 7.4vw, 84px); color:var(--hi); text-shadow:4px 4px 0 var(--coral), 8px 8px 0 var(--edge); letter-spacing:.01em}
+.title .tag{font-size:25px; max-width:30ch; color:var(--cream)}
+.blink{animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:.25}}
+.rules{display:grid; gap:12px}
+.rule h3{font-size:18px; color:var(--hi); margin-bottom:6px; display:flex; gap:8px; align-items:center}
+.rule p{margin:0; color:var(--muted); font-size:20px}
+.rule canvas{width:24px; height:24px; image-rendering:pixelated}
+.hs table{width:100%; border-collapse:collapse; font-size:21px}
+.hs th{font-family:var(--disp); font-size:12px; letter-spacing:.12em; color:var(--muted); text-align:left; font-weight:400; padding:4px 6px}
+.hs td{padding:3px 6px; border-top:2px dashed rgba(185,176,217,.18)}
+.hs td.sc{text-align:right; color:var(--hi)}
+.hs .dev{color:var(--sky)}
+.hs-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:14px}
+@media (max-width:760px){ .hs-grid{grid-template-columns:1fr} }
+.hs h3{font-size:15px; margin-bottom:6px}
+
+/* ---- brief select: cartridges ---- */
+.carts{display:grid; grid-template-columns:repeat(3, 1fr); gap:18px}
+@media (max-width:860px){ .carts{grid-template-columns:1fr} }
+.cart{--c:var(--sun); display:flex; flex-direction:column; gap:10px; text-align:left; cursor:pointer; background:var(--panel2); padding:0; border:var(--px) solid var(--edge);
+  clip-path:polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%, 0 12px)}
+.cart:hover .cart-label, .cart:focus-visible .cart-label{transform:translateY(-3px)}
+.cart .scene{border-bottom:var(--px) solid var(--edge)}
+.cart-top{height:16px; background:repeating-linear-gradient(90deg, var(--edge) 0 8px, transparent 8px 14px); opacity:.5}
+.cart-label{margin:0 14px; background:var(--c); color:#1a1433; padding:12px 14px 14px; transition:transform .12s; display:grid; gap:4px;
+  box-shadow:inset -4px -4px 0 rgba(0,0,0,.18), inset 4px 4px 0 rgba(255,255,255,.3)}
+.cart-label .goal{font-family:var(--disp); font-weight:700; font-size:13px; letter-spacing:.14em; text-transform:uppercase}
+.cart-label h3{font-size:28px}
+.cart-label .prod{font-size:19px}
+.cart-body{padding:4px 18px 18px; display:grid; gap:8px; color:var(--cream)}
+.cart-body p{margin:0; color:var(--muted); font-size:19px}
+.spec{display:grid; grid-template-columns:auto 1fr; gap:2px 12px; font-size:20px}
+.spec dt{color:var(--dim)} .spec dd{margin:0; text-align:right}
+.stars{color:var(--hi); letter-spacing:2px; font-family:var(--disp)}
+
+/* ---- play screen ---- */
+.play{display:grid; grid-template-columns:minmax(0, 1.15fr) minmax(0, 1fr); gap:18px; align-items:start}
+@media (max-width:900px){ .play{grid-template-columns:1fr} }
+.col{display:grid; gap:14px; min-width:0}
+.hud{display:grid; grid-template-columns:repeat(4, 1fr); gap:10px}
+@media (max-width:520px){ .hud{grid-template-columns:repeat(2, 1fr)} }
+.stat .v{font-size:30px; line-height:1} .stat .s{font-size:17px; color:var(--muted)}
+.chip{display:inline-block; font-family:var(--disp); font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:3px 7px; color:#1a1433; background:var(--mint)}
+.chip.bad{background:var(--coral)} .chip.warn{background:var(--sun)} .chip.info{background:var(--sky)}
+.bar8{position:relative; height:22px; background:var(--well); border:3px solid var(--edge); overflow:hidden}
+.bar8 i{position:absolute; left:0; top:0; bottom:0; background:repeating-linear-gradient(90deg, var(--mint) 0 10px, #2fbf83 10px 12px); transition:width .3s steps(6)}
+.bar8 i.bad{background:repeating-linear-gradient(90deg, var(--coral) 0 10px, #e0584a 10px 12px)}
+.bar8 i.warn{background:repeating-linear-gradient(90deg, var(--sun) 0 10px, #e8bd2e 10px 12px)}
+.bar8 b{position:absolute; top:-3px; bottom:-3px; width:4px; background:var(--cream); transform:translateX(-2px)}
+.meter{display:grid; gap:6px}
+.meter .row{display:flex; justify-content:space-between; gap:8px; align-items:baseline}
+.meter .row span{font-size:20px}
+.meter .row .chip{font-size:11px} .meter .row .label{font-size:12px}
+.log{margin:0; padding:0; list-style:none; display:grid; gap:2px; font-size:19px; color:var(--muted); min-height:84px}
+.log li:first-child{color:var(--cream)}
+.mixer{display:grid; gap:12px}
+.chan{display:grid; gap:6px; padding:12px 14px; background:var(--panel2); border-left:8px solid var(--c)}
+.chan .top{display:flex; justify-content:space-between; gap:8px; align-items:baseline; flex-wrap:wrap}
+.chan h3{font-size:17px}
+.chan .note{font-size:17px; color:var(--dim)}
+.chan .specs{display:flex; flex-wrap:wrap; gap:4px 12px; font-size:18px; color:var(--muted)}
+.chan .specs b{color:var(--cream); font-weight:400}
+.chan .ctl{display:grid; grid-template-columns:44px 1fr 44px; gap:8px; align-items:center}
+.chan .pm{min-height:40px; padding:0; font-size:22px}
+.chan .val{display:flex; justify-content:space-between; font-size:20px}
+.chan .val .cap{color:var(--coral)}
+input[type=range]{-webkit-appearance:none; appearance:none; width:100%; height:18px; background:var(--well); border:3px solid var(--edge); margin:0; cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; width:18px; height:30px; background:var(--c, var(--sun)); border:3px solid var(--edge); box-shadow:inset -3px -3px 0 rgba(0,0,0,.25)}
+input[type=range]::-moz-range-thumb{width:14px; height:26px; border-radius:0; background:var(--c, var(--sun)); border:3px solid var(--edge)}
+.fc{display:grid; gap:6px}
+.fc .line{display:flex; justify-content:space-between; gap:10px; font-size:20px; flex-wrap:wrap}
+.controls{display:flex; gap:10px; flex-wrap:wrap}
+.controls .btn{flex:1 1 auto}
+@media (max-width:900px){
+  .controls{position:fixed; left:0; right:0; bottom:0; z-index:20; padding:10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); background:var(--barbg); border-top:4px solid var(--edge)}
+}
+.brief-line{display:flex; flex-wrap:wrap; gap:6px 14px; align-items:baseline}
+.brief-line h2{font-size:24px; color:var(--hi)}
+.brief-line span{color:var(--muted); font-size:19px}
+
+/* ---- event modal ---- */
+.modal{position:fixed; inset:0; z-index:50; display:grid; place-items:center; padding:16px; background:rgba(10,8,32,.72)}
+.modal .win{max-width:520px; width:100%; display:grid; gap:12px; background:var(--panel)}
+.modal h2{font-size:28px; color:var(--hi)}
+.modal p{margin:0; font-size:22px}
+.modal .choices{display:grid; gap:10px}
+.modal .choice{display:grid; gap:2px; text-align:left; justify-items:start; text-transform:none; letter-spacing:0; font-size:18px; min-height:56px}
+.modal .choice small{font-family:var(--mono); font-size:18px; font-weight:400; opacity:.85}
+.shake{animation:shake .35s steps(4)}
+@keyframes shake{25%{transform:translate(-4px,2px)}50%{transform:translate(4px,-2px)}75%{transform:translate(-2px,-2px)}}
+
+/* ---- report ---- */
+.report{display:grid; grid-template-columns:minmax(0, 1.2fr) minmax(0, 1fr); gap:18px; align-items:start}
+@media (max-width:900px){ .report{grid-template-columns:1fr} }
+.eoc{display:grid; gap:14px}
+.eoc-head{display:flex; justify-content:space-between; gap:14px; align-items:center}
+.stamp{font-family:var(--disp); font-weight:700; font-size:84px; line-height:1; width:120px; height:120px; display:grid; place-items:center; color:#1a1433; background:var(--sun);
+  border:6px solid var(--edge); transform:rotate(-6deg); box-shadow:inset -6px -6px 0 rgba(0,0,0,.2); flex:none}
+.stamp[data-g="S"]{background:var(--mint)} .stamp[data-g="C"]{background:var(--sky)} .stamp[data-g="D"]{background:var(--coral)}
+.pop{animation:pop .5s steps(5)}
+@keyframes pop{0%{transform:scale(2.2) rotate(-6deg); opacity:0}100%{transform:rotate(-6deg)}}
+.tbl-wrap{overflow-x:auto}
+table.t{width:100%; border-collapse:collapse; font-size:20px}
+table.t th{font-family:var(--disp); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; font-weight:400; padding:6px 8px; border-bottom:3px solid var(--edge)}
+@media (max-width:520px){ table.t{font-size:18px} table.t td, table.t th{padding:5px 4px} .stamp{width:96px; height:96px; font-size:64px} }
+table.t td{padding:6px 8px; border-bottom:2px dashed rgba(185,176,217,.18)}
+table.t td.r, table.t th.r{text-align:right}
+.ok{color:var(--mint)} .no{color:var(--coral)}
+.pts{display:grid; gap:6px}
+.pts .row{display:grid; grid-template-columns:120px 1fr 64px; gap:10px; align-items:center; font-size:20px}
+.pts .row span:last-child{text-align:right}
+.lessonbox{border-left:8px solid var(--sun); padding:10px 14px; background:var(--panel2); font-size:21px}
+.initials{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+.initials input{width:5.2em; font-family:var(--disp); font-weight:700; font-size:32px; letter-spacing:.35em; text-transform:uppercase; text-align:center;
+  background:var(--well); color:var(--hi); border:var(--px) solid var(--edge); padding:4px 0 4px .35em}
+.share{display:grid; gap:12px}
+.share canvas{width:100%; height:auto; aspect-ratio:1200/630; image-rendering:auto; border:var(--px) solid var(--edge); background:var(--well)}
+.share .row{display:flex; flex-wrap:wrap; gap:10px}
+.share textarea{width:100%; min-height:110px; font-family:var(--mono); font-size:19px; background:var(--well); color:var(--cream); border:3px solid var(--edge); padding:8px; resize:vertical}
+.bar{position:relative}
+.menu{position:absolute; right:0; top:62px; z-index:80; width:min(300px, calc(100vw - 32px)); display:grid; gap:10px; padding:12px}
+.app{position:relative}
+.menu-items{display:grid; gap:6px}
+.menu-items button, .menu-items a{display:block; text-align:left; font-family:var(--disp); font-size:15px; color:var(--cream); background:var(--panel2); border:3px solid var(--edge); padding:10px 12px; cursor:pointer; text-decoration:none; min-height:44px}
+.menu-items button:hover, .menu-items a:hover, .menu-items button:focus-visible{background:var(--sun); color:#1a1433}
+.menu-confirm{display:grid; gap:10px} .menu-confirm p{margin:0; font-size:20px} .menu-confirm .row{display:flex; gap:10px}
+.adjust{display:grid; gap:8px; background:var(--panel2); border-color:var(--sun); animation:adjglow 1.2s steps(2) infinite}
+@keyframes adjglow{50%{border-color:var(--edge)}}
+.adjust h3{font-size:20px; color:var(--hi)} .adjust p{margin:0; font-size:20px}
+.adj-status{font-size:20px}
+.btn.ready{animation:ready 0.9s steps(2) infinite}
+@keyframes ready{50%{--c:var(--mint)}}
+@media (prefers-reduced-motion: reduce){ .adjust,.btn.ready{animation:none} }
+.toast{position:fixed; left:50%; bottom:110px; transform:translateX(-50%); z-index:60; background:var(--sun); color:#1a1433; font-family:var(--disp); font-weight:700; padding:10px 16px; border:4px solid var(--edge)}
+.foot{color:var(--dim); font-size:18px; display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between; border-top:3px dashed rgba(185,176,217,.18); padding-top:12px}
+.foot a{color:var(--muted)}
+/* ---- tutorial ---- */
+.tour{position:fixed; inset:0; z-index:70; pointer-events:none}
+.tour-hole{position:fixed; border:4px solid var(--sun); box-shadow:0 0 0 200vmax rgba(10,8,32,.72); pointer-events:none; transition:left .2s, top .2s, width .2s, height .2s}
+.tour-box{position:fixed; width:min(380px, calc(100vw - 32px)); pointer-events:auto; display:grid; gap:10px; background:var(--panel)}
+.tour-box h3{font-size:18px; color:var(--hi)}
+.tour-box p{margin:0; font-size:20px}
+.tour-live{font-size:19px}
+.tour-row{display:flex; justify-content:space-between; align-items:center; gap:10px}
+@media (prefers-reduced-motion: reduce){ .blink,.shake,.pop{animation:none} .tour-hole{transition:none} }
+</style>
+
+</head>
+<body>
+<div class="app" id="app">
+  <header class="bar">
+    <a class="logo" href="#top" id="logoHome" aria-label="Pacing Panic, back to title"><canvas id="logoIcon" width="12" height="12" aria-hidden="true"></canvas><span><b>PACING PANIC</b><small>a media-buying game</small></span></a>
+    <div class="tools">
+      <button class="btn ghost sm" id="musicBtn" type="button" aria-pressed="true">♫ ON</button>
+      <button class="btn ghost sm" id="menuBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="menu">☰ Menu</button>
+    </div>
+  </header>
+  <nav class="menu win" id="menu" hidden aria-label="Game menu">
+    <div class="menu-items">
+      <button type="button" data-go="resume" hidden>▶ Back to the flight</button>
+      <button type="button" data-go="home">⌂ Home</button>
+      <button type="button" data-go="briefs">▦ Choose a brief</button>
+      <button type="button" data-go="tutorial">? How to play</button>
+      <button type="button" data-go="scores">★ High scores</button>
+      <button type="button" id="sfxBtn" aria-pressed="true">FX ON</button>
+      <a href="https://rafaelhakeem.github.io/">↗ Adrian's portfolio</a>
+    </div>
+    <div class="menu-confirm" hidden>
+      <p>Leave this flight? Your progress on it will be lost.</p>
+      <div class="row"><button class="btn coral sm" type="button" data-go="leave">Leave</button><button class="btn ghost sm" type="button" data-go="stay">Stay</button></div>
+    </div>
+  </nav>
+
+  <!-- TITLE -->
+  <section id="sTitle" class="title" aria-labelledby="tTitle">
+    <div class="win well" style="padding:0"><canvas class="scene" id="attract" width="240" height="78" aria-label="A pixel media buyer racing the ideal pace line along a 30-day calendar"></canvas></div>
+    <div class="top2">
+    <div class="hero">
+      <h1 id="tTitle">PACING<br>PANIC</h1>
+      <p class="tag">30 days. One budget. Hit the brief without blowing the margin.</p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap"><button class="btn" id="startBtn" type="button"><span class="blink">▶</span> Press start</button><button class="btn ghost" id="howBtn" type="button">? How to play</button></div>
+    </div>
+    <div class="rules">
+      <div class="win rule"><h3><canvas width="8" height="8" data-icon="flag"></canvas>Deliver the booking</h3><p>Land 100% of the booked impressions by day 30. The client won't pay for missing ones, or for extras.</p></div>
+      <div class="win rule"><h3><canvas width="8" height="8" data-icon="target"></canvas>Hit the KPI</h3><p>Viewability, CTR, completion rate. Cheap inventory usually misses them.</p></div>
+      <div class="win rule"><h3><canvas width="8" height="8" data-icon="coin"></canvas>Keep the margin</h3><p>The client pays a fixed CPM. Whatever you save buying is your margin.</p></div>
+    </div>
+    </div>
+    <div class="win hs" aria-labelledby="hsTitle">
+      <h2 id="hsTitle" style="font-size:20px; margin-bottom:10px">High scores</h2>
+      <div class="hs-grid" id="hsGrid"></div>
+    </div>
+  </section>
+
+  <!-- BRIEF SELECT -->
+  <section id="sBrief" hidden aria-labelledby="bTitle">
+    <div style="display:grid; gap:14px">
+      <div class="brief-line"><button class="btn ghost sm" type="button" id="briefBack">← Home</button><h2 id="bTitle">Pick a brief</h2><span>Each one is a different client with a different KPI. New here? Start with Kopi Kilat: it has one KPI and a tutorial.</span></div>
+      <div class="carts" id="carts"></div>
+    </div>
+  </section>
+
+  <!-- PLAY -->
+  <section id="sPlay" hidden aria-label="Campaign in flight">
+    <div class="play">
+      <div class="col">
+        <div class="brief-line"><h2 id="pBrand"></h2><span id="pBrief"></span></div>
+        <div class="win well" style="padding:0"><canvas class="scene" id="scene" width="240" height="78" aria-label="Pacing track: your buyer against the ideal pace"></canvas></div>
+        <div class="hud">
+          <div class="win stat"><div class="label">Day</div><div class="v num" id="hDay">0/30</div><div class="s" id="hDow">Monday</div></div>
+          <div class="win stat"><div class="label">Pace</div><div class="v num" id="hPace">–</div><div class="s"><span class="chip info" id="hPaceChip">Ready</span></div></div>
+          <div class="win stat"><div class="label">Spent</div><div class="v num" id="hSpent">$0</div><div class="s num" id="hBudget">of $0 revenue</div></div>
+          <div class="win stat"><div class="label">Margin</div><div class="v num" id="hMargin">–</div><div class="s" id="hMarginS">so far</div></div>
+        </div>
+        <div class="win meter">
+          <div class="row"><span class="label">Delivered (valid impressions)</span><span class="num" id="mDel">0 / 0</span></div>
+          <div class="bar8" aria-hidden="true"><i id="mDelBar"></i><b id="mDelIdeal" style="left:0"></b></div>
+          <div class="row"><span style="color:var(--dim); font-size:17px">White tick = where you should be today</span></div>
+        </div>
+        <div class="win" id="kpiBox" style="display:grid; gap:12px"></div>
+        <div class="win well"><div class="label" style="margin-bottom:6px">Trading log</div><ul class="log num" id="log" aria-live="polite"></ul></div>
+      </div>
+      <div class="col">
+        <div class="win adjust" id="adjBox" hidden>
+          <div class="label" id="adjLabel">⏸ Campaign paused</div>
+          <h3 id="adjTitle">Adjust your pacing</h3>
+          <p id="adjText"></p>
+          <p class="adj-status" id="adjStatus" aria-live="polite"></p>
+          <button class="btn" id="adjGo" type="button">▶ Resume campaign</button>
+        </div>
+        <div class="win fc" id="fcBox"></div>
+        <div class="mixer" id="mixer"></div>
+        <div class="controls">
+          <button class="btn" id="goBtn" type="button">▶ Launch flight</button>
+          <button class="btn ghost" id="speedBtn" type="button" aria-label="Game speed">1×</button>
+          <button class="btn ghost" id="helpBtn" type="button" aria-label="Show the tutorial">?</button>
+          <button class="btn ghost" id="quitBtn" type="button">Quit</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REPORT -->
+  <section id="sReport" hidden aria-labelledby="rTitle">
+    <div class="report">
+      <div class="win eoc">
+        <div class="eoc-head">
+          <div style="display:grid; gap:6px">
+            <div class="label">End-of-campaign report</div>
+            <h2 id="rTitle" style="font-size:clamp(19px, 4.6vw, 26px); color:var(--hi)"></h2>
+            <div id="rRank" style="font-size:22px"></div>
+          </div>
+          <div class="stamp" id="rStamp" data-g="A">A</div>
+        </div>
+        <div class="tbl-wrap"><table class="t num" id="rTable"></table></div>
+        <div class="pts" id="rPts"></div>
+        <div class="lessonbox" id="rLesson"></div>
+        <form class="initials" id="iniForm">
+          <label class="label" for="ini">Your initials</label>
+          <input id="ini" name="ini" maxlength="3" autocomplete="off" spellcheck="false" value="AAA" aria-describedby="iniHelp">
+          <button class="btn" type="submit" id="iniSave">Save score</button>
+          <span id="iniHelp" style="color:var(--dim); font-size:18px">Saved on this device only.</span>
+        </form>
+        <div class="hs" id="rHs"></div>
+        <div class="controls" style="position:static; padding:0; background:none; border:0">
+          <button class="btn mint" id="againBtn" type="button">↻ Same brief</button>
+          <button class="btn ghost" id="homeBtn" type="button">⌂ Home</button>
+          <button class="btn ghost" id="otherBtn" type="button">Other brief</button>
+        </div>
+      </div>
+      <div class="win share" aria-labelledby="shTitle">
+        <h2 id="shTitle" style="font-size:22px">Challenge someone</h2>
+        <canvas id="card" width="1200" height="630" aria-label="Your score card"></canvas>
+        <div class="row">
+          <a class="btn" id="dlBtn" href="#" download="pacing-panic-score.png">Save image</a>
+          <button class="btn sky" id="nativeShare" type="button" hidden>Share…</button>
+          <a class="btn ghost" id="liBtn" href="#" target="_blank" rel="noopener">Post on LinkedIn</a>
+        </div>
+        <label class="label" for="postText">Post text</label>
+        <textarea id="postText" readonly></textarea>
+        <div class="row"><button class="btn ghost sm" id="copyBtn" type="button">Copy text</button></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>Made by <a href="https://rafaelhakeem.github.io/" id="portfolioLink">Adrian Rafael Hakeem</a>, programmatic specialist. See the real campaigns in the portfolio.</span>
+    <span>All brands, rates and numbers in this game are made up.</span>
+  </footer>
+</div>
+
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="evTitle">
+  <div class="win" id="evWin">
+    <div class="label" id="evDay"></div>
+    <h2 id="evTitle"></h2>
+    <p id="evText"></p>
+    <div class="choices" id="evChoices"></div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ============================================================
+   PACING PANIC · simulation core (no DOM)
+   All brands, rates and numbers are made up for the game.
+   ============================================================ */
+const CHANNELS = {
+  open:     { name:'Open exchange',   short:'OPEN',   cpm:0.90, ctr:0.12, view:52, vcr:0,  ivt:12, supply:520000, color:'#4dabf7', note:'Cheap reach. Leaky quality.' },
+  native:   { name:'Native in-feed',  short:'NATIVE', cpm:1.80, ctr:0.18, view:66, vcr:0,  ivt:4,  supply:200000, color:'#3ddc97', note:'Blends into the feed.' },
+  pmp:      { name:'Private deal',    short:'PMP',    cpm:2.60, ctr:0.22, view:79, vcr:0,  ivt:2,  supply:260000, color:'#9b5de5', note:'Premium publishers. Clean.' },
+  rich:     { name:'Rich media',      short:'RICH',   cpm:3.80, ctr:0.85, view:72, vcr:0,  ivt:3,  supply:130000, color:'#ff6b5b', note:'Big clicks. Big CPM.' },
+  inapp:    { name:'In-app video',    short:'IN-APP', cpm:3.90, ctr:0.30, view:70, vcr:58, ivt:6,  supply:140000, color:'#4dabf7', note:'Lots of skips.' },
+  instream: { name:'In-stream video', short:'STREAM', cpm:5.60, ctr:0.20, view:82, vcr:74, ivt:3,  supply:90000,  color:'#9b5de5', note:'Solid completion.' },
+  ctv:      { name:'Connected TV',    short:'CTV',    cpm:9.50, ctr:0,    view:98, vcr:93, ivt:1,  supply:45000,  color:'#ffd23f', note:'Big screen, big price.' }
+};
+
+const BRIEFS = [
+  { id:'launch', brand:'Kopi Kilat', product:'Iced coffee launch', goal:'Awareness', stars:1, booked:4500000, sold:3.20,
+    channels:['open','native','pmp'], start:{ open:70, native:40, pmp:160 },
+    kpis:[ { key:'view', label:'Viewability', target:70, unit:'%', dir:1 } ],
+    blurb:'Be seen. The client pays for impressions that actually appear on screen.' },
+  { id:'clicks', brand:'Nusa Telco', product:'5G unlimited plan', goal:'Clicks', stars:2, booked:3000000, sold:4.00,
+    channels:['open','pmp','rich'], start:{ open:50, pmp:60, rich:80 },
+    kpis:[ { key:'ctr', label:'CTR', target:0.35, unit:'%', dir:1 }, { key:'ivt', label:'Invalid traffic', target:5, unit:'%', dir:-1 } ],
+    blurb:'Drive clicks to the plan page. The verification vendor is watching for bots.' },
+  { id:'video', brand:'Kasur Awan', product:'Cloud-foam mattress, 15s film', goal:'Video views', stars:3, booked:1800000, sold:8.50,
+    channels:['inapp','instream','ctv'], start:{ inapp:100, instream:180, ctv:40 },
+    kpis:[ { key:'vcr', label:'Completion rate', target:75, unit:'%', dir:1 }, { key:'view', label:'Viewability', target:80, unit:'%', dir:1 } ],
+    blurb:'A cosy bedtime film for a cloud-soft mattress. Get all 15 seconds watched, on screens people are really looking at.' }
+];
+const DAYS = 30;
+
+const EVENTS = [
+  { id:'bots', needs:['open'], title:'Bot alert!', text:'Your verification partner flagged 3 apps on the open exchange sending bot traffic.',
+    choices:[ { label:'Block the apps', note:'Open supply -40%, open IVT drops to 4%', fx:[{ ch:'open', supply:0.6, ivtSet:4, days:99 }], bonus:40 },
+              { label:'Keep buying', note:'Open IVT jumps to 28% for 7 days', fx:[{ ch:'open', ivtSet:28, days:7 }] } ] },
+  { id:'payday', title:'Payday weekend', text:'Everyone got paid and every advertiser is spending. Auctions are packed.',
+    choices:[ { label:'Got it', note:'All CPMs +35% for 3 days', fx:[{ cpm:1.35, days:3 }] } ] },
+  { id:'client', title:'The client is calling', text:'"Can you squeeze 10% more impressions out of the same budget?"',
+    choices:[ { label:'Say yes', note:'Booking +10%, same money. Client loves you.', booked:1.10, bonus:60 },
+              { label:'Politely say no', note:'Nothing changes', fx:[] } ] },
+  { id:'fatigue', title:'Creative fatigue', text:'Same banner, same people, 12 days running. Click-through is sliding.',
+    choices:[ { label:'Swap in a fresh creative', note:'Costs $250, CTR stays healthy', cost:250, bonus:30 },
+              { label:'Ride it out', note:'CTR -30% for the rest of the flight', fx:[{ ctr:0.7, days:99 }] } ] },
+  { id:'drought', needs:['ctv'], title:'CTV drought', text:'A football final bought out most of the connected-TV slots.',
+    choices:[ { label:'Got it', note:'CTV supply -60% for 4 days', fx:[{ ch:'ctv', supply:0.4, days:4 }] } ] },
+  { id:'fold', needs:['pmp'], title:'Below the fold', text:'Your private-deal publisher moved your ads below the fold. Viewability is dropping.',
+    choices:[ { label:'Add a viewability filter', note:'PMP CPM +15%, PMP viewability +8 pts', fx:[{ ch:'pmp', cpm:1.15, view:8, days:99 }], bonus:30 },
+              { label:'Leave it', note:'PMP viewability -14 pts for the rest of the flight', fx:[{ ch:'pmp', view:-14, days:99 }] } ] },
+  { id:'rival', title:'Rival launch', text:'A competitor launched with a huge budget. Auctions got crowded.',
+    choices:[ { label:'Got it', note:'All CPMs +20%, supply -15% for 5 days', fx:[{ cpm:1.2, supply:0.85, days:5 }] } ] },
+  { id:'holiday', title:'Long weekend', text:'Everyone is on their phones. There is more inventory than usual.',
+    choices:[ { label:'Got it', note:'All supply +40% for 3 days', fx:[{ supply:1.4, days:3 }] } ] },
+  { id:'viral', needs:['rich'], title:'Your ad went viral', text:'People are sharing the rich-media unit. Engagement is way up.',
+    choices:[ { label:'Nice', note:'Rich-media CTR +40% for 5 days', fx:[{ ch:'rich', ctr:1.4, days:5 }] } ] },
+  { id:'tracker', kpi:'ctr', title:'Broken click tracker', text:'The landing-page tracker broke overnight. Clicks are not being counted.',
+    choices:[ { label:'Pause a day and fix it', note:'No delivery tomorrow, tracking fixed', skip:1, bonus:40 },
+              { label:'Keep running', note:'Only half the clicks count for 3 days', fx:[{ ctr:0.5, days:3 }] } ] },
+  { id:'skippable', needs:['inapp'], title:'Skip button moved', text:'The in-app SDK now shows "skip" after 3 seconds instead of 5.',
+    choices:[ { label:'Got it', note:'In-app completion -12 pts for the rest of the flight', fx:[{ ch:'inapp', vcr:-12, days:99 }] } ] }
+];
+
+function rng(seed){ let a = seed >>> 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const isWeekend = d => d % 7 === 6 || d % 7 === 0;   // day 1 is a Monday
+
+function newRun(briefId, seed = (Math.random()*1e9)|0){
+  const brief = BRIEFS.find(b => b.id === briefId); const R = rng(seed);
+  const pool = EVENTS.filter(e => (!e.needs || e.needs.every(c => brief.channels.includes(c))) && (!e.kpi || brief.kpis.some(k => k.key === e.kpi)));
+  const picks = []; const bag = pool.slice();
+  while(picks.length < 4 && bag.length){ picks.push(bag.splice(Math.floor(R()*bag.length), 1)[0]); }
+  const days = [4, 11, 17, 23].map(d => d + Math.floor(R()*3));
+  const schedule = {}; picks.forEach((e, i) => { schedule[days[i]] = e.id; });
+  const spend = { ...brief.start };
+  return { brief, seed, R, day:0, booked:brief.booked, budget:brief.booked*brief.sold/1000, mods:[], schedule, spend, skip:0, bonus:0, extraCost:0,
+    tot:{ gross:0, valid:0, cost:0, clicks:0, viewable:0, completes:0 }, log:[], history:[], choices:[], done:false };
+}
+
+// Effective channel parameters for a given day, after events and weekends.
+function params(run, id, day){
+  const c = CHANNELS[id]; let cpm = c.cpm, supply = c.supply, ctr = c.ctr, view = c.view, vcr = c.vcr, ivt = c.ivt;
+  if(isWeekend(day)){ supply *= 1.15; ctr *= 0.92; }
+  for(const m of run.mods){ if(day > m.until || (m.ch && m.ch !== id)) continue;
+    if(m.cpm) cpm *= m.cpm; if(m.supply) supply *= m.supply; if(m.ctr) ctr *= m.ctr;
+    if(m.view) view += m.view; if(m.vcr) vcr += m.vcr; if(m.ivtSet != null) ivt = m.ivtSet; }
+  return { cpm, supply, ctr, view:Math.min(100, Math.max(0, view)), vcr:Math.min(100, Math.max(0, vcr)), ivt };
+}
+
+// What one day of delivery looks like for a mix (noise = false gives the forecast).
+function simDay(run, day, spend, noise){
+  const out = { gross:0, valid:0, cost:0, clicks:0, viewable:0, completes:0, capped:{}, per:{} };
+  for(const id of run.brief.channels){
+    const p = params(run, id, day), n = noise ? (0.93 + run.R()*0.14) : 1, sn = noise ? (0.9 + run.R()*0.2) : 1;
+    const cpm = p.cpm*n, want = (spend[id] || 0)/cpm*1000, cap = p.supply*sn;
+    const imps = Math.min(want, cap), cost = imps*cpm/1000, valid = imps*(1 - p.ivt/100);
+    out.capped[id] = want > cap*1.001;
+    out.per[id] = { imps, cost, valid };
+    out.gross += imps; out.valid += valid; out.cost += cost;
+    out.clicks += valid*p.ctr/100; out.viewable += valid*p.view/100; out.completes += valid*p.vcr/100;
+  }
+  return out;
+}
+
+function metrics(t){
+  return { ctr: t.valid ? t.clicks/t.valid*100 : 0, view: t.valid ? t.viewable/t.valid*100 : 0,
+           vcr: t.valid ? t.completes/t.valid*100 : 0, ivt: t.gross ? (1 - t.valid/t.gross)*100 : 0 };
+}
+
+function forecast(run, spend){
+  const d = Math.min(DAYS, Math.max(1, run.day + 1)); const f = simDay(run, d, spend, false);
+  const need = Math.max(0, run.booked - run.tot.valid) / Math.max(1, DAYS - run.day);
+  const revenuePerValid = run.budget / run.booked;
+  return { ...f, m:metrics(f), need, margin: f.valid ? 1 - f.cost/(f.valid*revenuePerValid) : 0 };
+}
+
+// Advance one day. Returns the day's numbers.
+function step(run){
+  if(run.done) return null;
+  run.day++; const d = run.day;
+  let r;
+  if(run.skip > 0){ run.skip--; r = { gross:0, valid:0, cost:0, clicks:0, viewable:0, completes:0, capped:{}, per:{}, skipped:true }; }
+  else r = simDay(run, d, run.spend, true);
+  for(const k of ['gross','valid','cost','clicks','viewable','completes']) run.tot[k] += r[k];
+  run.history.push({ day:d, valid:r.valid, cost:r.cost, cum:run.tot.valid });
+  run.mods = run.mods.filter(m => m.until >= d);
+  if(d >= DAYS) run.done = true;
+  return r;
+}
+
+function applyChoice(run, ev, choice){
+  const d = run.day;
+  (choice.fx || []).forEach(f => run.mods.push({ ...f, until: d + (f.days || 0) }));
+  if(choice.booked) run.booked = Math.round(run.booked*choice.booked);
+  if(choice.cost){ run.extraCost += choice.cost; run.tot.cost += choice.cost; }
+  if(choice.skip) run.skip += choice.skip;
+  if(choice.bonus) run.bonus += choice.bonus;
+  run.choices.push({ day:d, ev:ev.id, label:choice.label });
+}
+
+function score(run){
+  const t = run.tot, m = metrics(t), b = run.brief;
+  const pct = t.valid / run.booked;
+  const revenue = run.budget * Math.min(1, pct);
+  const cost = t.cost, margin = revenue - cost, marginPct = revenue ? margin/revenue*100 : -100;
+  let delivery = pct >= 1 ? 300 - Math.max(0, pct - 1.05)*1500 : 300*Math.pow(pct, 6);
+  delivery = Math.max(0, Math.round(delivery));
+  const kpis = b.kpis.map(k => { const actual = m[k.key]; const met = k.dir > 0 ? actual >= k.target : actual <= k.target;
+    const ratio = k.dir > 0 ? actual/k.target : (actual ? k.target/actual : 1);
+    const pts = Math.round((400/b.kpis.length) * (met ? 1 : Math.pow(Math.max(0, Math.min(1, ratio)), 10)));
+    return { ...k, actual, met, pts }; });
+  const kpiPts = kpis.reduce((s, k) => s + k.pts, 0);
+  const marginPts = Math.round(Math.max(-300, Math.min(300, marginPct*5)));
+  const bonus = Math.min(150, run.bonus);
+  const total = Math.max(0, delivery + kpiPts + marginPts + bonus);
+  const grade = total >= 920 ? 'S' : total >= 820 ? 'A' : total >= 700 ? 'B' : total >= 560 ? 'C' : 'D';
+  const rank = { S:'Programmatic wizard', A:'Senior trader', B:'Solid buyer', C:'Junior buyer', D:'Make-good incoming' }[grade];
+  return { pct, revenue, cost, margin, marginPct, delivery, kpis, kpiPts, marginPts, bonus, total, grade, rank, m };
+}
+
+// One plain-language lesson for the report, based on the biggest miss.
+function lesson(run, s){
+  if(s.pct < 0.95) return `You under-delivered (${(s.pct*100).toFixed(0)}% of the booking). The client only pays for what runs, so watch the pace line and raise spend early, not on day 29.`;
+  if(s.pct > 1.08) return `You over-delivered by ${((s.pct-1)*100).toFixed(0)}%. Nobody pays for extra impressions, so cut spend once the booking is in.`;
+  const miss = s.kpis.find(k => !k.met);
+  if(miss) return `${miss.label} missed the ${miss.target}${miss.unit} target. Shift budget toward the channels that carry that KPI, even if it costs some margin.`;
+  if(s.marginPct < 25) return `Every KPI landed, but margin was thin (${s.marginPct.toFixed(0)}%). Find the cheapest mix that still clears the KPIs, then stop improving past the target.`;
+  return `Clean flight: on pace, KPIs cleared, healthy margin. That is the job.`;
+}
+
+if(typeof module !== 'undefined') module.exports = { CHANNELS, BRIEFS, EVENTS, DAYS, newRun, step, forecast, applyChoice, score, metrics, params, lesson };
+
+</script>
+<script>
+(() => {
+'use strict';
+const GAME_URL = 'https://rafaelhakeem.github.io/game.html';
+// The creator's own benchmark per brief, shown as "ADR (dev)" in the high-score tables. Replace with your real best runs.
+const DEV = { launch:910, clicks:950, video:840 };
+
+const $ = s => document.querySelector(s);
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+const fmt = n => { n = Math.max(0, n); return n >= 1e6 ? (n/1e6).toFixed(2).replace(/0$/, '') + 'M' : n >= 1e3 ? Math.round(n/1e3) + 'K' : String(Math.round(n)); };
+const money = n => (n < 0 ? '-$' : '$') + Math.round(Math.abs(n)).toLocaleString('en-US');
+const DOW = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const BRIEF_COLOR = { launch:'#ffd23f', clicks:'#ff6b5b', video:'#3ddc97' };
+
+/* ---------------- audio: one shared context for music + effects ---------------- */
+const AUD = (() => { let ctx = null;
+  return { get(){ if(!ctx){ const A = window.AudioContext || window.webkitAudioContext; if(!A) return null; try{ ctx = new A(); }catch(e){ return null; } } if(ctx.state === 'suspended') ctx.resume().catch(()=>{}); return ctx; },
+           peek(){ return ctx; } }; })();
+
+const SFX = (() => {
+  let on = store.get('pp-sound', true);
+  const tone = (f, d, o = {}) => { if(!on) return; const c = AUD.get(); if(!c) return; const t0 = c.currentTime + (o.at || 0);
+    const osc = c.createOscillator(), g = c.createGain(); osc.type = o.type || 'square'; osc.frequency.setValueAtTime(f, t0);
+    if(o.slide) osc.frequency.linearRampToValueAtTime(f + o.slide, t0 + d);
+    g.gain.setValueAtTime(o.vol || 0.035, t0); g.gain.exponentialRampToValueAtTime(0.0001, t0 + d);
+    osc.connect(g); g.connect(c.destination); osc.start(t0); osc.stop(t0 + d + 0.03); };
+  return {
+    get on(){ return on; }, set(v){ on = v; store.set('pp-sound', v); if(v) AUD.get(); }, wake(){ if(on) AUD.get(); },
+    blip(){ tone(440, .05, { vol:.02 }); },
+    coin(){ tone(988, .06, { vol:.03 }); tone(1319, .12, { at:.06, vol:.03 }); },
+    select(){ tone(660, .05); tone(990, .07, { at:.05 }); },
+    alert(){ tone(330, .12, { vol:.05 }); tone(247, .2, { at:.13, vol:.05 }); },
+    warn(){ tone(880, .08, { vol:.04 }); tone(880, .08, { at:.14, vol:.04 }); },
+    start(){ [523, 659, 784, 1047].forEach((f, i) => tone(f, .1, { at:i*.08 })); },
+    win(){ [523, 659, 784, 1047, 784, 1047, 1319].forEach((f, i) => tone(f, .12, { at:i*.1, vol:.045 })); },
+    lose(){ [392, 330, 262, 196].forEach((f, i) => tone(f, .2, { at:i*.17, type:'triangle', vol:.06 })); }
+  };
+})();
+
+/* 8-bit lo-fi soundtrack, written as note data and played by a small step sequencer (no audio files).
+   Each brief has its own sound, the same way it has its own look:
+     Kopi Kilat  - morning café: F-major bossa lo-fi, brushed drums, heavy swing, lots of vinyl dust
+     Nusa Telco  - neon city: E-minor synth-chip, straight 16ths, punchy drums, echo on the lead
+     Kasur Awan  - lullaby: G-major music box, soft drums, dreamy echo
+   Within a brief the music follows play: "think" while you plan or adjust, a bright groove when you're on pace,
+   a minor version when you slip, and a jingle + ending theme for each grade S/A/B/C/D. */
+const MUSIC = (() => {
+  let on = store.get('pp-music', true), ctx = null, bus = null, lp = null, echoIn = null, timer = null, step = 0, nextT = 0, playing = false;
+  let cur = 'title', pending = null, theme = 'base', mult = 1, muffled = false, ducked = false, waves = {}, noise = null;
+  const m2f = m => 440*Math.pow(2, (m - 69)/12);
+  const NOTE = s => { const m = s.match(/^([A-G])([#b]?)(\d)$/); return 12*(+m[3] + 1) + { C:0, D:2, E:4, F:5, G:7, A:9, B:11 }[m[1]] + (m[2] === '#' ? 1 : m[2] === 'b' ? -1 : 0); };
+  const MEL = str => str.split('|').map(b => { const bar = b.trim().split(/\s+/); return bar.map((s, i) => { if(s === '-' || s === 'r') return null; let len = 1; while(i + len < 8 && bar[i + len] === '-') len++; return { m:NOTE(s), len }; }); });
+  const C = { Fmaj7:[53,57,60,64], Em7:[52,55,59,62], Dm7:[50,53,57,60], Cmaj7:[48,52,55,59], Am7:[57,60,64,67], G7:[55,59,62,65], E7:[52,56,59,62],
+    Gm7:[55,58,62,65], Bbmaj7:[58,62,65,69], C7:[48,52,55,58], A7:[57,61,64,67], G:[55,59,62,67], D:[50,54,57,62], B7:[47,51,54,57],
+    Gmaj7:[55,59,62,66], Bm7:[47,50,54,57] };
+  const prog = s => s.split(' ').map(n => C[n]);
+  const SONGS = {
+    title: { bpm:74, swing:.16, lp:1900, drums:'soft', keys:.024, mel:.032, prog:prog('Fmaj7 Em7 Dm7 Cmaj7 Fmaj7 Em7 Dm7 Cmaj7'),
+      notes:MEL('A5 - - G5 E5 - - - | G5 - - E5 D5 - B4 - | C5 - D5 - F5 - E5 - | E5 - - - r - - r | C6 - A5 - G5 - E5 - | D5 - E5 G5 B5 - A5 - | F5 - E5 - D5 - C5 - | B4 - C5 - - - r r') },
+    // default in-flight songs (used by the base theme)
+    think: { bpm:66, swing:.12, lp:1300, drums:'none', keys:.026, mel:0, prog:prog('Dm7 G7 Cmaj7 Am7 Dm7 G7 Cmaj7 Am7'), notes:null },
+    win:   { bpm:84, swing:.14, lp:2600, drums:'full', keys:.022, mel:.04, prog:prog('Cmaj7 Am7 Dm7 G7 Cmaj7 Am7 Dm7 G7'),
+      notes:MEL('E5 G5 B5 G5 E5 - D5 E5 | C5 - E5 G5 A5 - G5 E5 | F5 - A5 - C6 - A5 F5 | D5 - F5 - B4 - G4 r | G5 - E5 G5 C6 - B5 G5 | A5 G5 E5 - C5 - E5 - | D5 F5 A5 C6 - A5 F5 D5 | G5 - F5 - D5 - B4 -') },
+    lose:  { bpm:84, swing:.1, lp:2200, drums:'tense', keys:.022, mel:.038, prog:prog('Am7 Fmaj7 Dm7 E7 Am7 Fmaj7 Dm7 E7'),
+      notes:MEL('E5 - C5 - A4 - C5 E5 | F5 - E5 - C5 - A4 - | D5 - F5 - A5 - G5 F5 | E5 - G#5 - B5 - - r | A5 - G5 - E5 - C5 - | A5 - F5 - C5 - E5 - | F5 - E5 D5 C5 - B4 - | G#4 - B4 - E5 - r r') },
+    // Kopi Kilat: morning café
+    launch_think: { bpm:68, swing:.2, lp:1500, drums:'soft', keys:.026, mel:0, prog:prog('Fmaj7 Gm7 Am7 Gm7 Fmaj7 Gm7 Am7 C7'), notes:null },
+    launch_win:   { bpm:82, swing:.2, lp:2400, drums:'full', keys:.024, mel:.036, prog:prog('Fmaj7 Gm7 Am7 Bbmaj7 Fmaj7 Gm7 C7 Fmaj7'),
+      notes:MEL('A5 - C6 - A5 G5 F5 - | G5 - Bb5 - A5 - G5 - | E5 - G5 - C6 - A5 - | D6 - C6 - A5 - F5 - | A5 C6 A5 G5 F5 - E5 F5 | G5 - A5 Bb5 D6 - C6 - | Bb5 - G5 - E5 - C5 - | F5 - - - r - - r') },
+    launch_lose:  { bpm:82, swing:.16, lp:2000, drums:'tense', keys:.024, mel:.034, prog:prog('Dm7 Bbmaj7 Gm7 A7 Dm7 Bbmaj7 Gm7 A7'),
+      notes:MEL('F5 - E5 - D5 - A4 - | D5 - F5 - Bb5 - A5 - | G5 - F5 - D5 - Bb4 - | C#5 - E5 - A5 - - r | D6 - C6 - A5 - F5 - | Bb5 - A5 - F5 - D5 - | G5 - Bb5 - D6 - C6 Bb5 | A5 - C#5 - E5 - r r') },
+    // Nusa Telco: neon city
+    clicks_think: { bpm:72, swing:0, lp:1700, drums:'soft', keys:.022, mel:0, arp:true, prog:prog('Em7 Cmaj7 G D Em7 Cmaj7 G D'), notes:null },
+    clicks_win:   { bpm:100, swing:0, lp:3600, drums:'full', keys:.018, mel:.036, arp:true, prog:prog('Em7 Cmaj7 G D Em7 Cmaj7 G D'),
+      notes:MEL('B5 - E6 - D6 B5 G5 - | G5 - E5 - G5 - B5 - | D6 - B5 - G5 - D5 - | F#5 - A5 - D6 - - F#5 | E5 G5 B5 E6 - D6 B5 G5 | E5 - G5 - C6 - B5 G5 | B5 - D6 - G6 - F#6 D6 | A5 - F#5 - D5 - r r') },
+    clicks_lose:  { bpm:100, swing:0, lp:3000, drums:'tense', keys:.018, mel:.034, arp:true, prog:prog('Em7 Cmaj7 Am7 B7 Em7 Cmaj7 Am7 B7'),
+      notes:MEL('E5 - B4 - G4 - B4 E5 | E5 - G5 - E5 - C5 - | A4 - C5 - E5 - A5 - | F#5 - D#5 - B4 - r r | G5 - F#5 - E5 - B4 - | C5 - E5 - G5 - E5 - | A5 - G5 - E5 - C5 - | D#5 - F#5 - B5 - r r') },
+    // Kasur Awan: lullaby
+    video_think: { bpm:60, swing:.08, lp:1800, drums:'none', keys:.026, mel:0, prog:prog('Gmaj7 Em7 Cmaj7 D Gmaj7 Em7 Cmaj7 D'), notes:null },
+    video_win:   { bpm:74, swing:.1, lp:2600, drums:'soft', keys:.022, mel:.03, prog:prog('Gmaj7 Bm7 Cmaj7 D Gmaj7 Em7 Am7 D'),
+      notes:MEL('D6 - B5 - G5 - B5 - | D6 - F#6 - D6 - B5 - | E6 - C6 - G5 - E6 - | D6 - - - A5 - - - | B5 - D6 - G6 - F#6 - | E6 - B5 - G5 - E6 - | C6 - E6 - A6 - G6 - | F#6 - - - D6 - r r') },
+    video_lose:  { bpm:74, swing:.08, lp:2200, drums:'soft', keys:.024, mel:.03, prog:prog('Em7 Cmaj7 Am7 B7 Em7 Cmaj7 Am7 B7'),
+      notes:MEL('B5 - - G5 E5 - - - | C6 - - B5 G5 - - - | A5 - C6 - E6 - D6 - | D#6 - - - B5 - r r | E6 - D6 - B5 - G5 - | E5 - G5 - C6 - B5 - | A5 - - E5 C6 - B5 A5 | F#5 - A5 - B5 - r r') },
+    // ending themes per grade (played in the brief's instrument style)
+    S: { bpm:92, swing:.12, lp:3200, drums:'full', keys:.022, mel:.042, arp:true, prog:prog('Fmaj7 G7 Em7 Am7 Dm7 G7 Cmaj7 Cmaj7'),
+      notes:MEL('C6 - G5 - A5 - C6 - | B5 - D6 - B5 - G5 - | G5 - E5 G5 B5 - G5 - | A5 - C6 - E6 - - - | D6 - C6 A5 F5 - A5 - | B5 - G5 - D5 - F5 - | E5 G5 C6 E6 G6 - E6 - | C6 - - - r - r r') },
+    C: { bpm:72, swing:.14, lp:1800, drums:'soft', keys:.024, mel:.032, prog:prog('Dm7 G7 Em7 Am7 Dm7 G7 Em7 Am7'),
+      notes:MEL('F5 - - E5 D5 - - - | B4 - D5 - F5 - E5 - | G5 - - E5 D5 - B4 - | C5 - - - A4 - - r | F5 - E5 - D5 - C5 - | D5 - - B4 G4 - - - | E5 - G5 - B5 - A5 G5 | E5 - - - r - - r') },
+    D: { bpm:64, swing:.1, lp:1500, drums:'soft', keys:.026, mel:.034, prog:prog('Am7 Fmaj7 Dm7 E7 Am7 Fmaj7 Dm7 E7'),
+      notes:MEL('E5 - - - D5 - C5 - | C5 - - - A4 - - - | F5 - E5 - D5 - C5 - | B4 - - - G#4 - - r | A4 - C5 - E5 - D5 - | C5 - - - A4 - F4 - | D5 - C5 - B4 - A4 - | G#4 - - - A4 - - r') }
+  };
+  SONGS.A = { ...SONGS.win, bpm:88, arp:true, lp:2900 };
+  SONGS.B = { ...SONGS.title, bpm:80, drums:'full', lp:2200 };
+  // instrument style per brief: lead voice, drum kit, echo, vinyl dust
+  const STYLE = {
+    base:   { lead:'p25', kit:'lofi',  echo:0,    dust:.3,  keyWave:'triangle' },
+    launch: { lead:'p25', kit:'brush', echo:0,    dust:.45, keyWave:'triangle' },
+    clicks: { lead:'p12', kit:'punch', echo:.28,  dust:.08, keyWave:'square' },
+    video:  { lead:'box', kit:'soft',  echo:.32,  dust:.18, keyWave:'sine' }
+  };
+  const JINGLE = { S:['C5','E5','G5','C6','E6','G6','C7'], A:['C5','E5','G5','C6','G5','C6'], B:['G4','C5','E5','G5'], C:['E5','D5','C5','D5'], D:['G4','F#4','F4','E4'] };
+  const resolve = n => (['think','win','lose'].includes(n) && SONGS[theme + '_' + n]) ? theme + '_' + n : n;
+  const song = () => SONGS[cur], sty = () => STYLE[theme] || STYLE.base;
+  const bpm = () => song().bpm + (/(^|_)(win|lose)$/.test(cur) ? [0, 4, 8][mult - 1] : 0);
+  function setup(){
+    ctx = AUD.get(); if(!ctx || bus) return !!ctx;
+    bus = ctx.createGain(); bus.gain.value = 0; lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1900; lp.Q.value = 0.5;
+    bus.connect(lp); lp.connect(ctx.destination);
+    // echo send for the lead (synth delay in the neon city, a dreamy tail on the lullaby)
+    echoIn = ctx.createGain(); echoIn.gain.value = 0; const dl = ctx.createDelay(1), fb = ctx.createGain(); dl.delayTime.value = 0.33; fb.gain.value = 0.32;
+    echoIn.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(bus);
+    const pulse = d => { const n = 24, re = new Float32Array(n), im = new Float32Array(n); for(let k = 1; k < n; k++) re[k] = 2/(k*Math.PI)*Math.sin(k*Math.PI*d); return ctx.createPeriodicWave(re, im); };
+    waves.p25 = pulse(0.25); waves.p12 = pulse(0.125);
+    noise = ctx.createBuffer(1, ctx.sampleRate*0.4, ctx.sampleRate); const d = noise.getChannelData(0); for(let i = 0; i < d.length; i++) d[i] = Math.random()*2 - 1;
+    return true;
+  }
+  function voice(t, f, dur, vol, wave, type, att = 0.006, send = 0, pluck = false){ const o = ctx.createOscillator(), g = ctx.createGain(); if(wave) o.setPeriodicWave(wave); else o.type = type;
+    o.frequency.setValueAtTime(f, t); o.detune.setValueAtTime((Math.random() - 0.5)*14, t);   // a little tape wobble
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(vol, t + att);
+    if(pluck) g.gain.exponentialRampToValueAtTime(0.0001, t + Math.max(0.25, dur*1.4));
+    else { g.gain.setValueAtTime(vol, t + dur*0.6); g.gain.linearRampToValueAtTime(0.0001, t + dur); }
+    o.connect(g); g.connect(bus); if(send){ const s = ctx.createGain(); s.gain.value = send; g.connect(s); s.connect(echoIn); }
+    o.start(t); o.stop(t + (pluck ? Math.max(0.25, dur*1.4) : dur) + 0.03); }
+  function lead(t, m, dur, vol){ const st = sty();
+    if(st.lead === 'box') voice(t, m2f(m + 12), dur, vol*1.3, null, 'sine', 0.003, st.echo, true);       // music box: an octave up, plucked
+    else voice(t, m2f(m), dur, vol, waves[st.lead] || waves.p25, null, 0.006, st.echo); }
+  function hit(t, kind, vol){
+    if(kind === 'kick'){ const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(120, t); o.frequency.exponentialRampToValueAtTime(40, t + 0.14);
+      g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.2); o.connect(g); g.connect(bus); o.start(t); o.stop(t + 0.22); return; }
+    const s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain(); s.buffer = noise; s.playbackRate.value = 0.6 + Math.random()*0.8;
+    f.type = kind === 'hat' ? 'highpass' : 'bandpass'; f.frequency.value = kind === 'hat' ? 7500 : kind === 'crackle' ? 3200 : kind === 'brush' ? 2600 : 1700;
+    const len = kind === 'hat' ? 0.03 : kind === 'crackle' ? 0.006 : kind === 'brush' ? 0.28 : 0.14; g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + len);
+    s.connect(f); f.connect(g); g.connect(bus); s.start(t, Math.random()*0.2); s.stop(t + len + 0.02); }
+  function drums(S, x, t, tt, sx){
+    const kit = sty().kit, lvl = S.drums; if(lvl === 'none') return;
+    const soft = lvl === 'soft' || kit === 'soft';
+    if(soft){ if(x === 0 || (kit === 'brush' && x === 10)) hit(t, 'kick', 0.1); if(x === 12) hit(t, kit === 'brush' ? 'brush' : 'snare', 0.02); if(x % 4 === 2) hit(tt, 'hat', 0.008); return; }
+    if(kit === 'brush'){ if(x === 0 || x === 7 || x === 10) hit(x === 7 ? t + S.swing*sx : t, 'kick', 0.15); if(x === 4 || x === 12) hit(t, 'brush', 0.05);
+      if(x % 2 === 0) hit(tt, 'hat', 0.01); if(lvl === 'tense' && x % 2 === 1) hit(t, 'hat', 0.01); return; }
+    if(kit === 'punch'){ if(x === 0 || x === 6 || x === 8 || x === 11) hit(t, 'kick', 0.26); if(x === 4 || x === 12) hit(t, 'snare', 0.07);
+      hit(t, 'hat', x % 2 ? 0.01 : 0.018); if(lvl === 'tense' && x === 14) hit(t, 'snare', 0.04); return; }
+    if(x === 0 || x === 7 || x === 10) hit(x === 7 ? t + S.swing*sx : t, 'kick', 0.2); if(x === 4 || x === 12) hit(t, 'snare', 0.045);
+    if(x % 2 === 0) hit(tt, 'hat', x % 4 === 0 ? 0.016 : 0.011); if(lvl === 'tense' && x % 2 === 1) hit(t, 'hat', 0.012);
+  }
+  function play16(n, t){
+    const S = song(), st = sty(), bar = Math.floor(n/16) % 8, x = n % 16, e = x >> 1, sx = 60/bpm()/4, chord = S.prog[bar];
+    const tt = (x % 4 === 2) ? t + S.swing*sx*2 : t;    // swing the off-beat eighths
+    if(x === 0 || x === 10) chord.forEach((m, i) => voice(t + i*0.012, m2f(m), sx*(x === 0 ? 9 : 5), S.keys*(st.keyWave === 'square' ? 0.5 : 1), null, st.keyWave, 0.03));   // strummed keys
+    if(S.notes && x % 2 === 0){ const nt = S.notes[bar][e]; if(nt) lead(tt, nt.m, nt.len*sx*2*0.9, S.mel); }
+    if(S.arp && x % 2 === 1) voice(t, m2f(chord[(x >> 1) % 4] + 24), sx*0.7, 0.009, waves.p12, null, 0.004, st.echo*0.5);
+    const r = chord[0] - 12, bp = { 0:[r, 3], 3:[r + 7, 1], 4:[r, 2], 7:[r + 12, 1] }[e];
+    if(bp && x % 2 === 0) voice(tt, m2f(bp[0]), bp[1]*sx*2*0.85, 0.075, null, 'triangle');
+    drums(S, x, t, tt, sx);
+    if(Math.random() < st.dust) hit(t + Math.random()*sx, 'crackle', 0.004 + Math.random()*0.01);   // vinyl dust
+  }
+  function tick(){ if(!ctx) return; while(nextT < ctx.currentTime + 0.15){
+      if(pending && step % 16 === 0){ cur = pending; pending = null; step = 0; shape(); }
+      play16(step, nextT); nextT += 60/bpm()/4; step = (step + 1) % 128; } }
+  function shape(){ if(!ctx || !bus) return; const n = ctx.currentTime;
+    lp.frequency.setTargetAtTime(muffled || ducked ? 700 : song().lp, n, 0.25);
+    bus.gain.setTargetAtTime(!on || !playing ? 0 : ducked ? 0.35 : muffled ? 0.55 : 0.9, n, 0.25);
+    echoIn.gain.setTargetAtTime(1, n, 0.1); }
+  function start(){ if(!on || playing || document.hidden) return; if(!setup()) return; playing = true; nextT = ctx.currentTime + 0.08; if(!timer) timer = setInterval(tick, 25); shape(); }
+  function stop(){ playing = false; shape(); setTimeout(() => { if(!playing && timer){ clearInterval(timer); timer = null; } }, 500); }
+  let resumeOnShow = false;
+  document.addEventListener('visibilitychange', () => { if(document.hidden){ if(playing){ stop(); resumeOnShow = true; } } else if(resumeOnShow){ resumeOnShow = false; start(); } });
+  return {
+    get on(){ return on; },
+    set(v){ on = v; store.set('pp-music', v); if(v) start(); else stop(); shape(); },
+    wake(){ start(); },
+    theme(id){ const t = STYLE[id] ? id : 'base'; if(t === theme) return; theme = t; },
+    // switch at the next bar (now = true switches straight away)
+    song(name, now){ name = resolve(name); if(!SONGS[name]) return; if(name === cur){ pending = null; return; }
+      if(now || !playing){ cur = name; pending = null; step = 0; if(ctx) nextT = Math.max(nextT, ctx.currentTime + 0.05); shape(); } else pending = name; },
+    speed(k){ mult = k; }, muffle(v){ muffled = v; shape(); }, duck(v){ ducked = v; shape(); },
+    // result fanfare per grade, then that grade's ending theme (in the brief's instruments)
+    jingle(g){ if(!on || !setup()){ return false; } const t0 = ctx.currentTime + 0.05, notes = JINGLE[g] || JINGLE.B, slow = g === 'D' ? 0.32 : g === 'C' ? 0.22 : 0.13;
+      playing = true; bus.gain.cancelScheduledValues(t0); bus.gain.setValueAtTime(0.9, t0); lp.frequency.setValueAtTime(3500, t0);
+      notes.forEach((s, i) => { if(g === 'D') voice(t0 + i*slow, m2f(NOTE(s)), (i === notes.length - 1 ? 4 : 1)*slow, 0.05, null, 'triangle'); else lead(t0 + i*slow, NOTE(s), (i === notes.length - 1 ? 4 : 1)*slow, 0.05); });
+      const endChord = g === 'D' || g === 'C' ? C.Am7 : C.Cmaj7; endChord.forEach(m => voice(t0 + notes.length*slow, m2f(m), 1.6, 0.03, null, 'triangle', 0.05));
+      cur = g; pending = null; step = 0; nextT = t0 + notes.length*slow + 1.7; if(!timer) timer = setInterval(tick, 25); shape(); return true; },
+    stop, start
+  };
+})();
+const musicBtn = $('#musicBtn'), sfxBtn = $('#sfxBtn');
+const paintSound = () => {
+  musicBtn.textContent = MUSIC.on ? '♫ ON' : '♫ OFF'; musicBtn.setAttribute('aria-pressed', String(MUSIC.on)); musicBtn.setAttribute('aria-label', MUSIC.on ? 'Music on' : 'Music off');
+  sfxBtn.textContent = SFX.on ? 'FX ON' : 'FX OFF'; sfxBtn.setAttribute('aria-pressed', String(SFX.on)); sfxBtn.setAttribute('aria-label', SFX.on ? 'Sound effects on' : 'Sound effects off'); };
+musicBtn.addEventListener('click', () => { MUSIC.set(!MUSIC.on); paintSound(); });
+sfxBtn.addEventListener('click', () => { SFX.set(!SFX.on); paintSound(); SFX.select(); }); paintSound();
+// Browsers only allow sound after the first tap or key press, so the music starts then.
+const firstGesture = () => { SFX.wake(); MUSIC.wake(); removeEventListener('pointerdown', firstGesture, true); removeEventListener('keydown', firstGesture, true); };
+addEventListener('pointerdown', firstGesture, true); addEventListener('keydown', firstGesture, true);
+
+
+/* ---------------- pixel art ---------------- */
+const PAL = { k:'#0a0820', s:'#f2c9a0', h:'#3b2a20', c:'#ff6b5b', p:'#2f2766', y:'#ffd23f', w:'#f6efe0', b:'#4dabf7', m:'#3ddc97', g:'#9b5de5', d:'#1d1850' };
+const HERO = [
+  ['..hhhh..', '.hhhhhh.', '.hssssh.', 'yskssksy', 'y.ssss.y', '..cccc..', 'sccccccs', '.cccccc.', '.pp..pp.', '.kk..kk.'],
+  ['..hhhh..', '.hhhhhh.', '.hssssh.', 'yskssksy', 'y.ssss.y', '..cccc..', 'sccccccs', '.cccccc.', '..pppp..', '..kkkk..']
+];
+const ICONS = {
+  flag:  ['kyyyyy..', 'kyyyyyy.', 'kyyyyy..', 'k.......', 'k.......', 'k.......', 'k.......', 'kk......'],
+  target:['..cccc..', '.cwwwwc.', 'cwccccwc', 'cwcyycwc', 'cwcyycwc', 'cwccccwc', '.cwwwwc.', '..cccc..'],
+  coin:  ['..yyyy..', '.yywwyy.', 'yyywyyyy', 'yyywyyyy', 'yyywyyyy', 'yyywyyyy', '.yyyyyy.', '..yyyy..'],
+  logo:  ['yyyyyyyyyyyy', 'yyyyyyyyyyyy', 'yyyyyyyyykyy', 'yyyyykyyykyy', 'yyyyykyyykyy', 'yyyyykykykyy', 'yykyykykykyy', 'yykyykykykyy', 'yykyykykykyy', 'yykyykykykyy', 'yyyyyyyyyyyy', 'yyyyyyyyyyyy']
+};
+function sprite(ctx, rows, x, y, s = 1, tint = null, alpha = 1, over = null){
+  ctx.globalAlpha = alpha;
+  for(let r = 0; r < rows.length; r++) for(let c = 0; c < rows[r].length; c++){ const ch = rows[r][c]; if(ch === '.') continue; ctx.fillStyle = tint || (over && over[ch]) || PAL[ch]; ctx.fillRect(Math.round(x + c*s), Math.round(y + r*s), s, s); }
+  ctx.globalAlpha = 1;
+}
+document.querySelectorAll('canvas[data-icon]').forEach(cv => { const c = cv.getContext('2d'); sprite(c, ICONS[cv.dataset.icon], 0, 0); });
+sprite($('#logoIcon').getContext('2d'), ICONS.logo, 0, 0);
+
+// Each brief has its own world behind the track. Layouts are generated once from a fixed seed.
+const seeded = s => () => (s = (s*16807) % 2147483647) / 2147483647;
+const LAYOUT = (() => { const R = seeded(42), b = []; let x = 0;
+  while(x < 240){ const w = 10 + Math.floor(R()*16), h = 14 + Math.floor(R()*30); b.push({ x, w, h, alt: R() > .5, lit: [...Array(6)].map(() => [Math.floor(R()*(w-3)) + 1, Math.floor(R()*(h-6)) + 2]) }); x += w + 1 + Math.floor(R()*3); }
+  const stars = [...Array(26)].map(() => [Math.floor(R()*240), Math.floor(R()*26), R()*6]);
+  const R2 = seeded(7), shops = []; x = 2; while(x < 240){ const w = 22 + Math.floor(R2()*14), h = 22 + Math.floor(R2()*14); shops.push({ x, w, h, tone:R2(), aw:Math.floor(R2()*3) }); x += w + 3; }
+  const R3 = seeded(99), towers = []; x = 0; while(x < 240){ const w = 8 + Math.floor(R3()*12), h = 26 + Math.floor(R3()*28); towers.push({ x, w, h, hue:R3() > .5 }); x += w + 2 + Math.floor(R3()*4); }
+  const drops = [...Array(40)].map(() => [R3()*240, R3()*60, 0.6 + R3()*0.8]);
+  const R4 = seeded(5), homes = []; x = 4; while(x < 240){ const w = 18 + Math.floor(R4()*10), h = 12 + Math.floor(R4()*8); homes.push({ x, w, h, roof:Math.floor(R4()*3), tv:R4() > .35 }); x += w + 6 + Math.floor(R4()*6); }
+  const clouds = [...Array(5)].map((_, i) => [i*52 + R4()*20, 6 + R4()*20, 10 + R4()*10, 0.6 + R4()*0.8]);
+  return { b, stars, shops, towers, drops, homes, clouds }; })();
+const px = (c, x, y, w, h, col) => { c.fillStyle = col; c.fillRect(Math.round(x), Math.round(y), w, h); };
+const bands = (c, cols, h) => cols.forEach((col, i) => { px(c, 0, i*h, 240, h + 1, col); if(i) for(let x = (i % 2); x < 240; x += 2) px(c, x, i*h - 1, 1, 1, cols[i - 1]); });
+const disc = (c, cx, cy, r, col) => { for(let y = -r; y <= r; y++){ const w = Math.round(Math.sqrt(r*r - y*y)); px(c, cx - w, cy + y, w*2 + 1, 1, col); } };
+const ART = {
+  base: { hero:'#ff6b5b', ghost:'#4dabf7', ground:'#1d1850', line:'#2f2766', wk:'#2b2360', we:'#3b3180', flag:'#f6efe0', mark:'#ffd23f',
+    sky(c, t){ px(c, 0, 0, 240, 78, '#120f2e');
+      for(const [x, y, p] of LAYOUT.stars) if(Math.sin(t*2 + p) > -0.3) px(c, x, y, 1, 1, (x + y) % 3 ? '#cfd6ff' : '#ffd23f');
+      for(const bd of LAYOUT.b){ const top = 58 - bd.h; px(c, bd.x, top, bd.w, bd.h, bd.alt ? '#241d52' : '#2b2360');
+        for(const [lx, ly] of bd.lit) px(c, bd.x + lx, top + ly, 1, 2, (lx + ly + Math.floor(t)) % 7 === 0 ? '#2f2766' : '#ffd98a'); }
+      [[46, '#ff6b5b'], [168, '#3ddc97']].forEach(([bx, col], i) => { const on = Math.floor(t*1.5 + i) % 3 !== 0; px(c, bx, 18, 18, 11, '#0a0820'); px(c, bx + 1, 19, 16, 9, on ? col : '#2f2766');
+        px(c, bx + 4, 29, 1, 5, '#0a0820'); px(c, bx + 13, 29, 1, 5, '#0a0820'); if(on){ px(c, bx + 4, 22, 3, 3, '#1a1433'); px(c, bx + 9, 22, 5, 1, '#1a1433'); px(c, bx + 9, 24, 4, 1, '#1a1433'); } }); } },
+  // Kopi Kilat: sunrise over a street of café shophouses
+  launch: { hero:'#c8733d', ghost:'#fff1d0', ground:'#6b4a3a', line:'#8a5d45', wk:'#7c5643', we:'#94674f', flag:'#fff1d0', mark:'#fff1d0',
+    sky(c, t){ bands(c, ['#ff9f7a', '#ffb489', '#ffc99a', '#ffdcae', '#fde9c6', '#fdf0d6'], 10);
+      disc(c, 196, 30 - Math.sin(t*0.1)*1.5, 11, '#ffe8a8'); disc(c, 196, 30 - Math.sin(t*0.1)*1.5, 8, '#fff6d4');
+      const cols = ['#8a4f3a', '#a4633f', '#7a4a3a'], awn = [['#ff6b5b', '#fff1d0'], ['#3ddc97', '#fff1d0'], ['#e8a33c', '#fff1d0']];
+      for(const s of LAYOUT.shops){ const top = 58 - s.h; px(c, s.x, top, s.w, s.h, cols[Math.floor(s.tone*3)]); px(c, s.x, top, s.w, 2, '#5a3326');
+        for(let wx = s.x + 3; wx < s.x + s.w - 4; wx += 7) px(c, wx, top + 5, 4, 5, (wx + Math.floor(t*0.5)) % 3 ? '#ffe39a' : '#fff4c8');
+        const [a, b2] = awn[s.aw]; for(let ax = 0; ax < s.w; ax++) px(c, s.x + ax, top + s.h - 13, 1, 4, Math.floor(ax/3) % 2 ? a : b2);
+        px(c, s.x + 3, top + s.h - 8, s.w - 6, 8, '#3b261c'); px(c, s.x + 5, top + s.h - 7, 5, 7, '#ffd98a'); }
+      // coffee billboard with rising steam
+      px(c, 96, 8, 26, 16, '#3b261c'); px(c, 97, 9, 24, 14, '#fff1e0'); px(c, 103, 13, 10, 8, '#8a4f3a'); px(c, 113, 15, 3, 3, '#8a4f3a'); px(c, 104, 13, 8, 2, '#c8733d');
+      px(c, 101, 24, 1, 6, '#3b261c'); px(c, 117, 24, 1, 6, '#3b261c');
+      for(let i = 0; i < 3; i++){ const k = (t*0.6 + i/3) % 1; px(c, 106 + i*2 + Math.round(Math.sin(t*3 + i)*1.2), 12 - k*9, 1, 2, `rgba(255,255,255,${(1 - k).toFixed(2)})`); } } },
+  // Nusa Telco: neon city at night with 5G towers and rain
+  clicks: { hero:'#29f0ff', ghost:'#ff4fd8', ground:'#0d1438', line:'#29f0ff', wk:'#16215a', we:'#241a5e', flag:'#e8f7ff', mark:'#ff4fd8',
+    sky(c, t){ bands(c, ['#050818', '#080d26', '#0d1236', '#161646', '#221a58', '#2e1c63'], 10);
+      for(const tw of LAYOUT.towers){ const top = 58 - tw.h; px(c, tw.x, top, tw.w, tw.h, tw.hue ? '#111a44' : '#18124a');
+        const col = tw.hue ? '#29f0ff' : '#ff4fd8'; for(let y = top + 3; y < 56; y += 4) if((y + tw.x + Math.floor(t*2)) % 5) px(c, tw.x + 2, y, tw.w - 4, 1, col); }
+      // 5G mast with pulsing signal arcs
+      const mx = 150; for(let y = 8; y < 58; y++){ const hw = Math.floor((y - 8)/10); px(c, mx - hw, y, 1, 1, '#9fb6e0'); px(c, mx + hw, y, 1, 1, '#9fb6e0'); if(y % 6 === 0) px(c, mx - hw, y, hw*2 + 1, 1, '#9fb6e0'); }
+      px(c, mx - 1, 5, 3, 3, Math.floor(t*2) % 2 ? '#ff4f5e' : '#5a1020');
+      for(let k = 0; k < 3; k++){ const r = ((t*14 + k*9) % 27) + 3, a = 1 - r/30; c.globalAlpha = a; for(let ang = -1.1; ang <= 1.1; ang += 0.12){ px(c, mx + Math.sin(ang)*r, 7 - Math.cos(ang)*r*0.6, 1, 1, '#29f0ff'); } c.globalAlpha = 1; }
+      // neon "5G" sign
+      const on = Math.floor(t*1.3) % 5 !== 0, nc = on ? '#ff4fd8' : '#5a1f58'; px(c, 40, 14, 26, 14, '#07091e'); px(c, 40, 14, 26, 1, nc); px(c, 40, 27, 26, 1, nc); px(c, 40, 14, 1, 14, nc); px(c, 65, 14, 1, 14, nc);
+      const g = on ? '#29f0ff' : '#13405a'; [[45,17,5,1],[45,17,1,4],[45,20,5,1],[49,20,1,4],[45,23,5,1],[53,17,6,1],[53,17,1,7],[53,23,6,1],[58,20,1,4],[56,20,3,1]].forEach(([x, y, w, h]) => px(c, x, y, w, h, g));
+      c.globalAlpha = 0.5; for(const d of LAYOUT.drops){ const y = (d[1] + t*60*d[2]) % 60, x = (d[0] - y*0.3 + 240) % 240; px(c, x, y, 1, 3, '#7fd6ff'); } c.globalAlpha = 1; } },
+  // Kasur Awan: pastel bedtime sky, clouds, homes with glowing TVs
+  video: { hero:'#ff7fb6', ghost:'#7c5cff', ground:'#caa9e0', line:'#b894d6', wk:'#dcc3ee', we:'#e8cff2', flag:'#5b3f78', mark:'#7c5cff',
+    sky(c, t){ bands(c, ['#a894ec', '#bda3ef', '#d4b3ee', '#e9c0e6', '#f8cfe0', '#ffdcd8'], 10);
+      disc(c, 34, 16, 7, '#fff8ea'); disc(c, 37, 14, 6, '#bda3ef');
+      for(const [x, y, p] of LAYOUT.stars.slice(0, 14)) if(Math.sin(t*1.5 + p) > 0) px(c, (x*1.3) % 240, y*0.8, 1, 1, '#fffaf0');
+      for(const [cx, cy, w, sp] of LAYOUT.clouds){ const x = ((cx + t*sp*3) % 280) - 30; px(c, x, cy + 3, w + 8, 4, '#fff7fb'); px(c, x + 3, cy, w, 4, '#fff7fb'); px(c, x + 2, cy + 7, w + 4, 1, '#f0d9f2'); }
+      const roofs = ['#ff9ec6', '#9fb8ff', '#ffc38a'];
+      for(const h of LAYOUT.homes){ const top = 58 - h.h; px(c, h.x, top, h.w, h.h, '#fff4fa'); px(c, h.x, 57, h.w, 1, '#e6cfe9');
+        for(let i = 0; i < 7; i++) px(c, h.x - 2 + i, top - 1 - i, h.w + 4 - i*2, 1, roofs[h.roof]);
+        const tv = h.tv ? (Math.floor(t*3 + h.x) % 4 ? '#9fd8ff' : '#c9ecff') : '#f3d7a8'; px(c, h.x + 3, top + 3, 5, 4, tv); px(c, h.x + h.w - 8, top + 3, 5, 4, '#f3d7a8'); px(c, h.x + Math.floor(h.w/2) - 2, top + h.h - 6, 4, 6, '#b894d6'); }
+      // mattress billboard: a cloud-shaped bed, a pillow and a sleepy "Zz"
+      px(c, 146, 9, 28, 19, '#5b3f78'); px(c, 147, 10, 26, 17, '#fff7fb');
+      px(c, 151, 19, 18, 5, '#9fb8ff'); px(c, 150, 20, 20, 3, '#9fb8ff'); px(c, 151, 18, 6, 2, '#ffffff'); px(c, 152, 23, 2, 2, '#5b3f78'); px(c, 166, 23, 2, 2, '#5b3f78');
+      const zz = Math.floor(t*1.5) % 3; px(c, 162, 12 - zz, 3, 1, '#c2408a'); px(c, 164, 13 - zz, 1, 1, '#c2408a'); px(c, 163, 14 - zz, 1, 1, '#c2408a'); px(c, 162, 15 - zz, 3, 1, '#c2408a');
+      px(c, 151, 28, 1, 5, '#5b3f78'); px(c, 169, 28, 1, 5, '#5b3f78'); } }
+};
+const TRACK = { x0:12, w:7, y:64 };
+function drawScene(cv, S){
+  const c = cv.getContext('2d'), W = cv.width, H = cv.height, t = S.t, A = ART[S.theme] || ART.base;
+  c.imageSmoothingEnabled = false;
+  A.sky(c, t);
+  // ground + 30-day track
+  px(c, 0, 58, W, H - 58, A.ground); px(c, 0, 58, W, 2, A.line);
+  for(let d = 1; d <= 30; d++){ const x = TRACK.x0 + (d-1)*TRACK.w, st = S.tiles[d];
+    const wk = d % 7 === 6 || d % 7 === 0;
+    px(c, x, TRACK.y, TRACK.w - 1, 6, st === 'good' ? '#3ddc97' : st === 'bad' ? '#ff6b5b' : st === 'ahead' ? '#ffd23f' : st === 'skip' ? '#7d74a8' : wk ? A.we : A.wk);
+    if(S.events && S.events[d]){ px(c, x + 2, TRACK.y + 8, 2, 3, A.mark); px(c, x + 2, TRACK.y + 12, 2, 1, A.mark); }
+    if(d === S.day + 1 && S.running && Math.floor(t*4) % 2) px(c, x, TRACK.y + 7, TRACK.w - 1, 1, A.flag);
+  }
+  // finish flag
+  const fx = TRACK.x0 + 30*TRACK.w + 1; px(c, fx, 44, 1, 26, A.flag);
+  for(let i = 0; i < 4; i++) for(let j = 0; j < 3; j++) px(c, fx + 1 + i*2, 44 + j*2, 2, 2, (i + j) % 2 ? '#0a0820' : '#f6efe0');
+  // runners: ghost = ideal pace, hero = you (outfit colour changes per brief)
+  const pos = f => TRACK.x0 + Math.min(1.14, Math.max(0, f))*30*TRACK.w - 4;
+  const walk = S.running ? Math.abs(Math.floor(t*8)) % 2 : 0, bob = S.running ? 0 : Math.round(Math.sin(t*3));
+  sprite(c, HERO[Math.abs(Math.floor(t*6)) % 2], pos(S.ghost), 53, 1, A.ghost, 0.5);
+  const over = S.frac > 1.02;
+  sprite(c, HERO[walk], pos(S.frac), 53 + bob, 1, over && Math.floor(t*6) % 2 ? '#ff6b5b' : null, 1, { c:A.hero });
+  for(const p of S.parts){ c.globalAlpha = Math.max(0, p.life); px(c, p.x, p.y, 2, 2, p.col); c.globalAlpha = 1; }
+}
+
+/* ---------------- brief themes ---------------- */
+const THEME_BG = { base:'#16123a', launch:'#2a1a14', clicks:'#070a1f', video:'#f6e4f1' };
+let curTheme = 'base';
+function setBriefTheme(id){ curTheme = ART[id] ? id : 'base'; if(curTheme === 'base') delete document.documentElement.dataset.brief; else document.documentElement.dataset.brief = curTheme;
+  MUSIC.theme(curTheme); document.querySelectorAll('meta[name="theme-color"]').forEach(m => m.setAttribute('content', THEME_BG[curTheme])); }
+
+/* ---------------- screens ---------------- */
+const screens = ['sTitle', 'sBrief', 'sPlay', 'sReport']; let screen = 'sTitle';
+function show(id){ screen = id; screens.forEach(s => { $('#' + s).hidden = s !== id; }); window.scrollTo(0, 0);
+  if(id !== 'sPlay'){ endTour(); } if(id === 'sTitle' || id === 'sBrief'){ setBriefTheme('base'); MUSIC.song('title'); MUSIC.muffle(false); MUSIC.duck(false); } closeMenu(); }
+$('#logoHome').addEventListener('click', e => { e.preventDefault(); menuGo('home'); });
+$('#startBtn').addEventListener('click', () => { SFX.wake(); SFX.start(); renderCarts(); show('sBrief'); });
+
+/* ---------------- high scores (this device only) ---------------- */
+const scores = () => store.get('pp-scores', {});
+function table(briefId, mark){
+  const list = (scores()[briefId] || []).map(x => ({ ...x })); list.push({ ini:'ADR', score:DEV[briefId], dev:true });
+  list.sort((a, b) => b.score - a.score);
+  const rows = list.slice(0, 6).map((x, i) => `<tr class="${x.dev ? 'dev' : ''}"${mark && x.ts === mark ? ' style="background:rgba(255,210,63,.15)"' : ''}><td>${i + 1}</td><td>${x.ini}${x.dev ? ' <small>(dev)</small>' : ''}</td><td>${x.grade || ''}</td><td class="sc num">${x.score}</td></tr>`).join('');
+  return `<table><thead><tr><th>#</th><th>Name</th><th>Grade</th><th style="text-align:right">Score</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+function renderHS(){ $('#hsGrid').innerHTML = BRIEFS.map(b => `<div><h3 style="color:${BRIEF_COLOR[b.id]}">${b.brand} <span style="color:var(--muted); font-weight:500">· ${b.goal}</span></h3>${table(b.id)}</div>`).join(''); }
+renderHS();
+
+/* ---------------- brief select ---------------- */
+function renderCarts(){
+  const best = scores();
+  $('#carts').innerHTML = BRIEFS.map(b => { const top = Math.max(0, ...(best[b.id] || []).map(x => x.score));
+    return `<button class="cart" type="button" data-id="${b.id}" style="--c:${BRIEF_COLOR[b.id]}">
+      <canvas class="scene" width="240" height="78" data-theme="${b.id}" aria-hidden="true"></canvas>
+      <div class="cart-label"><span class="goal">${b.goal} brief · <span class="stars" style="color:#1a1433">${'★'.repeat(b.stars)}${'☆'.repeat(3 - b.stars)}</span></span><h3>${b.brand}</h3><span class="prod">${b.product}</span></div>
+      <div class="cart-body"><p>${b.blurb}</p>
+        <dl class="spec num">
+          <dt>Booked</dt><dd>${fmt(b.booked)} imps</dd>
+          <dt>Client pays</dt><dd>$${b.sold.toFixed(2)} CPM</dd>
+          <dt>Revenue</dt><dd>${money(b.booked*b.sold/1000)}</dd>
+          ${b.kpis.map(k => `<dt>KPI</dt><dd>${k.label} ${k.dir > 0 ? '≥' : '≤'} ${k.target}${k.unit}</dd>`).join('')}
+          <dt>Channels</dt><dd>${b.channels.map(id => CHANNELS[id].short).join(' · ')}</dd>
+          <dt>Your best</dt><dd>${top || '–'}</dd>
+        </dl></div></button>`; }).join('');
+  document.querySelectorAll('.cart').forEach(el => el.addEventListener('click', () => { SFX.select(); startBrief(el.dataset.id); }));
+}
+
+/* ---------------- play ---------------- */
+let forceTour = false;
+let run = null, running = false, speedIdx = 0, acc = 0, modalOpen = false, tiles = {}, evDays = {}, parts = [], overWarned = false;
+const SPEEDS = [{ label:'1×', ms:1900 }, { label:'2×', ms:950 }, { label:'3×', ms:520 }];
+const goBtn = $('#goBtn'), speedBtn = $('#speedBtn'), quitBtn = $('#quitBtn');
+
+function startBrief(id){
+  setBriefTheme(id);
+  run = newRun(id); run.seen = {}; running = false; acc = 0; tiles = {}; evDays = {}; parts = []; overWarned = false;
+  const b = run.brief;
+  $('#pBrand').textContent = `${b.brand} · ${b.goal}`;
+  $('#pBrief').textContent = `${fmt(run.booked)} imps booked at $${b.sold.toFixed(2)} CPM · ` + b.kpis.map(k => `${k.label} ${k.dir > 0 ? '≥' : '≤'} ${k.target}${k.unit}`).join(' · ');
+  buildMixer(); $('#log').innerHTML = '<li>Set a daily spend for each channel, check the forecast, then launch the flight.</li>';
+  goBtn.textContent = '▶ Launch flight'; quitBtn.textContent = 'Quit';
+  show('sPlay'); beginAdjust('Plan your flight', 'Set a daily spend for each channel and check the forecast. Launch when the pace, KPI and margin look right.', false); updateAll();
+  if(forceTour || !store.get('pp-tut', false)) setTimeout(() => startTour(), 350);
+  forceTour = false;
+}
+
+function buildMixer(){
+  const box = $('#mixer'); box.innerHTML = '';
+  for(const id of run.brief.channels){ const c = CHANNELS[id], max = Math.ceil(c.supply*c.cpm/1000*1.25/10)*10, stepV = Math.max(5, Math.round(max/40/5)*5);
+    const el = document.createElement('div'); el.className = 'chan win'; el.style.setProperty('--c', c.color); el.style.padding = '12px 14px';
+    el.innerHTML = `<div class="top"><h3>${c.name}</h3><span class="note">${c.note}</span></div>
+      <div class="specs num" data-specs></div>
+      <div class="ctl"><button class="btn ghost pm" type="button" data-d="-1" aria-label="Less spend on ${c.name}">−</button>
+        <input type="range" id="r-${id}" min="0" max="${max}" step="5" value="${run.spend[id]}" aria-label="Daily spend on ${c.name}" style="--c:${c.color}">
+        <button class="btn ghost pm" type="button" data-d="1" aria-label="More spend on ${c.name}">+</button></div>
+      <div class="val num"><span data-val></span><span data-imps></span></div>`;
+    const r = el.querySelector('input');
+    r.addEventListener('input', () => { run.spend[id] = +r.value; updateAll(); });
+    el.querySelectorAll('.pm').forEach(b => b.addEventListener('click', () => { r.value = Math.max(0, Math.min(max, +r.value + (+b.dataset.d)*stepV)); run.spend[id] = +r.value; SFX.blip(); updateAll(); }));
+    el.dataset.id = id; box.append(el); }
+}
+
+function paceState(){ if(!run || run.day === 0) return null; const ideal = run.booked*run.day/DAYS; const p = run.tot.valid/ideal; return { p, st: p < 0.95 ? 'bad' : p > 1.08 ? 'ahead' : 'good' }; }
+const chipFor = st => st === 'bad' ? ['bad', 'Behind'] : st === 'ahead' ? ['warn', 'Ahead'] : ['', 'On pace'];
+
+function updateAll(){
+  setTimeout(tourLive, 0); setTimeout(adjustLive, 0);
+  const b = run.brief, f = forecast(run, run.spend), rpv = run.budget/run.booked;
+  // mixer rows
+  document.querySelectorAll('#mixer .chan').forEach(el => { const id = el.dataset.id, p = params(run, id, Math.min(DAYS, run.day + 1));
+    el.querySelector('[data-specs]').innerHTML = `<span>CPM <b>$${p.cpm.toFixed(2)}</b></span>` + (b.kpis.some(k => k.key === 'ctr') || p.vcr === 0 ? `<span>CTR <b>${p.ctr.toFixed(2)}%</b></span>` : '') + (p.vcr ? `<span>Completion <b>${p.vcr.toFixed(0)}%</b></span>` : '') + `<span>Viewable <b>${p.view.toFixed(0)}%</b></span><span>IVT <b>${p.ivt.toFixed(0)}%</b></span>`;
+    el.querySelector('[data-val]').textContent = `$${run.spend[id]}/day`;
+    const imps = f.per[id] ? f.per[id].imps : 0; el.querySelector('[data-imps]').innerHTML = f.capped[id] ? `<span class="cap">supply-capped · ${fmt(imps)} imps</span>` : `≈ ${fmt(imps)} imps/day`; });
+  // forecast
+  const needOk = f.valid >= f.need*0.97 && f.valid <= f.need*1.1 ? '' : f.valid < f.need*0.97 ? 'bad' : 'warn';
+  const kl = b.kpis.map(k => { const a = f.m[k.key], met = k.dir > 0 ? a >= k.target : a <= k.target; return `<div class="line"><span>${k.label}</span><span class="num">${a.toFixed(k.key === 'ctr' ? 2 : 0)}${k.unit} <span class="chip ${met ? '' : 'bad'}">${met ? 'hits' : 'misses'} ${k.target}${k.unit}</span></span></div>`; }).join('');
+  const mp = f.margin*100, mc = mp >= 30 ? '' : mp >= 10 ? 'warn' : 'bad';
+  $('#fcBox').innerHTML = `<div class="label">${run.done ? 'Flight complete' : `Forecast for day ${Math.min(DAYS, run.day + 1)} at this mix`}</div>
+    <div class="line"><span>Valid imps</span><span class="num">${fmt(f.valid)} <span class="chip ${needOk}">need ${fmt(f.need)}</span></span></div>${kl}
+    <div class="line"><span>Margin at this mix</span><span class="num">${mp.toFixed(0)}% <span class="chip ${mc}">${money(f.cost)}/day</span></span></div>`;
+  // HUD
+  const ps = paceState();
+  $('#hDay').textContent = `${run.day}/${DAYS}`; $('#hDow').textContent = run.day ? DOW[run.day % 7] : 'Not launched';
+  $('#hPace').textContent = ps ? `${Math.round(ps.p*100)}%` : '–';
+  const [cc, ct] = ps ? chipFor(ps.st) : ['info', 'Ready']; const chip = $('#hPaceChip'); chip.className = 'chip ' + cc; chip.textContent = ct;
+  $('#hSpent').textContent = money(run.tot.cost); $('#hBudget').textContent = `of ${money(run.budget)} revenue`;
+  const earned = Math.min(run.tot.valid, run.booked)*rpv; const m = earned > 0 ? (1 - run.tot.cost/earned)*100 : null;
+  $('#hMargin').textContent = m == null ? '–' : `${m.toFixed(0)}%`; $('#hMargin').style.color = m == null ? '' : m < 10 ? 'var(--coral)' : m < 25 ? 'var(--warn)' : 'var(--mint)';
+  // delivery bar
+  $('#mDel').textContent = `${fmt(run.tot.valid)} / ${fmt(run.booked)}`;
+  const bar = $('#mDelBar'); bar.style.width = Math.min(100, run.tot.valid/run.booked*100) + '%'; bar.className = ps ? (ps.st === 'bad' ? 'bad' : ps.st === 'ahead' ? 'warn' : '') : '';
+  $('#mDelIdeal').style.left = (run.day/DAYS*100) + '%';
+  // KPI meters (flight to date)
+  const tm = metrics(run.tot);
+  $('#kpiBox').innerHTML = `<div class="label">KPIs, flight to date</div>` + b.kpis.map(k => { const a = run.tot.valid ? tm[k.key] : 0, met = k.dir > 0 ? a >= k.target : a <= k.target, max = k.target*1.5;
+    return `<div class="meter"><div class="row"><span>${k.label}</span><span class="num">${run.tot.valid ? a.toFixed(k.key === 'ctr' ? 2 : 1) + k.unit : '–'} <span class="chip ${!run.tot.valid ? 'info' : met ? '' : 'bad'}">${k.dir > 0 ? 'target ≥' : 'limit ≤'} ${k.target}${k.unit}</span></span></div>
+      <div class="bar8" aria-hidden="true"><i class="${!run.tot.valid ? '' : met ? '' : 'bad'}" style="width:${Math.min(100, a/max*100)}%"></i><b style="left:${k.target/max*100}%"></b></div></div>`; }).join('');
+}
+
+function log(line){ const ul = $('#log'); const li = document.createElement('li'); li.textContent = line; ul.prepend(li); while(ul.children.length > 4) ul.lastChild.remove(); }
+function toast(msg, ms = 2600){ const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => { t.hidden = true; }, ms); }
+
+function moodNow(){ if(!run || run.day === 0) return 'win'; const ps = paceState(), tm = metrics(run.tot);
+  const kOk = run.brief.kpis.every(k => k.dir > 0 ? tm[k.key] >= k.target*0.98 : tm[k.key] <= k.target*1.03);
+  return ps.st === 'good' && kOk ? 'win' : 'lose'; }
+function play(){ if(!run || run.done) return; endTour(); closeMenu(); const wasAdjust = adjusting; hideAdjust(); SFX.wake(); MUSIC.wake(); MUSIC.song(moodNow(), true); MUSIC.muffle(false); MUSIC.speed(speedIdx + 1);
+  running = true; goBtn.textContent = '❚❚ Pause'; goBtn.classList.remove('ready'); acc = 0;
+  if(run.day === 0){ SFX.start(); log('Flight launched. Day 1 is a Monday.'); toast('▶ Campaign launched'); }
+  else if(wasAdjust){ SFX.start(); toast(`▶ Campaign resumed · day ${run.day + 1}`); } }
+function pause(){ running = false; if(run && !run.done){ goBtn.textContent = run.day ? '▶ Resume' : '▶ Launch flight'; if(run.day && !adjusting) MUSIC.muffle(true); } }
+goBtn.addEventListener('click', () => running ? pause() : play());
+speedBtn.addEventListener('click', () => { speedIdx = (speedIdx + 1) % SPEEDS.length; speedBtn.textContent = SPEEDS[speedIdx].label; MUSIC.speed(speedIdx + 1); SFX.blip(); });
+let quitArm = 0;
+quitBtn.addEventListener('click', () => { menuGo('briefs'); });
+addEventListener('keydown', e => { if(e.code === 'Space' && screen === 'sPlay' && !modalOpen && !/input|textarea|button/i.test(e.target.tagName)){ e.preventDefault(); running ? pause() : play(); } });
+document.addEventListener('visibilitychange', () => { if(document.hidden && running) pause(); });
+
+function nextDay(){
+  const d = run.day + 1, evId = run.schedule[d];
+  if(evId && !run.seen[d]){ run.seen[d] = 1; openEvent(EVENTS.find(e => e.id === evId), d); return; }
+  const rpv = run.budget/run.booked, before = run.tot.valid;
+  const r = step(run);
+  const ps = paceState(); tiles[run.day] = r.skipped ? 'skip' : ps.st;
+  const dayMargin = Math.min(r.valid, Math.max(0, run.booked - before))*rpv - r.cost;
+  const capped = Object.keys(r.capped || {}).filter(k => r.capped[k]).map(k => CHANNELS[k].short);
+  log(r.skipped ? `D${String(run.day).padStart(2, '0')} · paused for the tracker fix` : `D${String(run.day).padStart(2, '0')} · +${fmt(r.valid)} valid · ${money(r.cost)}${capped.length ? ' · ' + capped.join('/') + ' capped' : ''}`);
+  const hx = TRACK.x0 + Math.min(1.14, run.tot.valid/run.booked)*30*TRACK.w;
+  for(let i = 0; i < (dayMargin > 0 ? 3 : 2); i++) parts.push({ x:hx - 2 + Math.random()*4, y:52, vy:-(10 + Math.random()*10), life:1, col: dayMargin > 0 ? '#ffd23f' : '#ff6b5b' });
+  dayMargin > 0 ? SFX.coin() : SFX.blip();
+  MUSIC.song(moodNow());
+  if(!overWarned && run.tot.valid >= run.booked && !run.done){ overWarned = true; SFX.warn(); updateAll(); beginAdjust('Booking delivered!', 'You already have every impression the client paid for. Extra delivery is not paid, so cut spend (or set it to zero) before you resume.', true); return; }
+  updateAll();
+  if(run.done) finish();
+}
+
+function openEvent(ev, d){
+  pause(); closeMenu(); modalOpen = true; SFX.alert(); MUSIC.duck(true); evDays[d] = 1;
+  $('#evDay').textContent = `Day ${d} · ${DOW[d % 7]}`; $('#evTitle').textContent = ev.title; $('#evText').textContent = ev.text;
+  const box = $('#evChoices'); box.innerHTML = '';
+  ev.choices.forEach((ch, i) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn choice ' + (i ? 'ghost' : '');
+    b.innerHTML = `<span></span><small></small>`; b.firstChild.textContent = ch.label; b.lastChild.textContent = ch.note;
+    b.addEventListener('click', () => { applyChoice(run, ev, ch); SFX.select(); $('#modal').hidden = true; modalOpen = false; MUSIC.duck(false); log(`D${String(d).padStart(2, '0')} · ${ev.title}: ${ch.label}`);
+      if(ch.booked) $('#pBrief').textContent = `${fmt(run.booked)} imps booked (same money) · ` + run.brief.kpis.map(k => `${k.label} ${k.dir > 0 ? '≥' : '≤'} ${k.target}${k.unit}`).join(' · ');
+      updateAll(); acc = 0; beginAdjust(ev.title, `${ch.note}. The flight is paused so you can re-tune the mix for what just changed.`, true); });
+    box.append(b); });
+  $('#modal').hidden = false; const w = $('#evWin'); if(!REDUCE){ w.classList.remove('shake'); void w.offsetWidth; w.classList.add('shake'); }
+  box.firstChild.focus();
+}
+
+/* ---------------- report ---------------- */
+let result = null, savedTs = null;
+function finish(){
+  running = false; hideAdjust(); goBtn.textContent = '▶ Launch flight'; MUSIC.stop();
+  const s = score(run); result = { s, brief:run.brief, booked:run.booked }; savedTs = null;
+  setTimeout(() => { renderReport(); show('sReport'); MUSIC.muffle(false); MUSIC.duck(false);
+    if(!MUSIC.jingle(s.grade)) (s.grade === 'D' || s.grade === 'C') ? SFX.lose() : SFX.win(); }, 700);
+}
+function renderReport(){
+  const { s, brief } = result, st = $('#rStamp');
+  $('#rTitle').textContent = `${brief.brand} · ${brief.product}`;
+  $('#rRank').innerHTML = `Score <b class="num" style="color:var(--hi)">${s.total}</b> · ${s.rank}`;
+  st.textContent = s.grade; st.dataset.g = s.grade; st.classList.remove('pop'); void st.offsetWidth; if(!REDUCE) st.classList.add('pop');
+  const row = (a, b, c, ok) => `<tr><td>${a}</td><td class="r">${b}</td><td class="r">${c}</td><td class="r ${ok ? 'ok' : 'no'}">${ok ? '✓' : '✗'}</td></tr>`;
+  $('#rTable').innerHTML = `<thead><tr><th>Metric</th><th class="r">Booked / target</th><th class="r">Actual</th><th class="r">Met</th></tr></thead><tbody>
+    ${row('Valid impressions', fmt(result.booked), `${fmt(run.tot.valid)} (${(s.pct*100).toFixed(1)}%)`, s.pct >= 0.98 && s.pct <= 1.05)}
+    ${s.kpis.map(k => row(k.label, `${k.dir > 0 ? '≥' : '≤'} ${k.target}${k.unit}`, `${k.actual.toFixed(k.key === 'ctr' || k.key === 'ivt' ? 2 : 1)}${k.unit}`, k.met)).join('')}
+    <tr><td>Revenue (client pays)</td><td class="r">${money(run.budget)}</td><td class="r">${money(s.revenue)}</td><td class="r"></td></tr>
+    <tr><td>Media cost</td><td class="r"></td><td class="r">${money(s.cost)}</td><td class="r"></td></tr>
+    ${row('Margin', '', `${money(s.margin)} (${s.marginPct.toFixed(1)}%)`, s.marginPct >= 20)}</tbody>`;
+  const maxes = { Delivery:300, KPIs:400, Margin:300, 'Good calls':150 };
+  const vals = { Delivery:s.delivery, KPIs:s.kpiPts, Margin:s.marginPts, 'Good calls':s.bonus };
+  $('#rPts').innerHTML = `<div class="label">Score breakdown</div>` + Object.keys(vals).map(k => `<div class="row"><span>${k}</span><div class="bar8"><i class="${vals[k] < maxes[k]*0.5 ? 'bad' : ''}" style="width:${Math.max(0, Math.min(100, vals[k]/maxes[k]*100))}%"></i></div><span class="num">${vals[k]}</span></div>`).join('');
+  $('#rLesson').textContent = lesson(run, s);
+  const ini = $('#ini'); ini.value = store.get('pp-ini', 'AAA'); $('#iniSave').disabled = false; $('#iniSave').textContent = 'Save score';
+  $('#rHs').innerHTML = table(brief.id);
+  drawCard();
+}
+$('#ini').addEventListener('input', e => { e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 3); });
+$('#iniForm').addEventListener('submit', e => { e.preventDefault(); if(savedTs) return;
+  const ini = ($('#ini').value || 'AAA').padEnd(3, 'A'); store.set('pp-ini', ini);
+  const all = scores(), id = result.brief.id; savedTs = Date.now();
+  (all[id] = all[id] || []).push({ ini, score:result.s.total, grade:result.s.grade, ts:savedTs }); all[id].sort((a, b) => b.score - a.score); all[id] = all[id].slice(0, 10);
+  store.set('pp-scores', all); $('#rHs').innerHTML = table(id, savedTs); $('#iniSave').disabled = true; $('#iniSave').textContent = 'Saved'; SFX.coin(); renderHS(); });
+$('#againBtn').addEventListener('click', () => { SFX.select(); startBrief(result.brief.id); });
+$('#otherBtn').addEventListener('click', () => { SFX.select(); renderCarts(); show('sBrief'); });
+$('#homeBtn').addEventListener('click', () => { SFX.select(); show('sTitle'); renderHS(); });
+$('#briefBack').addEventListener('click', () => { SFX.select(); show('sTitle'); renderHS(); });
+
+/* ---------------- share card ---------------- */
+function postText(){ const { s, brief } = result; const met = s.kpis.filter(k => k.met).length;
+  return `I scored ${s.total} (grade ${s.grade}, "${s.rank}") on Pacing Panic, a little 8-bit game about media buying: 30 days, one budget, hit the brief without blowing the margin.\n\n${brief.brand} brief: ${(s.pct*100).toFixed(0)}% delivered, ${met}/${s.kpis.length} KPIs hit, ${s.marginPct.toFixed(0)}% margin.\n\nThink you can pace a flight better? ${GAME_URL}`; }
+async function drawCard(){
+  const cv = $('#card'), c = cv.getContext('2d'), { s, brief } = result;
+  try{ await Promise.all([document.fonts.load('700 72px "Silkscreen"'), document.fonts.load('400 20px "Silkscreen"'), document.fonts.load('40px VT323')]); }catch(e){}
+  c.imageSmoothingEnabled = false;
+  const K = { base:{ bg:'#16123a', fg:'#f6efe0', mu:'#b9b0d9', box:'#241d52', edge:'#0a0820', t1:'#ffd23f', t2:'#ff6b5b', d1:'rgba(255,210,63,.7)', d2:'rgba(207,214,255,.5)' },
+    launch:{ bg:'#2a1a14', fg:'#fbefdc', mu:'#d8bfa6', box:'#3b261c', edge:'#140b07', t1:'#ffb347', t2:'#c8733d', d1:'rgba(255,179,71,.6)', d2:'rgba(255,241,208,.35)' },
+    clicks:{ bg:'#070a1f', fg:'#e8f7ff', mu:'#9fb6e0', box:'#101842', edge:'#01020a', t1:'#29f0ff', t2:'#ff4fd8', d1:'rgba(41,240,255,.6)', d2:'rgba(255,79,216,.5)' },
+    video:{ bg:'#f6e4f1', fg:'#3d2a55', mu:'#6f5a8a', box:'#fff6fb', edge:'#5b3f78', t1:'#c2408a', t2:'#a57cff', d1:'rgba(165,124,255,.5)', d2:'rgba(255,111,134,.45)' } }[brief.id] || null;
+  const k = K || { bg:'#16123a', fg:'#f6efe0', mu:'#b9b0d9', box:'#241d52', edge:'#0a0820', t1:'#ffd23f', t2:'#ff6b5b', d1:'rgba(255,210,63,.7)', d2:'rgba(207,214,255,.5)' };
+  c.fillStyle = k.bg; c.fillRect(0, 0, 1200, 630);
+  for(let i = 0; i < 70; i++){ const x = (i*173) % 1200, y = (i*97) % 630; c.fillStyle = i % 3 ? k.d2 : k.d1; c.fillRect(x, y, 4, 4); }
+  c.fillStyle = k.edge; c.fillRect(0, 0, 1200, 16); c.fillRect(0, 614, 1200, 16); c.fillRect(0, 0, 16, 630); c.fillRect(1184, 0, 16, 630);
+  const P = '"Silkscreen", monospace', V = 'VT323, monospace';
+  c.font = `700 76px ${P}`; c.fillStyle = k.edge; c.fillText('PACING PANIC', 68, 132); c.fillStyle = k.t2; c.fillText('PACING PANIC', 62, 126); c.fillStyle = k.t1; c.fillText('PACING PANIC', 56, 120);
+  c.font = `40px ${V}`; c.fillStyle = k.mu; c.fillText('a media-buying game · 30 days · one budget', 60, 172);
+  c.font = `700 34px ${P}`; c.fillStyle = k.t1; c.fillText(`${brief.brand} · ${brief.goal} brief`, 60, 250);
+  c.font = `700 110px ${P}`; c.fillStyle = k.fg; c.fillText(String(s.total), 60, 380);
+  c.font = `44px ${V}`; c.fillStyle = k.mu; c.fillText(`points · ${s.rank}`, 64, 425);
+  const met = s.kpis.filter(q => q.met).length, stats = [['DELIVERED', `${(s.pct*100).toFixed(0)}%`], ['KPIs HIT', `${met}/${s.kpis.length}`], ['MARGIN', `${s.marginPct.toFixed(0)}%`]];
+  stats.forEach(([l, v], i) => { const x = 60 + i*230; c.fillStyle = k.box; c.fillRect(x, 460, 210, 100); c.fillStyle = k.edge; c.fillRect(x, 552, 210, 8);
+    c.font = `400 18px ${P}`; c.fillStyle = k.mu; c.fillText(l, x + 16, 492); c.font = `700 40px ${P}`; c.fillStyle = k.fg; c.fillText(v, x + 16, 540); });
+  // grade stamp
+  c.save(); c.translate(950, 250); c.rotate(-0.1); const gc = { S:'#3ddc97', A:'#ffd23f', B:'#ffd23f', C:'#4dabf7', D:'#ff6b5b' }[s.grade];
+  c.fillStyle = k.edge; c.fillRect(-122, -122, 244, 244); c.fillStyle = gc; c.fillRect(-110, -110, 220, 220);
+  c.font = `700 170px ${P}`; c.fillStyle = '#1a1433'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(s.grade, 0, 12); c.restore();
+  c.textAlign = 'left'; c.textBaseline = 'alphabetic';
+  sprite(c, HERO[0], 900, 420, 12, null, 1, { c:(ART[brief.id] || ART.base).hero });
+  c.font = `700 26px ${P}`; c.fillStyle = k.t1; c.fillText('BEAT IT >', 780, 590); c.font = `34px ${V}`; c.fillStyle = k.fg; c.fillText('rafaelhakeem.github.io/game.html', 60, 596);
+  const text = postText(); $('#postText').value = text;
+  try{ $('#dlBtn').href = cv.toDataURL('image/png'); }catch(e){}
+  $('#liBtn').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(GAME_URL);
+  const ns = $('#nativeShare'); ns.hidden = true;
+  if(navigator.canShare) cv.toBlob(b => { if(!b) return; const file = new File([b], 'pacing-panic-score.png', { type:'image/png' });
+    try{ if(navigator.canShare({ files:[file] })){ ns.hidden = false; ns.onclick = () => navigator.share({ files:[file], text }).catch(() => {}); } }catch(e){} });
+}
+async function copyPost(){ const ta = $('#postText'); try{ await navigator.clipboard.writeText(ta.value); toast('Post text copied'); return true; }catch(e){ ta.focus(); ta.select(); toast('Select all and copy the text'); return false; } }
+$('#copyBtn').addEventListener('click', copyPost);
+$('#liBtn').addEventListener('click', () => { copyPost(); });
+
+/* ---------------- adjust window: the flight waits while you re-tune ---------------- */
+let adjusting = false, adjWasGood = null;
+function beginAdjust(title, text, midFlight){
+  if(!run || run.done) return; running = false; adjusting = true; adjWasGood = null;
+  $('#adjLabel').textContent = midFlight ? `⏸ Campaign paused · day ${run.day}` : `Day 0 · planning`;
+  $('#adjTitle').textContent = title; $('#adjText').textContent = text; $('#adjGo').textContent = midFlight ? '▶ Resume campaign' : '▶ Launch campaign';
+  goBtn.textContent = midFlight ? '▶ Resume campaign' : '▶ Launch flight';
+  $('#adjBox').hidden = false; MUSIC.song('think', true); MUSIC.muffle(false); adjustLive();
+  if(midFlight && innerWidth <= 900) $('#adjBox').scrollIntoView({ block:'start', behavior: REDUCE ? 'auto' : 'smooth' });
+}
+function hideAdjust(){ adjusting = false; $('#adjBox').hidden = true; $('#adjGo').classList.remove('ready'); }
+function adjustLive(){
+  if(!adjusting || !run) return; const f = forecast(run, run.spend), b = run.brief;
+  const issues = [];
+  if(f.valid < f.need*0.97) issues.push(`pace short: ${fmt(f.valid)} of ${fmt(f.need)} needed per day`);
+  else if(f.valid > f.need*1.1) issues.push(`over pace: ${fmt(f.valid)} vs ${fmt(f.need)} needed per day`);
+  b.kpis.forEach(k => { const a = f.m[k.key]; if(k.dir > 0 ? a < k.target : a > k.target) issues.push(`${k.label} ${a.toFixed(k.key === 'ctr' ? 2 : 0)}${k.unit} vs ${k.dir > 0 ? '≥' : '≤'} ${k.target}${k.unit}`); });
+  if(f.margin < 0.05) issues.push(`margin only ${(f.margin*100).toFixed(0)}%`);
+  const good = !issues.length, el = $('#adjStatus');
+  el.textContent = good ? `✓ Tomorrow looks good: on pace, KPI${b.kpis.length > 1 ? 's' : ''} hit, ${(f.margin*100).toFixed(0)}% margin. Ready when you are.` : `✗ Tomorrow at this mix: ${issues.join(' · ')}.`;
+  el.style.color = good ? 'var(--mint)' : 'var(--coral)';
+  $('#adjGo').classList.toggle('ready', good); goBtn.classList.toggle('ready', good);
+  if(good && adjWasGood === false){ SFX.coin(); toast(run.day ? 'Mix looks good. Tap Resume campaign.' : 'Mix looks good. Tap Launch campaign.', 2600); }
+  adjWasGood = good;
+}
+$('#adjGo').addEventListener('click', () => play());
+
+/* ---------------- menu: always a way back ---------------- */
+const menu = $('#menu'), menuBtn = $('#menuBtn'); let menuPending = null, menuWasRunning = false;
+const inFlight = () => screen === 'sPlay' && run && run.day > 0 && !run.done;
+function openMenu(){ menuWasRunning = running; if(running) pause(); menu.hidden = false; menuBtn.setAttribute('aria-expanded', 'true');
+  menu.querySelector('[data-go="resume"]').hidden = !(screen === 'sPlay' && run && !run.done);
+  menu.querySelector('[data-go="resume"]').textContent = run && run.day ? '▶ Back to the flight' : '▶ Back to planning';
+  menu.querySelector('.menu-items').hidden = false; menu.querySelector('.menu-confirm').hidden = true; menu.querySelector('.menu-items button').focus(); }
+function closeMenu(){ if(menu.hidden) return; menu.hidden = true; menuBtn.setAttribute('aria-expanded', 'false'); menuPending = null; }
+function menuGo(where){
+  const act = {
+    home: () => { pause(); hideAdjust(); show('sTitle'); renderHS(); },
+    briefs: () => { pause(); hideAdjust(); renderCarts(); show('sBrief'); },
+    scores: () => { pause(); hideAdjust(); show('sTitle'); renderHS(); setTimeout(() => $('#hsTitle').scrollIntoView({ block:'start' }), 50); },
+    tutorial: () => { if(screen === 'sPlay' && run && !run.done){ closeMenu(); startTour(); } else { forceTour = true; startBrief('launch'); } }
+  }[where];
+  if(!act) return;
+  if(inFlight() && where !== 'tutorial'){ menuPending = act; if(menu.hidden) openMenu(); menu.querySelector('.menu-items').hidden = true; menu.querySelector('.menu-confirm').hidden = false; menu.querySelector('[data-go="stay"]').focus(); return; }
+  closeMenu(); act();
+}
+menuBtn.addEventListener('click', () => { SFX.blip(); menu.hidden ? openMenu() : closeMenu(); });
+menu.addEventListener('click', e => { const b = e.target.closest('[data-go]'); if(!b) return; const g = b.dataset.go; SFX.blip();
+  if(g === 'resume'){ closeMenu(); if(menuWasRunning) play(); return; }
+  if(g === 'leave'){ const a = menuPending; closeMenu(); if(a) a(); return; }
+  if(g === 'stay'){ closeMenu(); return; }
+  menuGo(g); });
+addEventListener('pointerdown', e => { if(!menu.hidden && !menu.contains(e.target) && e.target !== menuBtn) closeMenu(); });
+addEventListener('keydown', e => { if(e.key === 'Escape' && !menu.hidden){ closeMenu(); menuBtn.focus(); } });
+
+/* ---------------- tutorial: a guided tour of the trading desk ---------------- */
+const TOUR = [
+  { sel:'#sPlay .brief-line', title:'This is your brief', text:'The client books a number of impressions and pays a fixed price per thousand (CPM). You have 30 days to deliver them and hit the KPI.' },
+  { sel:'#scene', title:'The race', text:'You are the buyer in red. The blue ghost is the ideal pace. Stay next to it: fall behind and you under-deliver, run ahead and you waste money. Tiles turn green, red or yellow each day.' },
+  { sel:'#mixer .chan', title:'Your trading desk', text:'Each slider sets how much you spend per day on one channel. Cheap channels protect your margin. Premium channels carry the KPI. Most wins come from the right blend.' },
+  { sel:'#fcBox', title:'Read the forecast', text:'This predicts tomorrow at your current mix: valid impressions against what you need per day, each KPI, and your margin. Red chips mean a miss.' },
+  { sel:'#sPlay .hud', title:'Pace and margin', text:'Pace should sit between 95% and 108%. Margin is the share of the client money you keep after buying media.' },
+  { sel:'#kpiBox', title:'KPIs count over the whole flight', text:'The white tick is the target. A bad week can be fixed later, just not on day 30. Watch out for invalid traffic: bots don’t count as delivery.' },
+  { sel:'#sPlay .controls', title:'Your turn', text:'Surprises will pop up mid-flight: bots, paydays, client calls. After each one the flight pauses so you can re-tune the mix, then you resume. The starting mix misses the KPI on purpose, so move budget until the forecast turns green, then launch.', live:true }
+];
+let tourI = -1;
+const tourEl = document.createElement('div'); tourEl.className = 'tour'; tourEl.hidden = true;
+tourEl.innerHTML = `<div class="tour-hole"></div><div class="tour-box win" role="dialog" aria-modal="false" aria-labelledby="tourTitle">
+  <div class="tour-row"><span class="label" id="tourStep"></span><button class="btn ghost sm" type="button" id="tourSkip">Skip</button></div>
+  <h3 id="tourTitle"></h3><p id="tourText"></p><p id="tourLive" class="tour-live" hidden></p>
+  <div class="tour-row"><button class="btn ghost sm" type="button" id="tourBack">Back</button><button class="btn sm" type="button" id="tourNext">Next</button></div></div>`;
+document.body.append(tourEl);
+function startTour(){ if(screen !== 'sPlay') return; tourI = 0; tourEl.hidden = false; drawTour(true); }
+function endTour(){ if(tourI < 0) return; tourI = -1; tourEl.hidden = true; store.set('pp-tut', true); }
+function drawTour(scroll){
+  if(tourI < 0) return; const st = TOUR[tourI], tgt = document.querySelector(st.sel); if(!tgt) return;
+  $('#tourStep').textContent = `Tutorial ${tourI + 1}/${TOUR.length}`; $('#tourTitle').textContent = st.title; $('#tourText').textContent = st.text;
+  $('#tourBack').disabled = tourI === 0; $('#tourNext').textContent = tourI === TOUR.length - 1 ? 'Got it' : 'Next';
+  $('#tourLive').hidden = !st.live; tourLive();
+  if(scroll && getComputedStyle(tgt).position !== 'fixed') tgt.scrollIntoView({ block:'center', behavior: REDUCE ? 'auto' : 'smooth' });
+  setTimeout(placeTour, scroll ? 380 : 0);
+}
+function placeTour(){
+  if(tourI < 0) return; const tgt = document.querySelector(TOUR[tourI].sel); if(!tgt) return;
+  const r = tgt.getBoundingClientRect(), pad = 6, hole = tourEl.querySelector('.tour-hole'), box = tourEl.querySelector('.tour-box');
+  Object.assign(hole.style, { left:(r.left - pad) + 'px', top:(r.top - pad) + 'px', width:(r.width + pad*2) + 'px', height:(r.height + pad*2) + 'px' });
+  const bw = box.offsetWidth, bh = box.offsetHeight, vw = innerWidth, vh = innerHeight;
+  let top = r.bottom + 16, left = Math.max(16, Math.min(vw - bw - 16, r.left));
+  if(top + bh > vh - 12){ top = r.top - bh - 16;
+    if(top < 12){ // no room above or below: try beside the target, else pin to the bottom
+      top = Math.max(12, Math.min(vh - bh - 12, r.top));
+      if(r.left - bw - 24 >= 16) left = r.left - bw - 24; else if(vw - r.right - bw - 24 >= 16) left = r.right + 24; else top = Math.max(12, vh - bh - 96); } }
+  Object.assign(box.style, { left:left + 'px', top:top + 'px' });
+}
+function tourLive(){
+  if(tourI < 0 || !TOUR[tourI].live || !run) return; const f = forecast(run, run.spend);
+  const miss = run.brief.kpis.filter(k => k.dir > 0 ? f.m[k.key] < k.target : f.m[k.key] > k.target).map(k => k.label);
+  const pace = f.valid < f.need*0.97 ? 'too few impressions' : f.valid > f.need*1.1 ? 'more impressions than you need' : '';
+  const el = $('#tourLive'); const good = !miss.length && !pace;
+  el.textContent = good ? '✓ Forecast looks good. Press Launch flight.' : `✗ Forecast: ${[miss.length ? miss.join(' and ') + ' will miss' : '', pace].filter(Boolean).join(', ')}.`;
+  el.style.color = good ? 'var(--mint)' : 'var(--coral)';
+}
+$('#tourNext').addEventListener('click', () => { SFX.blip(); if(tourI >= TOUR.length - 1){ endTour(); return; } tourI++; drawTour(true); });
+$('#tourBack').addEventListener('click', () => { SFX.blip(); if(tourI > 0){ tourI--; drawTour(true); } });
+$('#tourSkip').addEventListener('click', () => { SFX.blip(); endTour(); });
+addEventListener('resize', () => placeTour()); addEventListener('scroll', () => placeTour(), { passive:true });
+addEventListener('keydown', e => { if(tourI >= 0 && e.key === 'Escape') endTour(); });
+$('#helpBtn').addEventListener('click', () => { pause(); startTour(); });
+$('#howBtn').addEventListener('click', () => { SFX.wake(); SFX.start(); forceTour = true; startBrief('launch'); });
+
+/* ---------------- main loop ---------------- */
+let last = performance.now(), T = 0;
+function frame(now){
+  const dt = Math.max(0, Math.min(0.1, (now - last)/1000)); last = now; T += dt;
+  if(screen === 'sPlay' && run){
+    parts.forEach(p => { p.y += p.vy*dt; p.vy += 12*dt; p.life -= dt*0.9; }); parts = parts.filter(p => p.life > 0);
+    const ps = run.tot.valid/run.booked;
+    drawScene($('#scene'), { t:T, theme:run.brief.id, day:run.day, running, frac:ps, ghost:run.day/DAYS, tiles, events:evDays, parts });
+  } else if(screen === 'sTitle'){
+    const k = (T*0.06) % 1.25, g = Math.min(1, k), f = Math.min(1.02, g*(0.96 + 0.08*Math.sin(T*1.3)));
+    const fake = {}; for(let d = 1; d <= Math.floor(g*30); d++) fake[d] = d % 9 === 4 ? 'bad' : d % 11 === 7 ? 'ahead' : 'good';
+    drawScene($('#attract'), { t:T, theme:['base', 'launch', 'clicks', 'video'][Math.floor(T*0.06/1.25) % 4], day:Math.floor(g*30), running:true, frac:f, ghost:g, tiles:fake, events:{ 6:1, 17:1 }, parts:[] });
+  } else if(screen === 'sBrief'){
+    const g = (T*0.05) % 1, fake = {}; for(let d = 1; d <= Math.floor(g*30); d++) fake[d] = 'good';
+    document.querySelectorAll('.cart canvas.scene').forEach(cv => drawScene(cv, { t:T, theme:cv.dataset.theme, day:Math.floor(g*30), running:true, frac:g, ghost:g, tiles:fake, events:{}, parts:[] }));
+  }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+// The trading day advances on a timer, separate from drawing, so a throttled or busy screen never stalls the flight.
+let lastTick = performance.now();
+setInterval(() => { const now = performance.now(), dt = Math.min(250, now - lastTick); lastTick = now;
+  if(screen === 'sPlay' && run && running && !modalOpen && !run.done){ acc += dt; if(acc >= SPEEDS[speedIdx].ms){ acc = 0; nextDay(); } } }, 50);
+})();
+
+</script>
+
+</body>
+</html>
